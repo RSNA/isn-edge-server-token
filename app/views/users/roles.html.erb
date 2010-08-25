@@ -1,0 +1,26 @@
+<h1>Roles</h1>
+
+<table border="1" cellspacing="0" cellpadding="2" width="100%">
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Login</th>
+    <th>Role</th>
+  </tr>
+</thead>
+
+<tbody>
+<% @users.each do |user| %>
+<tr class="<%= cycle("users", "odd", "even")%>">
+  <td><%= user.user_name %></td>
+  <td><%= user.user_login %></td>
+  <td>
+    <%= role_button(user, "User", 0) %>
+    <%= role_button(user, "Super User", 1) %>
+    <%= role_button(user, "Admin", 2) %>
+    <span id="update_alert_<%= user.id %>"></span>
+  </td>
+</tr>
+<% end %>
+</tbody>
+</table>

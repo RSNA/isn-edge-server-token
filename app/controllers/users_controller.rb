@@ -1,0 +1,55 @@
+class UsersController < ApplicationController
+  before_filter :admin_authenticate, :except => [:change_password]
+  before_filter :authenticate, :only => [:change_password]
+  before_filter :get_cart
+
+  # render new.rhtml
+  def new
+    @user = User.new
+  end
+
+  def change_password
+    @user = User.find(session[:user_id])
+    if params[:user]
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+      if @user.save
+        flash[:notice] = "Password change successful"
+      end
+    end
+  end
+ 
+  def create
+    #logout_keeping_session!
+    @user = User.new(params[:user])
+    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
+    success = @user && @user.save
+    if success && @user.errors.empty?
+      # Protects against session fixation attacks, causes request forgery
+      # protection if visitor resubmits an earlier form using back
+      # button. Uncomment if you understand the tradeoffs.
+      # reset session
+      # self.current_user = @user # !! now logged in
+      redirect_back_or_default('/')
+      flash[:notice] = "New User Created."
+    else
+      flash[:notice]  = "Failed to add a new user.  Please contact the site administrator."
+      render :action => 'new'
+    end
+  end
+
+  def roles
+    @users = User.all
+  end
+
+  def set_role
+    @user = User.find(params[:id])
+    @user.role_id = params[:role_id]
+    if @user.save
+      render :text => "Updated"
+    else
+      render :text => "Error: Failed to updated role"
+    end
+  end
+
+end

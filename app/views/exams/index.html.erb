@@ -1,0 +1,3 @@
+<%= content_for(:title, "Exams for #{@patient.patient_name}") %>
+
+<%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>

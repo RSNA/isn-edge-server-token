@@ -1,0 +1,43 @@
+<% content_for(:title, "Shopping Cart") %>
+
+<% if @exams.size > 0 %>
+<table border="0" cellspacing="0" cellpadding="2" style="width: 100%" id="exams_for_patient">
+<thead>
+  <tr>
+    <th></th>
+    <th>Accession #</th>
+    <th>Exam Date</th>
+    <th>Status</th>
+  </tr>
+</thead>
+
+<tbody>
+  <% @exams.each do |e| %>
+  <tr id="cart_item_<%= e.id %>">
+    <td><%= link_to_function("Remove From Cart", "delete_from_cart('cart_item_#{e.id}', '#{e.id}');", :id => "delete_link_#{e.id}") %></td>
+    <td><%= e.accession_number %></td>
+    <td><%= e.modified_date.to_s(:long) %></td>
+    <td><%= status_for(e) %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+
+<div class="form-actions">
+<%= button_to("Empty Cart", {:action => "empty_cart", :controller => "exams"}, :style => "display: inline;") %>
+<% form_tag({:action => "send_cart", :controller => "exams"}, {:style => "display: inline;"}) do %>
+  <% @exams.each do |exam| %>
+    <%= hidden_field_tag "exam_ids[]", exam.id %>
+  <% end %>
+  <%= submit_tag("Send Cart") %>
+<% end %>
+</div>
+
+<% else %>
+ <div>Your shopping cart is empty</div>
+<% end %>
+
+<br />
+
+
+

@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>RSNA Edge</title>
+    <%= stylesheet_link_tag "sti-edge","som_table_styles" %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag "som_sortable_table" %>
+    <script type="text/javascript" src="/javascripts/shadedborder/shadedborder.js"></script>
+    <script type="text/javascript">
+      var border = RUZEE.ShadedBorder.create({ corner:8, shadow:16,  border:2 });
+      var tab_border = RUZEE.ShadedBorder.create({ corner:8,  border:2, edges:'blr' });
+</script>
+
+  </head>
+
+  <body>
+
+    <div class="header">
+      <div id="tabs">
+	<% if session[:username] %>
+	<ul>
+	  <li><a href="/patients/new">Next Patient</a></li>
+	  <% if @patient and @patient.rsna_id %>
+	  <li><a href="/exams">Exams</a></li>
+	  <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
+	  <% end %>
+	  <% if @user.role_id > 1 %>
+	  <li><a href="/users/roles">User Roles</a></li>
+	  <% end %>
+	  <li><a href="/sessions/destroy">Log Out</a></li>
+	</ul>
+	<% end %>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="search-box container">
+	<h1><%= yield(:title) %></h1>
+	<div id="flash-notice"><%= flash[:notice] %></div>
+	<%= yield %>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="spacer"></div>
+      <div class="content">
+	<h1 class="app-name">RSNA Edge</h1>
+	<div class="app-description">Enabling a portable electronic medical record</div>
+      </div>
+    </div>
+
+    <%= javascript_tag("tab_border.render($$(\"#tabs ul li\"));") %>
+    <%= javascript_tag("border.render($$(\"div.container\"));") %>
+  </body>
+</html>

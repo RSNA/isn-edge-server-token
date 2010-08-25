@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: #000;
+  background-color: #909090;
+  font: 76% Verdana, Arial, Helvetica, sans-serif;
+}
+
+div.header
+{ position: absolute; top: 0; right: 0; height: 30px; width: 100%; text-align: right; }
+
+#tabs
+{
+  float: right;
+  font-weight: bold;
+  font-size: 14px;
+  height: 20px;
+}
+
+/* The tabs */
+* html #tabs li { display:inline-block; }
+
+#tabs li { float:left; color:#000; list-style: none; padding:0; margin:0 0 0 10px; position: relative; top: -15px; left: -20px; }
+#tabs li a { display:block; float:left; text-decoration:none; padding:10px; color:#fff; }
+#tabs li, #tabs li .sb-inner { background:#3a4354; }
+#tabs li:hover, #tabs li:hover .sb-inner { background:#58657e; }
+#tabs li.hover, #tabs li.hover .sb-inner { background:#58657e; } /* for ie6 */
+#tabs li .sb-border { background:#000; }
+#tabs-content { background:#58657e; width:380px; padding:10px; 
+                border:1px solid #000; color:#fff; }
+
+
+div.header .tab img
+{ float: right; margin: 0; }
+
+div.main
+{ margin-top: 150px; }
+
+div.container
+{ padding: 10px; margin: auto; }
+
+div.container .sb-border
+{ background: #000; }
+
+div.search-box
+{ width: 760px; text-align: center;}
+
+div.spacer
+{
+  position: relative; top: -1px;
+  height: 4px;
+  width: 100%;
+  border-bottom: 2px solid #909090;
+  /*border-top: 2px solid #909090;*/
+  background: #3a4354;
+}
+
+div.footer
+{
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  height: 300px;
+  width: 100%;
+  background-image: url("/images/footer-background.png");
+  background-repeat: repeat-x;
+}
+
+div.footer div.content
+{ height: 250px; width: 600px; margin: auto; margin-top: 35px; text-align: center; vertical-align: middle; color: white; font-weight: bold;}
+
+h1.app-name
+{ width: 650px; font-size: 36pt; margin: auto; }
+
+div.app-description
+{ width: 650px; font-size: 16pt; margin: auto; }
+
+#search_results
+{ border: 1px solid white; }
+
+div.result-row
+{ width: 737px; padding: 10px; text-align: left; }
+
+.odd
+{ background-color: #58657e; color: white; }
+.even
+{ }
+
+.inline-heading
+{ display: inline; font-weight: bold; margin-left: 10px; margin-right: 10px; }
+
+.form-actions div
+{ display: inline; }
+
+.form-actions form
+{ display: inline; }
+
+/* Errors */
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin: auto;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+div.uploadStatus {
+  margin: 5px;
+}
+
+div.progressBar {
+  margin: 5px;
+}
+
+div.progressBar div.border {
+  background-color: #fff;
+  border: 1px solid grey;
+  width: 100%;
+}
+
+div.progressBar div.background {
+  background-color: #333;
+  height: 18px;
+  width: 0%;
+}
