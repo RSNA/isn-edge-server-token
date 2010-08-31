@@ -1,5 +1,5 @@
 development:
-  adapter: postgresql
+  adapter: jdbcpostgresql
   database: rsnadb
   username: edge
   password: edge
