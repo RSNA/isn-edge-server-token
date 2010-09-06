@@ -1,3 +1,5 @@
 <%= content_for(:title, "Exams for #{@patient.patient_name}") %>
 
 <%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>
+
+<%= javascript_tag("window.open('/patients/print_rsna_id');") if @autoprint_rsna_id %>

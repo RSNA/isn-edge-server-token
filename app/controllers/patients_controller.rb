@@ -24,7 +24,7 @@ class PatientsController < ApplicationController
       @rsna_id = @patient.new_rsna_id(params[:pin])
       if @rsna_id.save
         flash[:success] = "Successfully Created a new RSNA ID"
-        redirect_to :controller => :exams, :action => :index
+        redirect_to :controller => :exams, :action => :index, :print_id => true
       else
         render :template => "patients/create_rsna_id"
       end
@@ -34,5 +34,9 @@ class PatientsController < ApplicationController
     else
       redirect_to :action => :index
     end
+  end
+
+  def print_rsna_id
+    render :template => "patients/print_rsna_id", :layout => "print"
   end
 end

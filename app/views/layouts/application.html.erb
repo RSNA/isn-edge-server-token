@@ -16,14 +16,16 @@
 
     <div class="header">
       <div id="tabs">
-	<% if session[:username] %>
+	<% logged_in_user? do %>
 	<ul>
 	  <li><a href="/patients/new">Next Patient</a></li>
-	  <% if @patient and @patient.rsna_id %>
+	  <% patient? do %>
 	  <li><a href="/exams">Exams</a></li>
 	  <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
+	  <li><%= link_to_function("Print RSNA ID", "window.open('/patients/print_rsna_id')") %></li>
 	  <% end %>
-	  <% if @user.role_id > 1 %>
+	  <% admin? do %>
+	  <li><a href="/admin/audit">Audit Trail</a></li>
 	  <li><a href="/users/roles">User Roles</a></li>
 	  <% end %>
 	  <li><a href="/sessions/destroy">Log Out</a></li>

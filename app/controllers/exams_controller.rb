@@ -5,6 +5,7 @@ class ExamsController < ApplicationController
 
   def index
     @exams = @patient.exams
+    @autoprint_rsna_id = (params[:print_id] ? true : false)
   end
 
   def send_cart

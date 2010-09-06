@@ -95,6 +95,17 @@ div.result-row
 .form-actions form
 { display: inline; }
 
+/* Audit */
+
+div.job-group
+{  }
+
+div.job-group h2
+{ text-align: left; }
+
+div.job-group table
+{ width: 100%; }
+
 /* Errors */
 
 .fieldWithErrors {

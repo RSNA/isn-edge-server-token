@@ -1,6 +1,24 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def admin?(&block)
+    if @user and @user.role_id > 1
+      concat(capture(&block))
+    end
+  end
+
+  def logged_in_user?(&block)
+    if @user
+      concat(capture(&block))
+    end
+  end
+
+  def patient?(&block)
+    if @patient and @patient.rsna_id
+      concat(capture(&block))
+    end
+  end
+
   def preview(text, length=400)
     text.split(/\s/).inject("") do |out, chunk|
       if (out.size + 1 + chunk.size) <= length

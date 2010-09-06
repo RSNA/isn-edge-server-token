@@ -1,0 +1,36 @@
+body
+{
+  font-size: 1em;
+}
+
+h1
+{ text-align: center; font-size: 12pt; font-weight: bold; margin: 0px;}
+
+h3
+{ font-size: 8pt; text-align: center; margin: 0;}
+
+h3.padd-bottom
+{ padding-bottom: 20px; }
+
+div.report
+{ page-break-after: always; }
+
+div.last-report
+{ page-break-after: avoid; }
+
+div.footer
+{ page-break-after: avoid; }
+
+div.demographic
+{ margin: 20px; font-size: 10pt; }
+div.demographic span
+{ margin-right: 10px; }
+
+div.button-status
+{ display: inline; margin: 20px; font-weight: bold; font-size: 12pt; }
+
+div.findings
+{ margin: 20px; height: 100px; overflow: auto; }
+
+th.inline
+{ text-align: left; }
