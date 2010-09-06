@@ -3,7 +3,9 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'
   map.connect '/users/roles', :controller => 'users', :action => 'roles'
   map.connect '/users/set_role', :controller => 'users', :action => 'set_role'
+  map.connect '/users/change_password', :controller => 'users', :action => 'change_password'
   map.resources :users
+
 
   map.resource :session
 
