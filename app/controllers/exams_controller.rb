@@ -2,6 +2,7 @@ class ExamsController < ApplicationController
   before_filter :authenticate
   before_filter :get_cart
   before_filter :force_patient
+  hipaa_filter
 
   def index
     @exams = @patient.exams

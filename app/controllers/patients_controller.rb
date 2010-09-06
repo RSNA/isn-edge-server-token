@@ -2,6 +2,7 @@ class PatientsController < ApplicationController
   before_filter :authenticate
   before_filter :get_patient
   before_filter :get_cart
+  hipaa_filter
 
   def new
     session[:patient_id] = nil
