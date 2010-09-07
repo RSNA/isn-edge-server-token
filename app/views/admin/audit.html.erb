@@ -1,0 +1,13 @@
+<%= content_for(:title, "Audit Trail") %>
+<% @job_sets.each do |js| %>
+<div class="job-group">
+  <h2>Job Set <%= js.id %> for <%= js.patient.patient_name %> (<%= js.patient.mrn %>)</h2>
+  <% som_table_for js.jobs do |st| %>
+    <% st.column("Status") {|job| job.status_message } %>
+    <% st.column("Job ID", &:id) %>
+    <% st.column("Accession #") {|job| job.exam.accession_number } %>
+    <% st.column("Document ID") {|job| job.documentset_id } %>
+    <% st.column("Last Modified") {|job| job.modified_date.to_s(:long) } %>
+  <% end %>
+</div>
+<% end %>
