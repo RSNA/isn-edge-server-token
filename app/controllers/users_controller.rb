@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # render new.rhtml
   def new
-    @user = User.new
+    @new_user = User.new
   end
 
   def change_password
@@ -21,10 +21,11 @@ class UsersController < ApplicationController
  
   def create
     #logout_keeping_session!
-    @user = User.new(params[:user])
-    params[:user][:admin] == "1" ? @user.admin = true : @user.admin = false
-    success = @user && @user.save
-    if success && @user.errors.empty?
+    @new_user = User.new(params[:new_user])
+    @new_user.role_id = params[:new_user][:role_id].to_i
+    #params[:new_user][:admin] == "1" ? @new_user.admin = true : @user.admin = false
+    success = @new_user && @new_user.save
+    if success && @new_user.errors.empty?
       # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.

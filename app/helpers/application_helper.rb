@@ -1,8 +1,14 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def super?(&block)
+    if @user and (@user.super? or @user.admin?)
+      concat(capture(&block))
+    end
+  end
+
   def admin?(&block)
-    if @user and @user.role_id > 1
+    if @user and @user.admin?
       concat(capture(&block))
     end
   end

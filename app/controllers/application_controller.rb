@@ -11,19 +11,22 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   def authenticate
-    if logged_in?
-      @user = User.find(session[:user_id])
-      session[:username] = @user.login
-    else
-      access_denied
-    end
+    authenticate_on(:to_s)
+  end
+
+  def super_authenticate
+    authenticate_on(:super?)
   end
 
   def admin_authenticate
+    authenticate_on(:admin?)
+  end
+
+  def authenticate_on(auth_method)
     if logged_in?
       @user ||= User.find(session[:user_id])
       session[:username] = @user.login
-      access_denied unless @user.admin?
+      access_denied unless @user.send(auth_method)
     else
       access_denied
     end

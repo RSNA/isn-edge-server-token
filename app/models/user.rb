@@ -57,7 +57,11 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    self.role_id >= 1
+    self.role_id == 2
+  end
+
+  def super?
+    self.role_id == 1
   end
 
 end
