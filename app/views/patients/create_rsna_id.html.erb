@@ -2,6 +2,6 @@
 <p>Please ask the patient to enter their PIN number below</p>
 <%= error_messages_for :rsna_id %>
 <% form_for :rsna_id, :url => {:action => :create_rsna_id} do |f| %>
-  <input name="pin" class="search" type="text" size="4" maxlength="4" />
+  <input name="pin" class="search" type="text" size="6" maxlength="6" />
   <%= submit_tag "Create RSNA ID" %>
 <% end %>

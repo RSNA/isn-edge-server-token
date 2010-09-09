@@ -13,7 +13,16 @@ class Patient < ActiveRecord::Base
   end
 
   def new_rsna_id(pin)
-    @rsna_id = RsnaId.new(:pin => pin, :rsna_id => "1-#{self.id}-#{pin}", :patient_id => self.id, :modified_date => Time.now)
+    @rsna_id = RsnaId.new(:pin => pin, :rsna_id => "0001-#{self.padded_patient_id}-#{pin}", :patient_id => self.id, :modified_date => Time.now)
+  end
+
+  protected
+  def padded_patient_id
+    if 5 - self.id.to_s.size > 0
+      "0"*(5-self.id.to_s.size) + self.id.to_s
+    else
+      self.id
+    end
   end
 
 end

@@ -7,8 +7,8 @@ class RsnaId < ActiveRecord::Base
   belongs_to :patient, :foreign_key => :patient_id
 
   def validate
-    if self.pin.size != 4
-      errors.add(:pin, "must be 4 characters long")
+    if self.pin.size != 6
+      errors.add(:pin, "must be 6 characters long")
     end
   end
 end
