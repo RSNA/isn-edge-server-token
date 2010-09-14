@@ -1,5 +1,5 @@
 class RsnaId < ActiveRecord::Base
-  set_table_name :patients_rsna_ids
+  set_table_name :patient_rsna_ids
   set_primary_key :map_id
 
   attr_accessor :pin
