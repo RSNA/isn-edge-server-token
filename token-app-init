@@ -20,7 +20,7 @@ ENV=development
 OPTS="-S glassfish --contextroot / --port 3000 --environment $ENV --runtimes 1 --runtimes-min 1 --runtimes-max 2 -P $PID --daemon $APP_ROOT"
 USER=mwarnock
 JRUBY="/opt/jruby/jruby-1.5.1/bin/jruby"
-GEM_HOME="/opt/jruby/jruby-1.5.1/lib/ruby/gems"
+GEM_HOME="/opt/jruby/jruby-1.5.1/lib/ruby/gems/1.8"
 
 . /lib/lsb/init-functions
 
