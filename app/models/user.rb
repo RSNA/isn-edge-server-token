@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def super?
-    self.role_id == 1
+    self.role_id >= 1
   end
 
 end

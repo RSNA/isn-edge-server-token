@@ -1,4 +1,5 @@
 class HipaaView < ActiveRecord::Base
+  set_table_name :hipaa_audit_views
   has_many :hipaa_accession_numbers
   has_many :hipaa_mrns
 
