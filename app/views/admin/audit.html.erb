@@ -6,7 +6,7 @@
     <% st.column("Status") {|job| job.status_message } %>
     <% st.column("Job ID", &:id) %>
     <% st.column("Accession #") {|job| job.exam.accession_number } %>
-    <% st.column("Document ID") {|job| job.documentset_id } %>
+    <% st.column("Document ID") {|job| job.document_id } %>
     <% st.column("Last Modified") {|job| job.modified_date.to_s(:long) } %>
   <% end %>
 </div>

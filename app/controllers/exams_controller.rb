@@ -13,7 +13,9 @@ class ExamsController < ApplicationController
     @job_set = JobSet.new(:patient_id => @patient.id, :user_id => @user.id, :email_address => @user.email, :modified_date => Time.now)
     if @job_set.save
       @cart.each do |exam_id|
-        Job.create(:exam_id => exam_id, :job_set_id => @job_set.id, :status => 1, :status_message => "Queued", :modified_date => Time.now)
+        time = Time.now
+        job = Job.create(:exam_id => exam_id, :job_set_id => @job_set.id, :modified_date => time)
+        JobTransaction.create(:job_id => job.id, :status => 1, :status_message => "Queued", :modified_date => time)
       end
       cart_op {|cart| [] }
       flash[:notice] = "Exams have been queued for sending"
