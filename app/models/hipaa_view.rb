@@ -7,12 +7,12 @@ class HipaaView < ActiveRecord::Base
     view = self.new({
                       :requesting_username => hipaa_filter_hash[:requesting_username],
                       :requesting_ip => hipaa_filter_hash[:requesting_ip],
-                      :request_uri => hipaa_filter_hash[:request_uri],
+                      :requesting_uri => hipaa_filter_hash[:request_uri],
                       :modified_date => hipaa_filter_hash[:created_at]
                     })
     if view.save
-      self.create_phi_items(hipaa_filter_hash[:accession_number]) {|acc_num| HipaaAccessionNumber.create(:hipaa_view_id => view.id, :accession_number => acc_num) }
-      self.create_phi_items(hipaa_filter_hash[:patient_id]) {|pat_id| HipaaMRN.create(:hipaa_view_id => view.id, :mrn => pat_id) }
+      self.create_phi_items(hipaa_filter_hash[:accession_number]) {|acc_num| HipaaAccessionNumber.create(:view_id => view.id, :accession_number => acc_num) }
+      self.create_phi_items(hipaa_filter_hash[:patient_id]) {|pat_id| HipaaMRN.create(:view_id => view.id, :mrn => pat_id) }
       view
     else
       false
