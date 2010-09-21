@@ -13,7 +13,7 @@ class Patient < ActiveRecord::Base
   end
 
   def new_rsna_id(pin)
-    @rsna_id = RsnaId.new(:pin => pin, :rsna_id => "0001-#{self.padded_patient_id}-#{pin}", :patient_id => self.id, :modified_date => Time.now)
+    @rsna_id = RsnaId.new(:pin => pin, :rsna_id => "0001-#{self.padded_patient_id}-#{pin}", :patient_id => self.id, :patient_alias_firstname => "first", :patient_alias_lastname => "last", :modified_date => Time.now)
   end
 
   protected
