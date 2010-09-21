@@ -38,6 +38,7 @@
       </div>
     </div>
 
+    <div id="main-container">
     <div class="main">
       <div class="search-box container">
 	<h1><%= yield(:title) %></h1>
@@ -56,5 +57,6 @@
 
     <%= javascript_tag("tab_border.render($$(\"#tabs ul li\"));") %>
     <%= javascript_tag("border.render($$(\"div.container\"));") %>
+    </div>
   </body>
 </html>

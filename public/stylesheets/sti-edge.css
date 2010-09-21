@@ -4,7 +4,11 @@ body {
   color: #000;
   background-color: #909090;
   font: 76% Verdana, Arial, Helvetica, sans-serif;
+  height: 100%;
 }
+
+#main-container
+{ min-height: 100%; position: relative; }
 
 div.header
 { position: absolute; top: 0; right: 0; height: 30px; width: 100%; text-align: right; }
@@ -34,7 +38,7 @@ div.header .tab img
 { float: right; margin: 0; }
 
 div.main
-{ margin-top: 150px; }
+{ margin-top: 150px; padding-bottom: 350px; }
 
 div.container
 { padding: 10px; margin: auto; }
@@ -58,7 +62,7 @@ div.spacer
 div.footer
 {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   left: 0;
   height: 300px;
   width: 100%;
