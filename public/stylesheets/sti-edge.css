@@ -99,6 +99,13 @@ div.result-row
 .form-actions form
 { display: inline; }
 
+.consent-box
+{ position: absolute; left: 50%; top: 50%; width: 30%; border: 2px solid #999; }
+
+.consent-link { color: blue; }
+.consent-link:visited { color: blue; }
+.consent-link:active { color: blue; }
+
 /* Audit */
 
 div.job-group
