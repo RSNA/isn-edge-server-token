@@ -22,7 +22,7 @@ class PatientsController < ApplicationController
     if @patient and @rsna_id = @patient.rsna_id
       redirect_to :controller => :exams, :action => :index
     elsif @patient and params[:pin]
-      @rsna_id = @patient.new_rsna_id(params[:pin])
+      @rsna_id = @patient.new_rsna_id(params[:pin], params[:confirmation_pin])
       if @rsna_id.save
         flash[:success] = "Successfully Created a new RSNA ID"
         redirect_to :controller => :exams, :action => :index, :print_id => true
@@ -33,6 +33,7 @@ class PatientsController < ApplicationController
       @rsna_id = RsnaId.new
       render :template => "patients/create_rsna_id"
     else
+      flash['notice'] = "Failed to find patient with id: #{params[:patient_id]}"
       redirect_to :action => :index
     end
   end
