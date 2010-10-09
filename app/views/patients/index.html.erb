@@ -1,7 +1,15 @@
 <% content_for(:title, "Search for Patients") %>
-<% form_for :search, :html => {:style => "margin-bottom: 30px;", :onsubmit => "search_by('/patients/search', Form.serialize(this)); return false;"} do |f| %>
-  <input name="search" class="search" type="text" size="30" />
-  <%= submit_tag "Search" %>
+<% form_for :search, :html => {:id => "search_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_by($('#search_form').serialize()); return false;"} do |f| %>
+  <p>
+    <input name="search" class="search" type="text" size="30" />
+    <%= submit_tag "Search" %><br />
+    <label for="search">Search by patient name or medical record number</label>
+  </p>
+
 <% end %>
 <%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
-<%= content_tag :div, "", :id => "search_results", :style => "margin-bottom: 20px; display: none;" %>
+<%= content_tag :div, "", :id => "search_results" %>
+
+<% content_for(:body) do %>
+  <%= render :partial => "patients/consent_dialog", :locals => {} %>
+<% end %>

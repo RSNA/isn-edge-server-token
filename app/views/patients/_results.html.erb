@@ -1,5 +1,5 @@
 <% som_table_for patients, :style => "width: 100%" do |st| %>
-  <% st.column("") {|p| link_to("Select", {:controller => :patients, :action => :create_rsna_id, :patient_id => p.id}, :method => :post, :confirm => "Are you sure this is the correct patient? Have you received consent?") } %>
+  <% st.column("") {|p| button_to_function("Select", "obtain_consent(#{p.id},$.parseJSON('#{p.attributes.to_json}'))") } %>
   <% st.column("Name") {|p| p.patient_name } %>
   <% st.column("MRN") {|p| p.mrn } %>
   <% st.column("Sex") {|p| p.sex } %>

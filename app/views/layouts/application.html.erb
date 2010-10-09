@@ -2,61 +2,70 @@
   <head>
     <title>RSNA Edge</title>
     <%= stylesheet_link_tag "sti-edge","som_table_styles" %>
-    <%= javascript_include_tag 'jquery-1.4.2-min.js' %>
+    <%= javascript_include_tag "jquery-1.4.2.min.js" %>
     <%= javascript_include_tag "som_sortable_table" %>
+    <%= javascript_include_tag "application.js" %>
     <script type="text/javascript" src="/javascripts/shadedborder/shadedborder.js"></script>
     <script type="text/javascript">
-      var border = RUZEE.ShadedBorder.create({ corner:8, shadow:16,  border:2 });
-      var tab_border = RUZEE.ShadedBorder.create({ corner:8,  border:2, edges:'blr' });
+      var border = RUZEE.ShadedBorder.create({ corner:5, shadow:16,  border:2 });
+      var tab_controller = RUZEE.ShadedBorder.create({ corner:10});
+      var tab_border = RUZEE.ShadedBorder.create({ corner:5,  border:2, edges:'blr' });
+      var splitBorderTop = RUZEE.ShadedBorder.create({ corner:10, edges:"tlr" });
+      var splitBorderBottom = RUZEE.ShadedBorder.create({ corner:10, edges:"blr" }); 
+
 </script>
 
   </head>
 
   <body>
-
-    <div class="header">
-      <div id="tabs">
+    <div id="main-container">
+      <div class="header">
+	<img src="/images/rsna-edge.png" class="rsna-edge" />
+	<div class="tab-controllers">
+	  <%= tab_controller(:clinical) if logged_in? %>
+	  <%= tab_controller(:administrative) if rights?(1) %>
+	</div>
 	<% logged_in_user? do %>
-	<ul>
-	  <li><a href="/patients/new">Next Patient</a></li>
-	  <% patient? do %>
-	  <li><a href="/exams">Exams</a></li>
-	  <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
-	  <li><%= link_to_function("Print RSNA ID", "window.open('/patients/print_rsna_id')") %></li>
+	  <% tabs_for(:clinical) do %>
+	    <ul>
+	      <li><a href="/patients/new">Next Patient</a></li>
+	      <% patient? do %>
+	      <li><a href="/exams">Exams</a></li>
+	      <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
+	      <li><%= link_to_function("Print RSNA ID", "window.open('/patients/print_rsna_id')") %></li>
+	      <% end %>
+	      <li><a href="/users/change_password">Change Password</a></li>
+	      <li><a href="/sessions/destroy">Log Out</a></li>
+	    </ul>
 	  <% end %>
-	  <% super? do %>
-	  <li><a href="/admin/audit">Audit Trail</a></li>
+	  <% tabs_for(:administrative) do %>
+	    <ul>
+	    <% super? do %>
+	    <li><a href="/admin/audit">Audit Trail</a></li>
+	    <% end %>
+	    <% admin? do %>
+	    <li><a href="/users/new">New User</a></li>
+	    <li><a href="/users/roles">User Roles</a></li>
+	    <% end %>
+	    <li><a href="/sessions/destroy">Log Out</a></li>
+	    </ul>
 	  <% end %>
-	  <% admin? do %>
-	  <li><a href="/users/new">New User</a></li>
-	  <li><a href="/users/roles">User Roles</a></li>
-	  <% end %>
-	  <li><a href="/users/change_password">Change Password</a></li>
-	  <li><a href="/sessions/destroy">Log Out</a></li>
-	</ul>
 	<% end %>
       </div>
-    </div>
 
-    <div id="main-container">
-    <div class="main">
-      <div class="search-box container">
-	<h1><%= yield(:title) %></h1>
-	<div id="flash-notice"><%= flash[:notice] %></div>
-	<%= yield %>
+      <div class="main">
+	<div class="container">
+	  <h1 id="main_title"><span><%= yield(:title) %></span></h1>
+	  <div id="contents">
+	    <div id="flash-notice"><%= flash[:notice] %></div>
+	    <%= yield %>
+	  </div>
+	</div>
       </div>
     </div>
-
+    <%= yield(:body) %>
     <div class="footer">
-      <div class="spacer"></div>
-      <div class="content">
-	<h1 class="app-name">RSNA Edge</h1>
-	<div class="app-description">Enabling a portable electronic medical record</div>
-      </div>
-    </div>
-
-    <%= javascript_tag("tab_border.render($$(\"#tabs ul li\"));") %>
-    <%= javascript_tag("border.render($$(\"div.container\"));") %>
+      <img src="/images/footer-hand.png" />
     </div>
   </body>
 </html>

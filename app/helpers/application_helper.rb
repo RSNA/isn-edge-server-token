@@ -25,6 +25,40 @@ module ApplicationHelper
     end
   end
 
+  def logged_in?
+    @user
+  end
+
+  def rights?(level)
+    logged_in? and @user.role_id >= level
+  end
+
+  def tab_active?(name)
+    if ["users","admin"].include?(params[:controller]) and params[:action] != "change_password"
+      if name == :administrative
+        true
+      else
+        false
+      end
+    elsif name != :administrative
+      true
+    end
+  end
+
+  def tab_controller(name)
+    active = (tab_active?(name) ? "active" : "")
+    content_tag(:span, :class => "tab-controller #{active}") do
+      link_to(name.to_s.titleize, "#")
+    end
+  end
+
+  def tabs_for(name,&block)
+    active = (tab_active?(name) ? "active-tabs" : "")
+    concat(content_tag(:div, :class => "tabs #{active}", :id => "#{name}_tabs") do
+      capture(&block)
+    end)
+  end
+
   def preview(text, length=400)
     text.split(/\s/).inject("") do |out, chunk|
       if (out.size + 1 + chunk.size) <= length

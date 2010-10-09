@@ -8,6 +8,14 @@ class Patient < ActiveRecord::Base
     self.find(:all, :conditions => ["mrn ~* ? OR patient_name ~* ?", sstring, sstring])
   end
 
+  def hl7_patient_name
+    self.attributes['patient_name']
+  end
+
+  def patient_name
+    self.attributes['patient_name'].split("^").join(", ")
+  end
+
   def rsna_id
     @rsna_id ||= self.rsna_ids.first
   end

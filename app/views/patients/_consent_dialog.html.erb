@@ -1,0 +1,42 @@
+<div id="consentDialog">
+  <a id="consentDialogClose">x</a>
+  <h1>Confirm Patient Consent</h1>
+  <p id="demographicArea">
+    <div class="demographic">
+      <label>Patient Name</label>
+      <span id="consent_demographic_patient_name" class="value"></span>
+    </div>
+    <div class="demographic">
+      <label>Medical Record #</label>
+      <span id="consent_demographic_mrn" class="value"></span>
+    </div>
+    <div class="demographic">
+      <label>Date of Birth</label>
+      <span id="consent_demographic_dob" class="value"></span>
+    </div>
+    <div class="demographic">
+      <label>Sex</label>
+      <span id="consent_demographic_sex" class="value"></span>
+    </div>
+    <div class="demographic">
+      <label>Stree Address</label>
+      <span id="consent_demographic_street" class="value"></span>
+    </div>
+    <div class="demographic">
+      <label>City, State Zip</label>
+      <span id="consent_demographic_area" class="value"></span>
+    </div>
+  </p>
+  <p class="consent_buttons">
+    Have you received the patient's consent?
+    <form id="consent_form" method="get" action="/patients/create_rsna_id">
+      <input type="hidden" name="patient_id" id="consent_patient_id" value="fake" />
+      <%= submit_tag("Yes") %>
+      <%= button_to_function("No","close_dialog()") %>
+    </form>
+  </p>
+</div>
+<div id="backgroundDialog"></div>
+<script language="javascript">
+  $("#consentDialogClose").click(function() { close_dialog(); });
+</script>

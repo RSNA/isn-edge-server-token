@@ -1,17 +1,5 @@
-
-<!--
-<%# exams.each do |exam| %>
-  <%# content_tag :div, :class => "result-row #{cycle('results','odd','even')}" do %>
-    <%# content_tag :div, link_to_function("Add to Cart", "add_to_cart('add_link_#{exam.id}', #{exam.id});", :id => "add_link_#{exam.id}"), :style => "float: right" %>
-    <span class="inline-heading">Accession #</span><%# exam.accession_number %>
-    <span class="inline-heading">MRN</span><%# patient.mrn %>
-    <%# content_tag :div, preview(report.report_text), :class => "document-body" %>
-  <%# end %>
-<%# end %>
--->
-
 <% som_table_for exams, :id => "exams_for_patient", :style => "width: 100%" do |st| %>
-  <% st.column("") {|e| link_to_function("Add to Cart", "add_to_cart('add_link_#{e.id}', #{e.id});", :id => "add_link_#{e.id}") } %>
+  <% st.column("") {|e| button_to_function("Add to Cart", "add_to_cart('add_link_#{e.id}', #{e.id});", :id => "add_link_#{e.id}") } %>
   <% st.column("Accession #") {|e| e.accession_number } %>
   <% st.column("Exam Desc") {|e| e.exam_description } %>
   <% st.column("Exam Date") {|e| e.modified_date.to_s(:long) } %>
