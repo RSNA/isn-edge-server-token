@@ -66,7 +66,7 @@ function delete_from_cart(element_id, exam_id) {
 	method: 'post',
 	data: {'id': exam_id},
 	success: function(response) {
-	    $("#" + element_id).replaceWith("");
+	    $("#" + element_id).parent().parent().replaceWith("");
 	    $('#flash-notice').html("Removed exam from cart");
 	    update_cart_count(response);
 	}

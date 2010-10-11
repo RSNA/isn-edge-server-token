@@ -5,7 +5,7 @@
     <% st.column("Accession #") {|e| e.accession_number } %>
     <% st.column("Exam Desc") {|e| e.exam_description } %>
     <% st.column("Exam Date") {|e| e.modified_date.to_s(:long) } %>
-    <% st.column("") {|e| button_to_function("Remove From Cart", "delete_from_cart('cart_item_#{e.id}', '#{e.id}');", :id => "delete_link_#{e.id}") } %>
+    <% st.column("") {|e| button_to_function("Remove From Cart", "delete_from_cart('delete_link_#{e.id}', '#{e.id}');", :id => "delete_link_#{e.id}") } %>
   <% end %>
 
 <div class="form-actions">
