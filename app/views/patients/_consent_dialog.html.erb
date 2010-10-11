@@ -1,5 +1,5 @@
 <div id="consentDialog">
-  <a id="consentDialogClose">x</a>
+  <a id="dialogClose">x</a>
   <h1>Confirm Patient Consent</h1>
   <p id="demographicArea">
     <div class="demographic">
@@ -38,5 +38,5 @@
 </div>
 <div id="backgroundDialog"></div>
 <script language="javascript">
-  $("#consentDialogClose").click(function() { close_dialog(); });
+  $("#dialogClose").click(function() { close_dialog($("#consentDialog")); });
 </script>

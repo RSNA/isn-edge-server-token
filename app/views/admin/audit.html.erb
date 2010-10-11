@@ -1,13 +1,26 @@
 <%= content_for(:title, "Audit Trail") %>
-<% @job_sets.each do |js| %>
-<div class="job-group">
-  <h2>Job Set <%= js.id %> for <%= js.patient.patient_name %> (<%= js.patient.mrn %>)</h2>
-  <% som_table_for js.jobs do |st| %>
-    <% st.column("Status") {|job| job.status_message } %>
-    <% st.column("Job ID", &:id) %>
-    <% st.column("Accession #") {|job| job.exam.accession_number } %>
-    <% st.column("Document ID") {|job| job.document_id } %>
-    <% st.column("Last Modified") {|job| job.modified_date.to_s(:long) } %>
-  <% end %>
+
+<% form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "filter_by($('#filter_form').serialize()); return false;"} do |f| %>
+  <p>
+    <input name="filter" class="search" type="text" size="30" />
+    <%= submit_tag "Filter" %><br />
+    <label for="filter">Filter by patient name, medical record number, or accession number</label>
+  </p>
+
+<% end %>
+<%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
+<% content_tag :div, :id => "search_results" do %>
+  <%= render :partial => "admin/transaction_list", :locals => {:job_transactions => @job_transactions} %>
+<% end %>
+
+<% content_for(:body) do %>
+<div id="auditDialog">
+  <a id="dialogClose">x</a>
+  <h1>Audit Details</h1>
+  <div id="auditDialogContent"></div>
 </div>
+<div id="backgroundDialog"></div>
+<script language="javascript">
+  $("#dialogClose").click(function() { close_dialog($("#auditDialog")); });
+</script>
 <% end %>

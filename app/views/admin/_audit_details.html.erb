@@ -1,0 +1,21 @@
+<p>
+  <div class="demographic">
+    <label>Patient Name</label>
+    <span class="value"><%= patient.patient_name %></span>
+  </div>
+  <div class="demographic">
+    <label>Medical Record #</label>
+    <span class="value"><%= patient.mrn %></span>
+  </div>
+</p>
+<% job_set.jobs.each do |job| %>
+<p>
+  <h3>Job # <%= job.job_id %></h3>
+  <% som_table_for job.job_transactions do |st| %>
+    <% st.column("Transaction ID", &:transaction_id) %>
+    <% st.column("Status", &:status) %>
+    <% st.column("Message", &:status_message) %>
+    <% st.column("Modified") {|jt| jt.modified_date.to_s(:long) } %>
+  <% end %>
+</p>
+<% end %>

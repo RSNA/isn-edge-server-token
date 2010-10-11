@@ -4,6 +4,8 @@ class Job < ActiveRecord::Base
   belongs_to :exam
   has_many :job_transactions, :dependent => :destroy
 
+  named_scope :ordered, { :order => "modified_date DESC" }
+
   def last_transaction
     @last_transaction ||= self.job_transactions.find(:first, :order => "modified_date DESC")
   end

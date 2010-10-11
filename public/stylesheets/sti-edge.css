@@ -263,7 +263,22 @@ div.progressBar div.background {
  font-size:13px;
 }
 
-#consentDialog h1{
+#auditDialog{
+ display:none;
+ position:fixed;
+ _position:absolute; /* hack for internet explorer 6*/
+ height:400px;
+ width:650px;
+ overflow: auto;
+ background: #e9e9e9;
+ background-position: right bottom;
+ border: 4px solid #909090;
+ z-index:2;
+ padding:12px;
+ font-size:13px;
+}
+
+#consentDialog h1, #auditDialog h1 {
  text-align:left;
  color: #1e222b;
  font-size:22px;
@@ -273,7 +288,10 @@ div.progressBar div.background {
  margin-bottom:20px;
 }
 
-#consentDialogClose{
+#consentDialog p h3, #auditDialog p h3 {
+}
+
+#dialogClose{
  font-size:14px;
  line-height:14px;
  right:6px;

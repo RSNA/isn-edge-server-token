@@ -27,8 +27,16 @@ $(document).ready(function() {
 });
 
 function search_by(params) {
+    search_or_filter("/patients/search", params);
+}
+
+function filter_by(params) {
+    search_or_filter("/admin/audit_filter", params);
+}
+
+function search_or_filter(url, params) {
     $.ajax({
-	url: "/patients/search",
+	'url': url,
 	method: "get",
 	data: params,
 	success: function(response) {
@@ -92,45 +100,61 @@ function update_role(radio_button, id, element_for_update) {
 var consent_status = 0;
 
 function obtain_consent(patient_id, demographics) {
-    console.log(demographics);
     macro_dems = ['mrn','dob','sex','patient_name','street']
     for (var i in macro_dems) {
 	$('#consent_demographic_' + macro_dems[i]).html(demographics[macro_dems[i]]);
     }
     $('#consent_demographic_area').html(demographics['city'] + ", " + demographics['state'] + " " + demographics['zip_code']);
     $('#consent_patient_id').val(demographics['patient_id']);
-    center_dialog();
-    load_dialog();
+    center_dialog($("#consentDialog"));
+    load_dialog($("#consentDialog"));
 }
 
-function load_dialog(){
+function audit_details(job_transaction_id) {
+    var dialog = $("#auditDialog");
+    var contents = $("#auditDialogContent");
+    center_dialog(dialog);
+    load_dialog(dialog);
+    $.ajax({
+	url: "/admin/audit_details",
+	data: {id: job_transaction_id},
+	success: function(response) {
+	    contents.html(response);
+	},
+	beforeSend: function(xml) {
+	    contents.html("<img src=\"/images/ajax-loader.gif\" />");
+	}
+    });
+}
+
+function load_dialog(dialog) {
     //loads dialog only if it is disabled
     if(consent_status==0){
 	$("#backgroundDialog").css({
 	    "opacity": "0.7"
 	});
 	$("#backgroundDialog").fadeIn("slow");
-	$("#consentDialog").fadeIn("slow");
+	dialog.fadeIn("slow");
 	consent_status = 1;
     }
 }
 
-function close_dialog(){
+function close_dialog(dialog) {
     //disables dialog only if it is enabled
     if(consent_status==1){
 	$("#backgroundDialog").fadeOut("slow");
-	$("#consentDialog").fadeOut("slow");
+	dialog.fadeOut("slow");
 	consent_status = 0;
     }
 }
 
-function center_dialog(){
+function center_dialog(dialog) {
     var windowWidth = document.documentElement.clientWidth;
     var windowHeight = document.documentElement.clientHeight;
-    var dialogHeight = $("#consentDialog").height();
-    var dialogWidth = $("#consentDialog").width();
+    var dialogHeight = dialog.height();
+    var dialogWidth = dialog.width();
 
-    $("#consentDialog").css({
+    dialog.css({
 	"position": "absolute",
 	"top": windowHeight/2-dialogHeight/2,
 	"left": windowWidth/2-dialogWidth/2
