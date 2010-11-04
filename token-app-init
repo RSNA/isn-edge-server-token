@@ -21,14 +21,14 @@ OPTS="-S glassfish --contextroot / --port 3000 --environment $ENV --runtimes 1 -
 USER=mwarnock
 JRUBY="/opt/jruby/jruby-1.5.1/bin/jruby"
 GEM_HOME="/opt/jruby/jruby-1.5.1/lib/ruby/gems/1.8"
+JAVA_HOME="/opt/java/jdk1.6.0_21"
 
 . /lib/lsb/init-functions
 
 case $1 in
 start)
 	log_daemon_msg "Starting Token App app server" "token_app"
-	if env GEM_HOME="$GEM_HOME" start-stop-daemon -c $USER --start --quiet --oknodo --pidfile $PID --exec $JRUBY -- $OPTS; then
-	   log_end_msg 0
+	if env JAVA_HOME="$JAVA_HOME" GEM_HOME="$GEM_HOME" start-stop-daemon -c $USER --start --quiet --oknodo --pidfile $PID --exec $JRUBY -- $OPTS; then log_end_msg 0
 	else
 	   log_end_msg 1
 	fi
@@ -45,7 +45,7 @@ stop)
 restart|reload)
 	log_daemon_msg "Restarting Token App app server" "token_app"
 	start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile $PID
-	if env GEM_HOME="$GEM_HOME" start-stop-daemon -c $USER --start --quiet --oknodo  --pidfile $PID --exec $JRUBY -- $OPTS; then
+	if env JAVA_HOME="$JAVA_HOME" GEM_HOME="$GEM_HOME" start-stop-daemon -c $USER --start --quiet --oknodo  --pidfile $PID --exec $JRUBY -- $OPTS; then
 	   log_end_msg 0
 	else
 	   log_end_msg 1
