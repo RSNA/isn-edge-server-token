@@ -45,10 +45,10 @@ module ApplicationHelper
     end
   end
 
-  def tab_controller(name)
+  def tab_controller(name, *args)
     active = (tab_active?(name) ? "active" : "")
     content_tag(:span, :class => "tab-controller #{active}") do
-      link_to(name.to_s.titleize, "#")
+      link_to(name.to_s.titleize, *args)
     end
   end
 

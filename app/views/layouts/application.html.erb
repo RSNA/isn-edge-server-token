@@ -22,13 +22,13 @@
       <div class="header">
 	<img src="/images/rsna-edge.png" class="rsna-edge" />
 	<div class="tab-controllers">
-	  <%= tab_controller(:clinical) if logged_in? %>
-	  <%= tab_controller(:administrative) if rights?(1) %>
+	  <%= tab_controller(:clinical, :controller => :patients, :action => :new) if logged_in? %>
+	  <%= tab_controller(:administrative, :controller => :admin, :action => :audit) if rights?(1) %>
 	</div>
 	<% logged_in_user? do %>
 	  <% tabs_for(:clinical) do %>
 	    <ul>
-	      <li><a href="/patients/new">Next Patient</a></li>
+	      <li><a href="/patients/new">Patient Search</a></li>
 	      <% patient? do %>
 	      <li><a href="/exams">Exams</a></li>
 	      <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>

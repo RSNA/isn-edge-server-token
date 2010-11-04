@@ -13,7 +13,7 @@ $(document).ready(function() {
     tab_controller.render($(".tab-controller"));
 
     // Create Menu Events
-    $(".tab-controller a").each(function(i,element) {
+    /*$(".tab-controller a").each(function(i,element) {
 	var e = $(element);
 	e.tabs_id = $("#" + e.html().toLowerCase() + "_tabs");
 	e.click(function(event) {
@@ -23,7 +23,7 @@ $(document).ready(function() {
 	    e.tabs_id.show();
 	    return false;
 	});
-    });
+    });*/
 });
 
 function search_by(params) {
