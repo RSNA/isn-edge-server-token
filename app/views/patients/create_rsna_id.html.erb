@@ -1,7 +1,7 @@
 <% content_for(:title, "Enter PIN") %>
 <%= error_messages_for :rsna_id %>
 <p>Please ask the patient to enter their PIN number below</p>
-<% form_for :rsna_id, :url => {:action => :create_rsna_id} do |f| %>
+<% form_for :rsna_id, :url => {:action => :create_rsna_id}, :html => {:autocomplete => "off"} do |f| %>
   <p>
     <label class="inline">PIN Number</label>
     <input name="pin" class="search" type="password" size="7" maxlength="6" />
