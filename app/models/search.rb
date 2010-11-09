@@ -1,38 +1,51 @@
 module Search
   class Query
-    attr_accessor :search_string
-    def initialize(search_string)
-      self.search_string = search_string.strip
+    attr_accessor :search_string, :terms, :operator
+    def initialize(string_or_hash)
+      if string_or_hash.class == String
+        self.search_string = string_or_hash.strip
+        self.operator = "OR"
+      elsif string_or_hash.class == Hash
+        self.terms = string_or_hash.keys.inject({}) {|hash,key| hash[key] = string_or_hash[key].strip; hash }
+        self.operator = "AND"
+      end
     end
 
-    def to_mrn_terms
-      mrns = []
-      mrns << self.search_string.gsub(/^0+/,"") 
-      mrns << self.search_string
-      mrns.uniq
+    def term_to_number(term)
+      self.search_string ? sstring = self.search_string : sstring = terms[term]
+      if not sstring.blank?
+        mrns = []
+        mrns << sstring.gsub(/^0+/,"")
+        mrns << sstring
+        mrns.uniq
+      else
+        []
+      end
     end
 
-    def to_rsna_id_terms
-      to_mrn_terms
-    end
-
-    def to_name_terms
-      names = []
-      names << self.search_string
-      names = names + Search::Helpers.permutations(search_string)
-      names.uniq
+    def term_to_name_string(term)
+      self.search_string ? sstring = self.search_string : sstring = terms[term]
+      if not sstring.blank?
+        names = []
+        names << sstring
+        names = names + Search::Helpers.permutations(sstring)
+        names.uniq
+      else
+        []
+      end
     end
 
     def conditions(method_mapping={})
       method_mapping.reverse_merge!({
-                                      "patient_rsna_ids.rsna_id" => :to_rsna_id_terms,
-                                      "patients.mrn" => :to_mrn_terms,
-                                      "patients.patient_name" => :to_name_terms
+                                      "patient_rsna_ids.rsna_id" => lambda { term_to_number(:rsna_id) },
+                                      "patients.mrn" => lambda { term_to_number(:mrn) },
+                                      "patients.patient_name" => lambda { term_to_name_string(:patient_name) }
                                     })
-      condition_lists = method_mapping.keys.collect {|field| field_concatinator(field, self.send(method_mapping[field])) }
+      condition_lists = method_mapping.keys.collect {|field| field_concatinator(field, method_mapping[field].call()) }
+      condition_lists = condition_lists.delete_if {|cl| cl.size == 0 }
       condition_lists.inject([]) do |master_list, conditions_list|
         if not master_list[0].blank?
-          master_list[0] = master_list[0] + " OR " + conditions_list[0]
+          master_list[0] = master_list[0] + " #{self.operator} " + conditions_list[0]
         else
           master_list[0] = conditions_list[0]
         end
@@ -44,21 +57,25 @@ module Search
 
     protected
     def field_concatinator(field, values)
-      [(["#{field} ~* ?"]*values.size).join(" OR ")] + values
+      if values.size > 0
+        list = [(["#{field} ~* ?"]*values.size).join(" OR ")] + values
+        list[0] = "(#{list[0]})"
+        list
+      else
+        []
+      end
     end
 
-    def permutate(string)
-      
-    end
   end
 
   module Helpers
+
     StringPermutationExp = /, +|[,\^ ]/
     PostgresPermutationExp = "(, +)|[,\\^ ]"
+
     def self.permutations(string, options={})
       options.reverse_merge!({:pattern => StringPermutationExp, :db_exp => PostgresPermutationExp})
       items = string.split(options[:pattern])
-      puts items
       permutate(items).collect do |permutation|
         permutation.join(options[:db_exp])
       end

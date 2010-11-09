@@ -1,6 +1,6 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
-
+// ----------------------------
+// ------ Setup Functions -----
+// ----------------------------
 function $$(arg) {
     return $(arg);
 }
@@ -26,6 +26,10 @@ $(document).ready(function() {
     });*/
 });
 
+
+// ------------------------------
+// ------ Search Functions ------
+// ------------------------------
 function search_by(params) {
     search_or_filter("/patients/search", params);
 }
@@ -51,6 +55,14 @@ function search_or_filter(url, params) {
     });
 }
 
+function toggle_search_form() {
+    $('#search_form').toggle();
+    $('#advanced_search_form').toggle();
+}
+
+// --------------------------------
+// ------ CART Functionality ------
+// --------------------------------
 function add_to_cart(element_id, exam_id) {
     $.ajax({
 	url: "/exams/add_to_cart",
@@ -81,6 +93,9 @@ function delete_from_cart(element_id, exam_id) {
     });
 }
 
+// -----------------------------------
+// --- User Role Editing Functions ---
+// -----------------------------------
 function update_role(radio_button, id, element_for_update) {
     $.ajax({
 	url: "/users/set_role",
@@ -96,7 +111,9 @@ function update_role(radio_button, id, element_for_update) {
 }
 
 
-/* Consent Dialog Functions */
+// ----------------------------------
+// ---- Consent Dialog Functions ----
+// ----------------------------------
 var consent_status = 0;
 
 function obtain_consent(patient_id, demographics) {

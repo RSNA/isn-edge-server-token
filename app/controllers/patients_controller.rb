@@ -13,12 +13,10 @@ class PatientsController < ApplicationController
   end
 
   def search
-    sstring = params[:search]
-    if sstring.blank?
-      render :partial => "patients/blank_search_term"
+    if params[:search_type] == "advanced"
+      advanced_search
     else
-      @patients = Patient.search(sstring)
-      render :partial => "patients/results", :locals => {:patients => @patients}
+      simple_search
     end
   end
 
@@ -44,5 +42,25 @@ class PatientsController < ApplicationController
 
   def print_rsna_id
     render :template => "patients/print_rsna_id", :layout => "print"
+  end
+
+  protected
+  def simple_search
+    sstring = params[:search]
+    if sstring.blank?
+      render :partial => "patients/blank_search_term"
+    else
+      patients = Patient.search(sstring)
+      render :partial => "patients/results", :locals => {:patients => patients}
+    end
+  end
+
+  def advanced_search
+    if params[:mrn].blank? and params[:rsna_id].blank? and params[:patient_name].blank?
+      render :partial => "patients/blank_search_term"
+    else
+      patients = Patient.search(:mrn => params[:mrn], :rsna_id => params[:rsna_id], :patient_name => params[:patient_name])
+      render :partial => "patients/results", :locals => {:patients => patients}
+    end
   end
 end

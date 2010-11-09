@@ -4,9 +4,30 @@
     <input name="search" class="search" type="text" size="30" />
     <%= submit_tag "Search" %><br />
     <label for="search">Search by patient name or medical record number</label>
+    <input name="search_type" type="hidden" value="simple" />
+    <br />
+    <%= link_to_function("Advanced Search", "toggle_search_form();", :class => "search-type-toggle") %>
   </p>
-
 <% end %>
+
+<% form_for :search, :html => {:id => "advanced_search_form", :method => 'get', :class => "search-form", :onsubmit => "search_by($('#advanced_search_form').serialize()); return false;"} do %>
+  <p>
+    <div class="field-row">
+      <label class="inline">MRN:</label><input name="mrn" type="text" size="15" />
+    </div>
+    <div class="field-row">
+      <label class="inline">RSNA ID:</label><input name="rsna_id" type="text" size="15" />
+    </div>
+    <div class="field-row">
+      <label class="inline">Patient Name:</label><input name="patient_name" type="text" size="30" />
+    </div>
+    <input name="search_type" type="hidden" value="advanced" />
+    <%= submit_tag("Search") %>
+    <br />
+    <%= link_to_function("Simple Search", "toggle_search_form();", :class => "search-type-toggle") %>
+  </p>
+<% end %>
+
 <%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
 <%= content_tag :div, "", :id => "search_results" %>
 

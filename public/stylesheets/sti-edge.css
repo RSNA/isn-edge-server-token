@@ -135,8 +135,17 @@ h1.app-name
 div.app-description
 { width: 650px; font-size: 16pt; margin: auto; }
 
+#search_form
+{ }
+
+#advanced_search_form
+{ display: none; }
+
 #search_results
 { }
+
+a.search-type-toggle
+{ text-decoration: none; font-weight: bold; }
 
 div.result-row
 { width: 737px; padding: 10px; text-align: left; }

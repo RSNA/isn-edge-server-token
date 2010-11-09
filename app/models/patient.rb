@@ -4,9 +4,9 @@ class Patient < ActiveRecord::Base
   has_many :exams
   has_many :rsna_ids, :foreign_key => :patient_id
 
-  def self.search(sstring)
+  def self.search(*terms_for_search)
     with_scope(:find => {:joins => "LEFT JOIN patient_rsna_ids ON patient_rsna_ids.patient_id = patients.patient_id"}) do
-      self.find(:all, :conditions => Search::Query.new(sstring).conditions)
+      self.find(:all, :conditions => Search::Query.new(*terms_for_search).conditions)
     end
   end
 
