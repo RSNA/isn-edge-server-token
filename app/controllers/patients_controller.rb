@@ -14,8 +14,12 @@ class PatientsController < ApplicationController
 
   def search
     sstring = params[:search]
-    @patients = Patient.search(sstring)
-    render :partial => "patients/results", :locals => {:patients => @patients}
+    if sstring.blank?
+      render :partial => "patients/blank_search_term"
+    else
+      @patients = Patient.search(sstring)
+      render :partial => "patients/results", :locals => {:patients => @patients}
+    end
   end
 
   def create_rsna_id
