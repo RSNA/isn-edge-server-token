@@ -91,4 +91,9 @@ module ApplicationHelper
     end
   end
 
+  def rsna_id_without_pin(id)
+    id_items = id.split("-")
+    id_items.pop
+    id_items.join("-")
+  end
 end

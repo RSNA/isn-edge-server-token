@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <th class="inline">RSNA ID</th>
-    <td><%= @patient.rsna_id.rsna_id %></td>
+    <td><%= rsna_id_without_pin(@patient.rsna_id.rsna_id) %></td>
   </tr>
   <tr>
     <th class="inline" valign="top">Security PIN</th>

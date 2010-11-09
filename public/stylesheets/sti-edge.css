@@ -186,9 +186,6 @@ div.job-group table
 
 /* Errors */
 
-.error-message
-{ font-weight: bold; color: #900909; }
-
 .fieldWithErrors {
   padding: 2px;
   background-color: red;
