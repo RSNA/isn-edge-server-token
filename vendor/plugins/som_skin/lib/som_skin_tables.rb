@@ -81,24 +81,21 @@ module SomSkin
 
 
     def to_s
-      res = single_row_for_section("thead", :name, :class => "som_table_heading")
+      res = single_row_for_section("thead", :name)
       res << make_proc_footers if @has_proc_footers
       res << make_total_footers if @has_total_footers
-      tbl_tag_opts = @table_options.dup
-      if @sortable
-        tbl_tag_opts = tbl_tag_opts.merge!({ :id => "sorted_som_table" })
-      end
-      content_tag(:table, tbl_tag_opts) { res + create_rows } +
+      content_tag(:table, @table_options) { res + create_rows } +
         sortable_js_tags
     end
 
     protected
 
     def sortable_js_tags
-      return("\n") unless @sortable
-      "\n" +
-        javascript_tag("new SortableTable('sorted_som_table');") +
-        "\n"
+     if @sortable
+       javascript_tag("$('##{@table_options[:id]}').tablesorter({widgets: ['zebra']})")
+     else
+       ""
+     end
     end
 
     def column_for(col_name)
@@ -170,15 +167,16 @@ module SomSkin
 
     def single_row_for_section(section_name, method_sym, opts = {})
       content_tag(section_name.to_sym) do
-        content_tag(:tr, opts) { td_around_col_with(method_sym) }
+        content_tag(:tr, opts) { @columns.inject("") {|accum,column| accum + content_tag(:th, column.name) } }
       end
     end
 
     def create_rows
       even = true
       res = @collection.inject("") do |accum, item|
-        cls_val = even ? "som_table_even" : "som_table_odd"
-        val = accum + content_tag(:tr, :class => cls_val) { td_around_col_with(:evaluate, item) }
+        row_options = {}
+        row_options[:class] = (even ? "even" : "odd") #if @sortable == false
+        val = accum + content_tag(:tr, row_options) { td_around_col_with(:evaluate, item) }
         even = !even
         val
       end

@@ -1,19 +1,28 @@
-.som_table_heading {
-  font-size: 1em;
-  font-weight: bold;
-  color: #103262;
-}
-
-.som_table_heading a {
-  text-decoration: none;
-  color: #103262;
-}
-
-.som_table_even {
+.even {
   padding-left: 5px;
-}
-
-.som_table_odd {
   background-color: #c8b3ff;
+}
+
+.odd {
   padding-left: 5px;
+}
+
+th.header
+{
+  color: #103262;
+  background-position: center right;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+th.headerSortDown
+{
+  background-image: url("/images/desc.gif");
+  background-color: #a490cf;
+}
+
+th.headerSortUp
+{
+  background-image: url("/images/asc.gif");
+  background-color: #a490cf;
 }
