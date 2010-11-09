@@ -163,6 +163,9 @@ div.result-row
 
 label.inline { display: inline-block; width: 150px; font-weight: bold; color: #1e222b; }
 
+input.pin
+{ width: 90px; }
+
 /* Buttons */
 input[type=button], input[type=submit]
 {

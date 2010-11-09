@@ -61,6 +61,21 @@ function toggle_search_form() {
 }
 
 // --------------------------------
+// --------- PIN Functions --------
+// --------------------------------
+function toggle_pin_visibility() {
+    $('input.pin').each(function(i,pin_input) {
+	var element = $(pin_input);
+	var value = element.attr('value');
+	var name = element.attr('name');
+	var type = "password";
+	if (element.attr('type') == "password") type = "text";
+	var new_element = "<input type=\"" + type + "\" name=\"" + name + "\" value=\"" + value + "\" class=\"pin\" maxlength=\"6\" />";
+	element.replaceWith(new_element);
+    });
+}
+
+// --------------------------------
 // ------ CART Functionality ------
 // --------------------------------
 function add_to_cart(element_id, exam_id) {

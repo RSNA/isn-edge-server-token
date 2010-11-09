@@ -1,14 +1,18 @@
 <% content_for(:title, "Enter PIN") %>
 <%= error_messages_for :rsna_id %>
-<p>Please ask the patient to enter their PIN number below</p>
+<p>Please ask the patient to enter their PIN number below. A PIN should be 6 alpha numeric characters, e.g., 123456 or A12345</p>
 <% form_for :rsna_id, :url => {:action => :create_rsna_id}, :html => {:autocomplete => "off"} do |f| %>
   <p>
+    <label class="inline">Show PIN Below</label>
+    <input type="checkbox" onclick="toggle_pin_visibility();" />
+  <p>
+  <p>
     <label class="inline">PIN Number</label>
-    <input name="pin" class="search" type="password" size="7" maxlength="6" />
+    <input name="pin" class="pin" type="password" size="7" maxlength="6" />
   </p>
   <p>
     <label class="inline">Confirm PIN Number</label>
-    <input name="confirmation_pin" class="search" type="password" size="7" maxlength="6" />
+    <input name="confirmation_pin" class="pin" type="password" size="7" maxlength="6" />
   </p>
 
   <%= submit_tag "Create RSNA ID" %>
