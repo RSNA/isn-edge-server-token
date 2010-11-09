@@ -10,7 +10,13 @@ class ExamsController < ApplicationController
   end
 
   def send_cart
-    @job_set = JobSet.new(:patient_id => @patient.id, :user_id => @user.id, :email_address => @user.email, :modified_date => Time.now)
+    @job_set = JobSet.new({
+                            :patient_id => @patient.id,
+                            :user_id => @user.id,
+                            :security_pin => @patient.rsna_id.security_pin,
+                            :email_address => @user.email,
+                            :modified_date => Time.now
+                          })
     if @job_set.save
       @cart.each do |exam_id|
         time = Time.now
