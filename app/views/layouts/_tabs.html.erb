@@ -1,0 +1,27 @@
+<% tabs_for(:clinical) do %>
+  <ul>
+    <li><a href="/patients/new">Patient Search</a></li>
+    <% patient? do %>
+    <li><a href="/exams">Exams</a></li>
+    <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
+    <li><%= link_to_function("Print RSNA ID", "window.open('/patients/print_rsna_id')") %></li>
+    <% end %>
+
+    <li><a href="/users/change_password">Change Password</a></li>
+    <li><a href="/sessions/destroy">Log Out</a></li>
+  </ul>
+<% end %>
+
+<% tabs_for(:administrative) do %>
+  <ul>
+    <% super? do %>
+    <li><a href="/admin/audit">Audit Trail</a></li>
+    <% end %>
+    <% admin? do %>
+    <li><a href="/users/new">New User</a></li>
+    <li><a href="/users/roles">User Roles</a></li>
+    <% end %>
+    <li><a href="/sessions/destroy">Log Out</a></li>
+  </ul>
+<% end %>
+

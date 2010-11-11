@@ -7,10 +7,10 @@ function $$(arg) {
 
 $(document).ready(function() {
     // Style using ShadedBorder.js
-    tab_border.render($(".tabs ul li"));
+    tab_controller.render($(".tab-controller"));
     splitBorderTop.render($("#main_title"));
     splitBorderBottom.render($("#contents"));
-    tab_controller.render($(".tab-controller"));
+    tab_border.render($(".tabs ul li"));
 
     // Create Menu Events
     /*$(".tab-controller a").each(function(i,element) {

@@ -152,14 +152,14 @@ create: function(opts) {
   function mid(mw) {
     var ds = [];
 
-    ds.push('<div style="position:relative; top:' + (th+bh) + 'px; height:2048px; ' +
+    ds.push('<div style="position:relative; top:' + (th+bh) + 'px; height:100%; ' + // Made change from arbitrary number of pixels to percentage
             ' margin:0 ' + (rw-r-cx) + 'px 0 ' + (lw-r-cx) + 'px; ' +
             ' padding:0; overflow:hidden;' +
             ' background-position:0 ' + (th > 0 ? -(r+cy+cs) : '0') + 'px;"' +
             ' class="' + iclass + '"></div>');
 
     var dd = '<div style="position:absolute; width:1px;' +
-        ' top:' + (th+bh) + 'px; height:2048px; padding:0; margin:0;';
+        ' top:' + (th+bh) + 'px; height:100%; padding:0; margin:0;'; // Made change from arbitrary number of pixels to percentage
     if (sr>0) {
       for (var x=0; x<lw-r-cx; ++x) {
         ds.push(dd + ' left:' + x + 'px;' + op((x+1.0)/lw) + 
@@ -248,16 +248,18 @@ create: function(opts) {
       }
       if (isie) {
         function resize() {
-          twc.style.width = bwc.style.width = mwc.style.width = el.offsetWidth + "px";
-          if (isie6) {
-            mwc.firstChild.style.height = el.offsetHeight + "px";
-          } else {
-            for (var i=0; i<mwc.childNodes.length; ++i) {
-              mwc.childNodes[i].style.height = (el.offsetHeight - bh - th)  + "px";
+            twc.style.width = bwc.style.width = mwc.style.width = el.offsetWidth + "px";
+            if (isie6) {
+		mwc.firstChild.style.height = el.offsetHeight + "px";
+            } else {
+		for (var i=0; i<mwc.childNodes.length; ++i) {
+		    var sum = el.offsetHeight - bh - th; //not in release version, but necessary for weird ie bug
+		    mwc.childNodes[i].style.height = (sum < 0 ? 0 : sum) + "px"; //not in release version, but necessary for weird ie bug
+		}
             }
-          }
-          trc.style.right = brc.style.right = null;
-          trc.style.left  = brc.style.left  = (el.offsetWidth - rw) + "px";
+            trc.style.right = brc.style.right = null;
+	    var sum = el.offsetWidth - rw; //not in release version, but necessary for weird ie bug
+            trc.style.left  = brc.style.left  = (sum < 0 ? 0 : sum) + "px"; //not in release version, but necessary for weird ie bug
         }
         el.onresize=resize;
         resize();

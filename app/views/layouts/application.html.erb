@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
   <head>
     <title>RSNA Edge</title>
     <%= stylesheet_link_tag "sti-edge","som_table_styles" %>
@@ -9,7 +10,7 @@
     <script type="text/javascript">
       var border = RUZEE.ShadedBorder.create({ corner:5, shadow:16,  border:2 });
       var tab_controller = RUZEE.ShadedBorder.create({ corner:10});
-      var tab_border = RUZEE.ShadedBorder.create({ corner:5,  border:2, edges:'blr' });
+      var tab_border = RUZEE.ShadedBorder.create({ corner:5,  border:2, edges:"blr" });
       var splitBorderTop = RUZEE.ShadedBorder.create({ corner:10, edges:"tlr" });
       var splitBorderBottom = RUZEE.ShadedBorder.create({ corner:10, edges:"blr" }); 
 
@@ -26,30 +27,7 @@
 	  <%= tab_controller(:administrative, :controller => :admin, :action => :audit) if rights?(1) %>
 	</div>
 	<% logged_in_user? do %>
-	  <% tabs_for(:clinical) do %>
-	    <ul>
-	      <li><a href="/patients/new">Patient Search</a></li>
-	      <% patient? do %>
-	      <li><a href="/exams">Exams</a></li>
-	      <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
-	      <li><%= link_to_function("Print RSNA ID", "window.open('/patients/print_rsna_id')") %></li>
-	      <% end %>
-	      <li><a href="/users/change_password">Change Password</a></li>
-	      <li><a href="/sessions/destroy">Log Out</a></li>
-	    </ul>
-	  <% end %>
-	  <% tabs_for(:administrative) do %>
-	    <ul>
-	    <% super? do %>
-	    <li><a href="/admin/audit">Audit Trail</a></li>
-	    <% end %>
-	    <% admin? do %>
-	    <li><a href="/users/new">New User</a></li>
-	    <li><a href="/users/roles">User Roles</a></li>
-	    <% end %>
-	    <li><a href="/sessions/destroy">Log Out</a></li>
-	    </ul>
-	  <% end %>
+	  <%= render :partial => "layouts/tabs" %>
 	<% end %>
       </div>
 
