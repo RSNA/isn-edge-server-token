@@ -185,10 +185,11 @@ function center_dialog(dialog) {
     var windowHeight = document.documentElement.clientHeight;
     var dialogHeight = dialog.height();
     var dialogWidth = dialog.width();
+    var scrollTop = getPageScroll()[1];
 
     dialog.css({
 	"position": "absolute",
-	"top": windowHeight/2-dialogHeight/2,
+	"top": (windowHeight/2-dialogHeight/2) + scrollTop,
 	"left": windowWidth/2-dialogWidth/2
     });
 
@@ -199,3 +200,17 @@ function center_dialog(dialog) {
 
 }
 
+function getPageScroll() {
+    var xScroll, yScroll;
+    if (self.pageYOffset) {
+      yScroll = self.pageYOffset;
+      xScroll = self.pageXOffset;
+    } else if (document.documentElement && document.documentElement.scrollTop) {
+      yScroll = document.documentElement.scrollTop;
+      xScroll = document.documentElement.scrollLeft;
+    } else if (document.body) {// all other Explorers
+      yScroll = document.body.scrollTop;
+      xScroll = document.body.scrollLeft;
+    }
+    return new Array(xScroll,yScroll)
+}
