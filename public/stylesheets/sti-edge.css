@@ -36,6 +36,8 @@ div.header img.rsna-edge
 #contents { padding: 10px; color:#000; }
 #contents, #contents .sb-inner { background-color: #e9e9e9; }
 #contents .sb-border { background: #909090; }
+#contents a { color: #815ecf; }
+#contents a:visited { color: #815ecf; }
 
 
 /* Menus/Tabs */
@@ -128,6 +130,9 @@ div.footer
   text-align: right;
   margin-top: -338px;
 }
+
+#image_share_logo
+{float: left; position: relative; top: 145px; left: 15px;}
 
 h1.app-name
 { width: 650px; font-size: 36pt; margin: auto; }

@@ -1,36 +1,26 @@
-body
+html, body
 {
-  font-size: 1em;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  font-size: 32pt;
+  height: 8.5in;
+  width: 100%;
 }
 
-h1
-{ text-align: center; font-size: 12pt; font-weight: bold; margin: 0px;}
+#header
+{
+  height: 591px;
+  margin-bottom: 100px;
+}
 
-h3
-{ font-size: 8pt; text-align: center; margin: 0;}
+#main
+{
+  padding-left: 1in;
+}
 
-h3.padd-bottom
-{ padding-bottom: 20px; }
-
-div.report
-{ page-break-after: always; }
-
-div.last-report
-{ page-break-after: avoid; }
+div.inline { position: relative; font-weight: bold; width: 4in; display: inline-block; }
 
 div.footer
 { page-break-after: avoid; }
 
-div.demographic
-{ margin: 20px; font-size: 10pt; }
-div.demographic span
-{ margin-right: 10px; }
-
-div.button-status
-{ display: inline; margin: 20px; font-weight: bold; font-size: 12pt; }
-
-div.findings
-{ margin: 20px; height: 100px; overflow: auto; }
-
-th.inline
-{ text-align: left; }
