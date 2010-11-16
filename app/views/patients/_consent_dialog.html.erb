@@ -32,7 +32,7 @@
     <form id="consent_form" method="get" action="/patients/create_rsna_id">
       <input type="hidden" name="patient_id" id="consent_patient_id" value="fake" />
       <%= submit_tag("Yes") %>
-      <%= button_to_function("No","close_dialog()") %>
+      <%= button_to_function("No","close_dialog($('#consentDialog'))") %>
     </form>
   </p>
 </div>
