@@ -1,5 +1,16 @@
 <%= content_for(:title, "Exams for #{@patient.patient_name}") %>
 
-<%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>
+<% form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
+  <p>
+    <input name="filter" class="search" type="text" size="30" />
+    <%= submit_tag "Filter" %><br />
+    <label for="filter">Filter the exams below by the exam description</label>
+  </p>
+
+<% end %>
+<%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
+<% content_tag :div, :id => "search_results" do %>
+  <%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>
+<% end %>
 
 <%= javascript_tag("window.open('/patients/print_rsna_id');") if @autoprint_rsna_id %>

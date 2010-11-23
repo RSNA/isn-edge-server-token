@@ -9,6 +9,11 @@ class ExamsController < ApplicationController
     @autoprint_rsna_id = (params[:print_id] ? true : false)
   end
 
+  def filter
+    @exams = @patient.exams.by_exam_description(params[:filter])
+    render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient}
+  end
+
   def send_cart
     @job_set = JobSet.new(:patient_id => @patient.id, :user_id => @user.id, :email_address => @user.email, :modified_date => Time.now)
     if @job_set.save

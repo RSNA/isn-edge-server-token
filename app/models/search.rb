@@ -35,12 +35,14 @@ module Search
       end
     end
 
-    def conditions(method_mapping={})
-      method_mapping.reverse_merge!({
-                                      "patient_rsna_ids.rsna_id" => lambda { term_to_number(:rsna_id) },
-                                      "patients.mrn" => lambda { term_to_number(:mrn) },
-                                      "patients.patient_name" => lambda { term_to_name_string(:patient_name) }
-                                    })
+    def conditions(method_mapping=nil)
+      unless method_mapping
+        method_mapping = {
+          "patient_rsna_ids.rsna_id" => lambda { term_to_number(:rsna_id) },
+          "patients.mrn" => lambda { term_to_number(:mrn) },
+          "patients.patient_name" => lambda { term_to_name_string(:patient_name) }
+        }
+      end
       condition_lists = method_mapping.keys.collect {|field| field_concatinator(field, method_mapping[field].call()) }
       condition_lists = condition_lists.delete_if {|cl| cl.size == 0 }
       condition_lists.inject([]) do |master_list, conditions_list|
