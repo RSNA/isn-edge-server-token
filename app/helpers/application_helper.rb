@@ -34,7 +34,7 @@ module ApplicationHelper
   end
 
   def tab_active?(name)
-    if ["users","admin","devices"].include?(params[:controller]) and params[:action] != "change_password"
+    if ["users","admin","devices","edge_configurations"].include?(params[:controller]) and params[:action] != "change_password"
       if name == :administrative
         true
       else
