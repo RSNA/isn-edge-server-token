@@ -1,0 +1,13 @@
+<% content_for(:title, "Devices") %>
+
+<% som_table_for @devices, :sortable => true do |st| %>
+  <% st.column("AE Title", &:ae_title) %>
+  <% st.column("Host", &:host) %>
+  <% st.column("Port Number", &:port_number) %>
+  <% st.column("") {|device| button_to("Edit", {:controller => :devices, :action => :edit, :id => device.id}, :method => :get) } %>
+  <% st.column("") {|device| button_to("Delete", {:controller => :devices, :action => :destroy, :id => device.id}, :method => :post) } %>
+<% end %>
+
+<div style="margin-top: 10px; margin-left: 5px;">
+  <%= button_to("Add New Device", {:controller => :devices, :action => :new}, :method => :get) %>
+</div>
