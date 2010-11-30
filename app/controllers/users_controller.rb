@@ -1,13 +1,18 @@
+=begin rdoc
+=Description
+Scaffolding for users
+=end
 class UsersController < ApplicationController
   before_filter :admin_authenticate, :except => [:change_password]
   before_filter :authenticate, :only => [:change_password]
   before_filter :get_cart
 
-  # render new.rhtml
+  # Form for new User
   def new
     @new_user = User.new
   end
 
+  # Form and post handler for changing password
   def change_password
     @user = User.find(session[:user_id])
     if params[:user]
@@ -19,6 +24,7 @@ class UsersController < ApplicationController
     end
   end
  
+  # Post handler for creating a new User
   def create
     #logout_keeping_session!
     @new_user = User.new(params[:new_user])
@@ -39,10 +45,12 @@ class UsersController < ApplicationController
     end
   end
 
+  # List Roles of users
   def roles
     @users = User.all
   end
 
+  # Post handler for updating roles
   def set_role
     @user = User.find(params[:id])
     @user.role_id = params[:role_id]

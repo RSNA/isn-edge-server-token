@@ -1,38 +1,48 @@
-# Methods added to this helper will be available to all templates in the application.
+=begin rdoc
+=Description
+Contains methods to be used by the views. Methods added to this helper will be available to all templates in the application.
+=end
 module ApplicationHelper
 
+  # Used to only show the block when the user is a super user
   def super?(&block)
     if @user and (@user.super? or @user.admin?)
       concat(capture(&block))
     end
   end
 
+  # Used to only show the block when the user is an administartor
   def admin?(&block)
     if @user and @user.admin?
       concat(capture(&block))
     end
   end
 
+  # Used to only show the block when the user is logged in
   def logged_in_user?(&block)
     if @user
       concat(capture(&block))
     end
   end
 
+  # Used to only show the block when a @patient instance variable exists
   def patient?(&block)
     if @patient and @patient.rsna_id
       concat(capture(&block))
     end
   end
 
+  # Returns the logged in user, if none then returns nil
   def logged_in?
     @user
   end
 
+  # Returns true or false if the logged in user has a role level greater than or equal to that which is given
   def rights?(level)
     logged_in? and @user.role_id >= level
   end
 
+  # Returns true or false after checking controller information to determine which tab group is active
   def tab_active?(name)
     if ["users","admin","devices","edge_configurations"].include?(params[:controller]) and params[:action] != "change_password"
       if name == :administrative
@@ -45,6 +55,7 @@ module ApplicationHelper
     end
   end
 
+  # Builds a tab controller button
   def tab_controller(name, *args)
     active = (tab_active?(name) ? "active" : "")
     content_tag(:span, :class => "tab-controller #{active}") do
@@ -52,6 +63,7 @@ module ApplicationHelper
     end
   end
 
+  # Builds a tab with the given information
   def tabs_for(name,&block)
     active = (tab_active?(name) ? "active-tabs" : "")
     concat(content_tag(:div, :class => "tabs #{active}", :id => "#{name}_tabs") do
@@ -59,6 +71,7 @@ module ApplicationHelper
     end)
   end
 
+  # Shows a text preview limited to the length given
   def preview(text, length=400)
     text.split(/\s/).inject("") do |out, chunk|
       if (out.size + 1 + chunk.size) <= length
@@ -69,12 +82,14 @@ module ApplicationHelper
     end
   end
 
+  # Builds a button for updating a user role
   def role_button(user, name, value)
     selected = (user.role_id == value ? true : false)
     content_tag(:span, "#{name}:") +
       radio_button_tag("user_role_#{user.id}", value, selected, :onclick => "update_role(this, #{user.id}, 'update_alert_#{user.id}');")
   end
 
+  # Returns the report status of the given exam
   def status_for(exam)
     if exam.last_report
       exam.last_report.status
@@ -83,6 +98,7 @@ module ApplicationHelper
     end
   end
 
+  # Returns the send status of the given exam
   def send_status_for(exam)
     if exam.job
       exam.job.status_message
@@ -91,6 +107,7 @@ module ApplicationHelper
     end
   end
 
+  # Formats the RSNA ID, removing the PIN number
   def rsna_id_without_pin(id)
     id_items = id.split("-")
     id_items.pop

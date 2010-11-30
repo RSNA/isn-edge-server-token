@@ -1,15 +1,22 @@
+=begin rdoc
+=Description
+Scaffolding for the Device model
+=end
 class DevicesController < ApplicationController
   before_filter :super_authenticate
   before_filter :get_cart
 
+  # List all devices
   def index
     @devices = Device.all()
   end
 
+  # Form for a new device
   def new
     @device = Device.new
   end
 
+  # Form Post handler for new devices
   def create
     @device = Device.new(params[:device])
     if @device.save
@@ -20,10 +27,12 @@ class DevicesController < ApplicationController
     end
   end
 
+  # Form for existing devices
   def edit
     @device = Device.find(params[:id])
   end
 
+  # Form Post handler for updating existing devices
   def update
     @device = Device.find(params[:id])
     if @device.update_attributes(params[:device])
@@ -34,6 +43,7 @@ class DevicesController < ApplicationController
     end
   end
 
+  # Deletes specified device
   def destroy
     @device = Device.find(params[:id])
     if @device.destroy

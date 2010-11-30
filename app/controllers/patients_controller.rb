@@ -1,17 +1,24 @@
+=begin rdoc
+=Description
+Handling of patient searching and rsna id creation
+=end
 class PatientsController < ApplicationController
   before_filter :authenticate
   before_filter :get_patient
   before_filter :get_cart
   hipaa_filter
 
+  # Reset the patient and redirect to the index
   def new
     session[:patient_id] = nil
     redirect_to :action => :index
   end
 
+  # Display for ajax based search forms
   def index
   end
 
+  # Handle search requests based on search type
   def search
     if params[:search_type] == "advanced"
       advanced_search
@@ -20,6 +27,7 @@ class PatientsController < ApplicationController
     end
   end
 
+  # Handles the creation of the RSNA ID as well as returning form validation
   def create_rsna_id
     if @patient and @rsna_id = @patient.rsna_id
       redirect_to :controller => :exams, :action => :index
@@ -40,11 +48,13 @@ class PatientsController < ApplicationController
     end
   end
 
+  # Launches the view for printing the RSNA ID
   def print_rsna_id
     render :template => "patients/print_rsna_id", :layout => "print"
   end
 
   protected
+  # Runs the query for simple searches and renders results
   def simple_search
     sstring = params[:search]
     if sstring.blank?
@@ -55,6 +65,7 @@ class PatientsController < ApplicationController
     end
   end
 
+  # Runs the query for advanced searches and renders the results
   def advanced_search
     if params[:mrn].blank? and params[:rsna_id].blank? and params[:patient_name].blank?
       render :partial => "patients/blank_search_term"
