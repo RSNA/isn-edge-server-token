@@ -29,8 +29,8 @@ class PatientsController < ApplicationController
   end
 
   def record_consent
-    #record consent
-    redirect_to :controller => :exams, :action => :index, :patient_id => @patient.id
+    @patient.update_attribute(:consent_timestamp, Time.now)
+    redirect_to :controller => :exams, :action => :index
   end
 
   protected

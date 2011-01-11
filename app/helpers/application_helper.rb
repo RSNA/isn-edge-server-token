@@ -107,10 +107,14 @@ module ApplicationHelper
     end
   end
 
-  # Formats the RSNA ID, removing the PIN number
-  def rsna_id_without_pin(id)
-    id_items = id.split("-")
-    id_items.pop
-    id_items.join("-")
+  # Checks if consent has already been given
+  # and returns the appropriate action button
+  def obtain_consent_button(patient)
+    if patient.consented?
+      button_to("Select", :controller => :exams, :action => :index, :patient_id => patient.id)
+    else
+      button_to_function("Select", "obtain_consent(#{patient.id},$.parseJSON('#{patient.attributes.to_json}'))")
+    end
   end
+
 end
