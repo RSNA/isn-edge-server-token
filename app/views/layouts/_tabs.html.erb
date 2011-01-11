@@ -4,7 +4,6 @@
     <% patient? do %>
     <li><a href="/exams">Exams</a></li>
     <li><a href="/exams/show_cart">View Cart (<span class="cart-count"><%= @cart ? @cart.size : 0 %></span>)</a></li>
-    <li><%= link_to_function("Print RSNA ID", "window.open('/patients/print_rsna_id')") %></li>
     <% end %>
 
     <li><a href="/users/change_password">Change Password</a></li>

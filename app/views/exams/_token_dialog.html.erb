@@ -1,0 +1,41 @@
+<div class="contentDialog" id="tokenDialog">
+  <a id="dialogClose">x</a>
+  <h1>Enter Password</h1>
+  <p>Please ask the patient to enter the password they would like to use to retrieve thier images.</p>
+  <div id="errorExplanation" style="display: none;">
+    <h2>Errors occured while trying to send the cart</h2>
+    <p>There was a problem with the following fields</p>
+    <ul>
+    </ul>
+  </div>
+  <% form_tag({:action => "send_cart", :controller => "exams"}, {:id => 'cart_form', :style => "display: inline;", :onsubmit => "validate_cart($('#cart_form')); return false;"}) do %>
+    <% exams.each do |exam| %>
+      <%= hidden_field_tag "exam_ids[]", exam.id %>
+    <% end %>
+
+    <p>
+      <label class="inline">Show password in plain text?</label>
+      <input type="checkbox" onclick="toggle_pin_visibility();" />
+    </p>
+    <p>
+      <label class="inline">Password</label>
+      <input name="patient_password" class="plain_password" type="password" />
+    </p>
+    <p>
+      <label class="inline">Confirm Password</label>
+      <input name="patient_password_confirmation" class="plain_password" type="password" />
+    </p>
+    <p>
+      <label class="inline">Patient's Email (optional)</label>
+      <input name="email" type="text" />
+    </p>
+    <%= submit_tag("Send Cart") %>
+    <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
+
+  <% end %>
+</div>
+
+<div id="backgroundDialog"></div>
+<script language="javascript">
+  $("#dialogClose").click(function() { close_dialog($("#tokenDialog")); });
+</script>

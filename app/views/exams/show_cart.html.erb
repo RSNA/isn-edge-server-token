@@ -10,13 +10,12 @@
 
 <div class="form-actions">
   <%= button_to("Empty Cart", {:action => "empty_cart", :controller => "exams"}, :style => "display: inline;") %>
-  <% form_tag({:action => "send_cart", :controller => "exams"}, {:style => "display: inline;"}) do %>
-    <% @exams.each do |exam| %>
-      <%= hidden_field_tag "exam_ids[]", exam.id %>
-    <% end %>
-    <%= submit_tag("Send Cart") %>
-  <% end %>
+  <%= button_to_function("Send Cart", "center_dialog($('#tokenDialog')); load_dialog($('#tokenDialog'));") %>
 </div>
+
+<% content_for(:body) do %>
+  <%= render :partial => "exams/token_dialog", :locals => {:exams => @exams} %>
+<% end %>
 
 <% else %>
  <div>Your shopping cart is empty</div>

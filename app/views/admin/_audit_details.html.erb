@@ -13,8 +13,8 @@
   <h3>Job # <%= job.job_id %></h3>
   <% som_table_for job.job_transactions do |st| %>
     <% st.column("Transaction ID", &:transaction_id) %>
-    <% st.column("Status", &:status) %>
-    <% st.column("Message", &:status_message) %>
+    <% st.column("Status Code", &:status_code) %>
+    <% st.column("Comments", &:comments) %>
     <% st.column("Modified") {|jt| jt.modified_date.to_s(:long) } %>
   <% end %>
 </p>

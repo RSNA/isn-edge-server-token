@@ -11,7 +11,12 @@ class ExamsController < ApplicationController
   # List the exams for the specified patient
   def index
     @exams = @patient.exams
-    @autoprint_rsna_id = (params[:print_id] ? true : false)
+    @autoprint_rsna_id = (params[:token] ? true : false)
+  end
+
+  def print_patient_info
+    @token = params[:token]
+    render :layout => "layouts/print", :template => "exams/print_patient_info"
   end
 
   # Filter the patients exams by the exam description
@@ -22,19 +27,34 @@ class ExamsController < ApplicationController
 
   # Given the cart, create the job set, jobs and transaction entries
   def send_cart
-    @job_set = JobSet.new(:patient_id => @patient.id, :user_id => @user.id, :email_address => @user.email, :modified_date => Time.now)
+    @job_set = JobSet.new({
+                            :patient_id => @patient.id,
+                            :user_id => @user.id,
+                            :patient_password => params[:patient_password],
+                            :patient_password_confirmation => params[:patient_password_confirmation],
+                            :email_address => params[:email],
+                            :modified_date => Time.now
+                          })
     if @job_set.save
       @cart.each do |exam_id|
         time = Time.now
         job = Job.create(:exam_id => exam_id, :job_set_id => @job_set.id, :modified_date => time)
-        JobTransaction.create(:job_id => job.id, :status => 1, :status_message => "Queued", :modified_date => time)
+        JobTransaction.create(:job_id => job.id, :status_code => 1, :comments => "Queued", :modified_date => time)
       end
       cart_op {|cart| [] }
-      flash[:notice] = "Exams have been queued for sending"
-      redirect_to :action => :index
+      flash[:notice] = "Exams queued and patient information printed"
+      render :partial => "exams/token_info"
     else
-      flash[:notice] = "An error occured when trying to save jobs"
-      redirect_to :action => :show_cart
+      render :text => "An error occured while saving your cart information"
+    end
+  end
+
+  def validate_cart
+    @job_set = JobSet.new({:patient_password => params[:patient_password], :patient_password_confirmation => params[:patient_password_confirmation]})
+    if @job_set.valid?
+      render :json => true
+    else
+      render :json => @job_set.errors
     end
   end
 

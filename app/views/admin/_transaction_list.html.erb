@@ -3,7 +3,8 @@
   <% st.column("MRN") {|jt| jt.job.job_set.patient.mrn } %>
   <% st.column("Accession #") {|jt| jt.job.exam.accession_number } %>
   <% st.column("Job ID") {|jt| jt.job.id } %>
-  <% st.column("Status") {|jt| jt.status_message } %>
+  <% st.column("Status Code") {|jt| jt.status_code } %>
+  <% st.column("Comments") {|jt| jt.comments } %>
   <% st.column("Document ID") {|jt| jt.job.document_id } %>
   <% st.column("Last Modified") {|jt| jt.modified_date.to_s(:long) } %>
 <% end %>

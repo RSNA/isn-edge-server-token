@@ -61,16 +61,16 @@ function toggle_search_form() {
 }
 
 // --------------------------------
-// --------- PIN Functions --------
+// ------ Password Functions ------
 // --------------------------------
 function toggle_pin_visibility() {
-    $('input.pin').each(function(i,pin_input) {
-	var element = $(pin_input);
+    $('input.plain_password').each(function(i,password_input) {
+	var element = $(password_input);
 	var value = element.attr('value');
 	var name = element.attr('name');
 	var type = "password";
 	if (element.attr('type') == "password") type = "text";
-	var new_element = "<input type=\"" + type + "\" name=\"" + name + "\" value=\"" + value + "\" class=\"pin\" maxlength=\"6\" />";
+	var new_element = "<input type=\"" + type + "\" name=\"" + name + "\" value=\"" + value + "\" class=\"plain_password\" />";
 	element.replaceWith(new_element);
     });
 }
@@ -108,6 +108,50 @@ function delete_from_cart(element_id, exam_id) {
     });
 }
 
+function send_cart(form) {
+    console.log(form.serialize());
+    $.ajax({
+	url: "/exams/send_cart",
+	method: "post",
+	data: form.serialize(),
+	success: function(response) {
+	    $("#tokenDialog").html(response);
+	},
+	beforeSend: function() {
+	    $("#" + form.attr('id') + " input").attr('disabled', true);
+	    $("#submit_spinner").show();
+	}
+    });
+}
+
+function validate_cart(form) {
+    $.ajax({
+	url: "/exams/validate_cart",
+	method: 'post',
+	data: form.serialize(),
+	success: function(responseData) {
+	    $("#submit_spinner").hide();
+	    $("#" + form.attr('id') + " input").attr('disabled',false);
+	    if (responseData == true) {
+		$("#errorExplanation").hide();
+		$("#" + form.attr('id') + " input").removeClass("inlineFieldWithErrors");
+		send_cart(form);
+	    } else {
+		$("#errorExplanation ul").html("");
+		$("#errorExplanation").show();
+		$.each(responseData, function(i,pair) {
+		    $('#errorExplanation ul').append("<li>" + pair[0].replace("_"," ") + " " + pair[1] + "</li>");
+		    $("input[name='" + pair[0] + "']").addClass('inlineFieldWithErrors');
+		});
+	    }
+	},
+	beforeSend: function() {
+	    $("#" + form.attr('id') + " input").attr('disabled', true);
+	    $("#submit_spinner").show();
+	}
+    });
+}
+
 // -----------------------------------
 // --- User Role Editing Functions ---
 // -----------------------------------
@@ -124,7 +168,6 @@ function update_role(radio_button, id, element_for_update) {
 	}
     });
 }
-
 
 // ----------------------------------
 // ---- Consent Dialog Functions ----

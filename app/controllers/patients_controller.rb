@@ -11,6 +11,7 @@ class PatientsController < ApplicationController
   # Reset the patient and redirect to the index
   def new
     session[:patient_id] = nil
+    cart_op {|cart| [] }
     redirect_to :action => :index
   end
 
@@ -27,30 +28,9 @@ class PatientsController < ApplicationController
     end
   end
 
-  # Handles the creation of the RSNA ID as well as returning form validation
-  def create_rsna_id
-    if @patient and @rsna_id = @patient.rsna_id
-      redirect_to :controller => :exams, :action => :index
-    elsif @patient and params[:pin]
-      @rsna_id = @patient.new_rsna_id(params[:pin], params[:confirmation_pin])
-      if @rsna_id.save
-        flash[:success] = "Successfully Created a new RSNA ID"
-        redirect_to :controller => :exams, :action => :index, :print_id => true
-      else
-        render :template => "patients/create_rsna_id"
-      end
-    elsif @patient
-      @rsna_id = RsnaId.new
-      render :template => "patients/create_rsna_id"
-    else
-      flash['notice'] = "Failed to find patient with id: #{params[:patient_id]}"
-      redirect_to :action => :index
-    end
-  end
-
-  # Launches the view for printing the RSNA ID
-  def print_rsna_id
-    render :template => "patients/print_rsna_id", :layout => "print"
+  def record_consent
+    #record consent
+    redirect_to :controller => :exams, :action => :index, :patient_id => @patient.id
   end
 
   protected

@@ -1,4 +1,4 @@
-<div id="consentDialog">
+<div class="contentDialog" id="consentDialog">
   <a id="dialogClose">x</a>
   <h1>Confirm Patient Consent</h1>
   <p id="demographicArea">
@@ -29,7 +29,7 @@
   </p>
   <p class="consent_buttons">
     Have you received the patient's consent?
-    <form id="consent_form" method="get" action="/patients/create_rsna_id">
+    <form id="consent_form" method="get" action="/patients/record_consent">
       <input type="hidden" name="patient_id" id="consent_patient_id" value="fake" />
       <%= submit_tag("Yes") %>
       <%= button_to_function("No","close_dialog($('#consentDialog'))") %>

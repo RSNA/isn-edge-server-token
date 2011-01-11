@@ -63,7 +63,7 @@ module Search
     def conditions(method_mapping=nil)
       unless method_mapping
         method_mapping = {
-          "patient_rsna_ids.rsna_id" => lambda { term_to_number(:rsna_id) },
+          #"patient_rsna_ids.rsna_id" => lambda { term_to_number(:rsna_id) },
           "patients.mrn" => lambda { term_to_number(:mrn) },
           "patients.patient_name" => lambda { term_to_name_string(:patient_name) }
         }

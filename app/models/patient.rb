@@ -10,7 +10,6 @@ class Patient < ActiveRecord::Base
   set_primary_key :patient_id
   has_many :reports, :through => :exams
   has_many :exams
-  has_many :rsna_ids, :foreign_key => :patient_id
 
   # This builds a search query using the Search model and a with_scope that joins the RsnaId model
   # terms_for_search can be a string or a hash of field value pairs, e.g:
@@ -18,7 +17,7 @@ class Patient < ActiveRecord::Base
   #   Patient.search("John Doe")
   #   Patient.search(:mrn => "0982734", :rsna_id => "9823", :patient_name => "Doe, John")
   def self.search(*terms_for_search)
-    with_scope(:find => {:joins => "LEFT JOIN patient_rsna_ids ON patient_rsna_ids.patient_id = patients.patient_id"}) do
+    with_scope(:find => {}) do
       self.find(:all, :conditions => Search::Query.new(*terms_for_search).conditions)
     end
   end
@@ -34,14 +33,8 @@ class Patient < ActiveRecord::Base
     self.attributes['patient_name'].split("^").join(", ")
   end
 
-  # A method to get the first RsnaId record associated with this patient
-  def rsna_id
-    @rsna_id ||= self.rsna_ids.first
-  end
-
-  # Generates a RsnaId record with two pins as the given arguments (pin and confirmation)
-  def new_rsna_id(pin, confirmation_pin)
-    @rsna_id = RsnaId.new(:pin => pin, :confirmation_pin => confirmation_pin, :rsna_id => "0001-#{self.padded_patient_id}-#{pin}", :patient_id => self.id, :patient_alias_firstname => "first", :patient_alias_lastname => "last", :modified_date => Time.now)
+  def consented?
+    true
   end
 
   protected

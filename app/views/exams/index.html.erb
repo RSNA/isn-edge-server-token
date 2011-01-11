@@ -13,4 +13,4 @@
   <%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>
 <% end %>
 
-<%= javascript_tag("window.open('/patients/print_rsna_id');") if @autoprint_rsna_id %>
+<%= javascript_tag("window.open('/exams/print_patient_info?token=#{params[:token]}');") if @autoprint_rsna_id %>

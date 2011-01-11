@@ -1,0 +1,14 @@
+<h1>Cart Queued for Sending</h1>
+
+<div class="demographic">
+  <label>Patient Name:</label>
+  <span><%= @patient.patient_name %></span>
+</div>
+
+<div class="demographic">
+  <label>Token:</label>
+  <span><%= @job_set.token %></span>
+</div>
+
+<div class="print-button" onclick="document.location = '<%= url_for(:controller => :exams, :action => :index, :token => "bogus", :patient_id => @patient.id) %>'">Print</div>
+

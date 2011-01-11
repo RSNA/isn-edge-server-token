@@ -27,7 +27,7 @@ module ApplicationHelper
 
   # Used to only show the block when a @patient instance variable exists
   def patient?(&block)
-    if @patient and @patient.rsna_id
+    if @patient and @patient.consented?
       concat(capture(&block))
     end
   end
@@ -100,8 +100,8 @@ module ApplicationHelper
 
   # Returns the send status of the given exam
   def send_status_for(exam)
-    if exam.job
-      exam.job.status_message
+    if exam.job_transaction
+      exam.job_transaction.comments
     else
       "not sent"
     end

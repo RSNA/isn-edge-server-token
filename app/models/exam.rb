@@ -34,4 +34,8 @@ class Exam < ActiveRecord::Base
   def job
     Job.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
   end
+
+  def job_transaction
+    JobTransaction.find(:first, :conditions => ["job_id = ?", self.job.id], :order => "modified_date DESC") if self.job
+  end
 end

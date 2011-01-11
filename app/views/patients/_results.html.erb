@@ -1,7 +1,6 @@
 <% som_table_for patients, :sortable => true, :class => "tablesorter", :style => "width: 100%", :id => "patient_results" do |st| %>
   <% st.column("") {|p| button_to_function("Select", "obtain_consent(#{p.id},$.parseJSON('#{p.attributes.to_json}'))") } %>
   <% st.column("Name") {|p| p.patient_name } %>
-  <% st.column("RSNA ID") {|p| rsna_id_without_pin(p.rsna_id.rsna_id) if p.rsna_id } %>
   <% st.column("MRN") {|p| p.mrn } %>
   <% st.column("Sex") {|p| p.sex } %>
   <% st.column("Date of Birth") {|p| p.dob.to_s(:long) } %>
