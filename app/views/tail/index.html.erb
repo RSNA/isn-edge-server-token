@@ -1,6 +1,6 @@
 <% content_for(:title, "Server Logs") %>
 
-<table border="0" cellspacing="2" cellpadding="2" width="100%">
+<table border="0" cellspacing="2" cellpadding="2" width="95%">
 <thead>
   <tr>
     <th>Prepare Content</th>
@@ -9,8 +9,8 @@
 </thead>
 <tbody>
   <tr>
-    <td width="50%"><%= @prep_content_log.gsub("\n","<br />") %></td>
-    <td width="50%"><%= @transfer_content_log.gsub("\n","<br />") %></td>
+    <td width="45%" valign="top"><%= @prep_content_log.gsub("\n","<br />") %></td>
+    <td width="45%" valign="top"><%= @transfer_content_log.gsub("\n","<br />") %></td>
   </tr>
 </tbody>
 </table>
