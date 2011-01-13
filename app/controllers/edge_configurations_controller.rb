@@ -30,6 +30,7 @@ class EdgeConfigurationsController < ApplicationController
   # Form for existing configurations variables
   def edit
     @edge_configuration = EdgeConfiguration.find(params[:id])
+    @edge_configuration.given_key = @edge_configuration.key
   end
 
   # Form post handler for updating existing configuration variables

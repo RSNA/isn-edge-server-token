@@ -8,18 +8,28 @@ the record is changes.
 =end
 class EdgeConfiguration < ActiveRecord::Base
   set_table_name :configurations
-  set_primary_key :configuration_id
+  set_primary_key :key
+
+  attr_accessor :given_key
+
+  validates_presence_of :given_key
 
   def self.site_id
     self.find_by_key("site_id") || "0001"
   end
 
   def self.consent_duration
-    self.find_by_key("consent_duration") || 365
+    consent_duration = self.find_by_key("consent_duration")
+    if consent_duration
+      consent_duration.value.to_i
+    else
+      365
+    end
   end
 
   # Call back function to set the modified date
   def before_save
+    self.key = self.given_key
     self.modified_date = Time.now
   end
 
