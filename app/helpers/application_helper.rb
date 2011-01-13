@@ -44,7 +44,7 @@ module ApplicationHelper
 
   # Returns true or false after checking controller information to determine which tab group is active
   def tab_active?(name)
-    if ["users","admin","devices","edge_configurations"].include?(params[:controller]) and params[:action] != "change_password"
+    if ["tail", "users","admin","devices","edge_configurations"].include?(params[:controller]) and params[:action] != "change_password"
       if name == :administrative
         true
       else

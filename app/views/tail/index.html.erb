@@ -1,0 +1,16 @@
+<% content_for(:title, "Server Logs") %>
+
+<table border="0" cellspacing="2" cellpadding="2" width="100%">
+<thead>
+  <tr>
+    <th>Prepare Content</th>
+    <th>Transfer Content</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td width="50%"><%= debug(@prep_content_log) %></td>
+    <td width="50%"><%= debug(@transfer_content_log) %></td>
+  </tr>
+</tbody>
+</table>
