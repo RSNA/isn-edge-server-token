@@ -6,9 +6,14 @@
 </div>
 
 <div class="demographic">
+  <label>Date of Birth:</label>
+  <span><%= @patient.dob %></span>
+</div>
+
+<div class="demographic">
   <label>Token:</label>
   <span><%= @job_set.token %></span>
 </div>
 
-<div class="print-button" onclick="document.location = '<%= url_for(:controller => :exams, :action => :index, :token => "bogus", :patient_id => @patient.id) %>'">Print</div>
+<div class="print-button" onclick="document.location = '<%= url_for(:controller => :exams, :action => :index, :token => @job_set.token, :patient_id => @patient.id) %>'">Print</div>
 
