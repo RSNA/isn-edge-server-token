@@ -9,8 +9,8 @@
 </thead>
 <tbody>
   <tr>
-    <td width="50%"><%= debug(@prep_content_log) %></td>
-    <td width="50%"><%= debug(@transfer_content_log) %></td>
+    <td width="50%"><%= @prep_content_log.gsub("\n","<br />") %></td>
+    <td width="50%"><%= @transfer_content_log.gsub("\n","<br />") %></td>
   </tr>
 </tbody>
 </table>
