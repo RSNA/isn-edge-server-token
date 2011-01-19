@@ -109,7 +109,6 @@ function delete_from_cart(element_id, exam_id) {
 }
 
 function send_cart(form) {
-    console.log(form.serialize());
     $.ajax({
 	url: "/exams/send_cart",
 	method: "post",
