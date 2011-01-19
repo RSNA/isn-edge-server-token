@@ -34,9 +34,21 @@ class EdgeConfigurationsController < ApplicationController
   end
 
   # Form post handler for updating existing configuration variables
+  # Due to the non-conventional primary key this must check if the key
+  # has been changed in the form before trying to update.  If it is
+  # different it has to create a new record and destroy the old one.
   def update
     @edge_configuration = EdgeConfiguration.find(params[:id])
-    if @edge_configuration.update_attributes(params[:edge_configuration])
+    if @edge_configuration.key != params[:edge_configuration][:given_key]
+      @new_edge_configuration = EdgeConfiguration.new(:given_key => params[:edge_configuration][:given_key], :value => params[:edge_configuration][:value])
+      if @new_edge_configuration.save
+        @edge_configuration.destroy
+        flash[:notice] = "Updated Configuration Variable"
+        redirect_to :action => :index
+      else
+        render :template => "edge_configuration/edit"
+      end
+    elsif @edge_configuration.update_attributes(params[:edge_configuration])
       flash[:notice] = "Updated Configuration Variable"
       redirect_to :action => :index
     else
