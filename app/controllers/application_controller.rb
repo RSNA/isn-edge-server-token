@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
     if logged_in?
       @user ||= User.find(session[:user_id])
       session[:username] = @user.login
+      flash[:notice] = "Your user does not have sufficient rights to access this page" unless @user.send(auth_method)
       access_denied unless @user.send(auth_method)
     else
       access_denied

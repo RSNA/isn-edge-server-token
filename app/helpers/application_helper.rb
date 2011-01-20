@@ -34,7 +34,11 @@ module ApplicationHelper
 
   # Returns the logged in user, if none then returns nil
   def logged_in?
-    @user
+    if @user and @user.respond_to?(:role_id)
+      @user
+    else
+      false
+    end
   end
 
   # Returns true or false if the logged in user has a role level greater than or equal to that which is given

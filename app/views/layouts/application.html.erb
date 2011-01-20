@@ -24,7 +24,7 @@
 	<img src="/images/rsna-image-share.png" class="rsna-edge" />
 	<div class="tab-controllers">
 	  <%= tab_controller(:clinical, :controller => :patients, :action => :new) if logged_in? %>
-	  <%= tab_controller(:administrative, :controller => :admin, :action => :audit) if rights?(1) %>
+	  <%= tab_controller(:administrative, :controller => :admin, :action => :audit) if params[:controller] != "sessions" and rights?(1) %>
 	</div>
 	<% logged_in_user? do %>
 	  <%= render :partial => "layouts/tabs" %>
