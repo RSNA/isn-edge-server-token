@@ -4,5 +4,5 @@
   <% st.column("Exam Desc") {|e| e.exam_description } %>
   <% st.column("Exam Date") {|e| e.modified_date.to_s(:long) } %>
   <% st.column("Status") {|e| status_for(e) } %>
-  <% st.column("Send Status") {|e| send_status_for(e) } %>
+  <%# st.column("Send Status") {|e| send_status_for(e) } %>
 <% end %>

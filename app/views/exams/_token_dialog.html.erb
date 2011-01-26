@@ -12,6 +12,7 @@
     <% exams.each do |exam| %>
       <%= hidden_field_tag "exam_ids[]", exam.id %>
     <% end %>
+    <p><span style="font-weight: bold;">Note:</span> Passwords are case sensitive</p>
 
     <p>
       <label class="inline">Show password in plain text?</label>
