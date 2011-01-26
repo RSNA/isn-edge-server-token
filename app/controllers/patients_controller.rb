@@ -47,10 +47,10 @@ class PatientsController < ApplicationController
 
   # Runs the query for advanced searches and renders the results
   def advanced_search
-    if params[:mrn].blank? and params[:rsna_id].blank? and params[:patient_name].blank?
+    if params[:mrn].blank? and params[:patient_name].blank?
       render :partial => "patients/blank_search_term"
     else
-      patients = Patient.search(:mrn => params[:mrn], :rsna_id => params[:rsna_id], :patient_name => params[:patient_name])
+      patients = Patient.search(:mrn => params[:mrn], :patient_name => params[:patient_name])
       render :partial => "patients/results", :locals => {:patients => patients}
     end
   end
