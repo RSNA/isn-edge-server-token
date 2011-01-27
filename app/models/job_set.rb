@@ -85,6 +85,7 @@ class JobSet < ActiveRecord::Base
 
   # generates the transaction token
   def trans_hash_gen
-    hash = Digest::SHA256.hexdigest(self.user_token_gen + self.patient.dob.to_s + self.patient_password)
+    formatted_dob = self.patient.dob.strftime("%Y%m%d")
+    hash = Digest::SHA256.hexdigest(self.user_token_gen + formatted_dob + self.patient_password)
   end
 end
