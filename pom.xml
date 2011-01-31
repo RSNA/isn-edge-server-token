@@ -1,0 +1,129 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.rsna.isn</groupId>
+  <artifactId>token-app</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>token-app</name>
+  <url>http://www.rsna.org/</url>
+
+  <repositories>
+    <repository>
+      <id>rubygems-releases</id>
+      <url>http://gems.saumya.de/releases</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jruby</groupId>
+      <artifactId>jruby-complete</artifactId>
+      <version>${jruby.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>jruby-openssl</artifactId>
+      <version>0.7.2</version>
+      <type>gem</type>
+    </dependency>
+
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>activerecord-jdbcpostgresql-adapter</artifactId>
+      <version>1.1.0</version>
+      <type>gem</type>
+    </dependency>
+
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>rails</artifactId>
+      <version>2.3.8</version>
+      <type>gem</type>
+    </dependency>
+
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>warbler</artifactId>
+      <version>1.2.1</version>
+      <type>gem</type>
+    </dependency>
+  </dependencies>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>ibiblio-mirror</id>
+      <name>Maven Plugin Repository</name>
+      <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+      <layout>default</layout>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <properties>
+    <jruby.version>1.5.6</jruby.version>
+    <jruby.plugins.version>0.23.0</jruby.plugins.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+	<groupId>de.saumya.mojo</groupId>
+	<artifactId>jruby-maven-plugin</artifactId>
+	<version>${jruby.plugins.version}</version>
+      </plugin>
+      <plugin>
+	<groupId>de.saumya.mojo</groupId>
+	<artifactId>gem-maven-plugin</artifactId>
+	<version>${jruby.plugins.version}</version>
+	<extensions>true</extensions>
+      </plugin>
+      <plugin>
+	<groupId>de.saumya.mojo</groupId>
+	<artifactId>rails2-maven-plugin</artifactId>
+	<version>${jruby.plugins.version}</version>
+	<executions>
+	  <execution>
+	    <id>make-war</id>
+	    <phase>compile</phase>
+	    <goals>
+	      <goal>rake</goal>
+	    </goals>
+	    <configuration>
+	      <args>war</args>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.3</version>
+        <executions>
+          <execution>
+            <id>copy-war</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}</directory>
+		  <includes>
+		    <include>*.war</include>
+		  </includes>
+		  <filtering>false</filtering>
+		</resource>
+              </resources>
+	      <nonFilteredFileExtensions>
+		<nonFilteredFileExtension>war</nonFilteredFileExtension>
+	      </nonFilteredFileExtensions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      </plugins>
+    </build>
+</project>
