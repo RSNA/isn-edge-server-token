@@ -13,6 +13,7 @@ class TailController < ApplicationController
       file = "prep-content.log"
     else
       file = "transfer-content.log"
+      params[:log] = "transfer-content"
     end
 
     @log = `tail -n 200 /rsna/logs/#{file}` if File.exists?("/rsna/logs/#{file}")
