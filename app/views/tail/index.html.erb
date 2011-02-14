@@ -1,16 +1,9 @@
 <% content_for(:title, "Server Logs") %>
 
-<table border="0" cellspacing="2" cellpadding="2" width="95%">
-<thead>
-  <tr>
-    <th>Prepare Content</th>
-    <th>Transfer Content</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td width="45%" valign="top"><%= @prep_content_log.gsub("\n","<br />") %></td>
-    <td width="45%" valign="top"><%= @transfer_content_log.gsub("\n","<br />") %></td>
-  </tr>
-</tbody>
-</table>
+<ul class="primary">
+  <%= content_tag(:li, link_to("Transfer Content", :log => "transfer-content"), :class => (params[:log] == "transfer-content" ? "active" : "")) %>
+  <%= content_tag(:li, link_to("Prepare Content", :log => "prepare-content"), :class => (params[:log] == "prepare-content" ? "active" : "")) %>
+</ul>
+
+<%= content_tag :pre, @log %>
+

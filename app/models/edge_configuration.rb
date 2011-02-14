@@ -15,7 +15,21 @@ class EdgeConfiguration < ActiveRecord::Base
   validates_presence_of :given_key
 
   def self.site_id
-    self.find_by_key("site_id") || "0001"
+    sid = self.find_by_key("site_id")
+    if sid
+      sid.value
+    else
+      "0001"
+    end
+  end
+
+  def self.help_desk_message
+    hdm = self.find_by_key("help_desk_message")
+    if hdm
+      hdm.value
+    else
+      "site-help-desk-message"
+    end
   end
 
   def self.consent_duration

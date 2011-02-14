@@ -9,9 +9,14 @@ class TailController < ApplicationController
 
   # Tails the last 200 lines of the concatenated edge server log
   def index
-    @transfer_content_log = `tail -n 200 /rsna/logs/transfer-content.log` if File.exists?("/rsna/logs/transfer-content.log")
-    @prep_content_log = `tail -n 200 /rsna/logs/prep-content.log` if File.exists?("/rsna/logs/prep-content.log")
-    @transfer_content_log ||= ""
-    @prep_content_log ||= ""
+    if params[:log] == "prepare-content"
+      file = "prep-content.log"
+    else
+      file = "transfer-content.log"
+    end
+
+    @log = `tail -n 200 /rsna/logs/#{file}` if File.exists?("/rsna/logs/#{file}")
+    @log ||= "The log file is empty"
   end
+
 end
