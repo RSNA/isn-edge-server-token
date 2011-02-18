@@ -106,7 +106,7 @@ Warbler::Config.new do |config|
   # config.compiled_ruby_files = FileList['app/**/*.rb']
 
   # Value of RAILS_ENV for the webapp -- default as shown below
-  # config.webxml.rails.env = ENV['RAILS_ENV'] || 'production'
+  config.webxml.rails.env = 'production'
 
   # Application booter to use, one of :rack, :rails, or :merb (autodetected by default)
   # config.webxml.booter = :rails
