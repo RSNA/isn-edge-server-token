@@ -6,3 +6,6 @@ development:
   host: localhost
   port: 5432
 
+production:
+  adapter: jdbc
+  jndi: jdbc/rsnadb
