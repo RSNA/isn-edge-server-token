@@ -26,6 +26,9 @@ div.header
 div.header img.rsna-edge
 { position: absolute; left: 30px; top: 25px;}
 
+div.corner-logo
+{ text-align: right; position: relative; top: 10px; left: 7px; }
+
 #flash-notice
 { font-weight: bold; margin-top: 10px; margin-bottom: 10px; }
 
