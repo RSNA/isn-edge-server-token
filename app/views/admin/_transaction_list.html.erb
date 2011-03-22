@@ -2,6 +2,7 @@
   <% st.column("") {|jt| button_to_function("Details", "audit_details(#{jt.id});") } %>
   <% st.column("MRN") {|jt| jt.job.job_set.patient.mrn } %>
   <% st.column("Accession #") {|jt| jt.job.exam.accession_number } %>
+  <% st.column("Single Use Patient ID") {|trans| trans.job.job_set.single_use_patient_id } %>
   <% st.column("Job ID") {|jt| jt.job.id } %>
   <% st.column("Status Code") {|jt| jt.status_code } %>
   <% st.column("Comments") {|jt| jt.comments } %>
