@@ -1,11 +1,10 @@
-<% som_table_for job_transactions, :style => "width: 100%" do |st| %>
-  <% st.column("") {|jt| button_to_function("Details", "audit_details(#{jt.id});") } %>
-  <% st.column("MRN") {|jt| jt.job.job_set.patient.mrn } %>
-  <% st.column("Accession #") {|jt| jt.job.exam.accession_number } %>
-  <% st.column("Single Use Patient ID") {|trans| trans.job.job_set.single_use_patient_id } %>
-  <% st.column("Job ID") {|jt| jt.job.id } %>
-  <% st.column("Status Code") {|jt| jt.status_code } %>
-  <% st.column("Comments") {|jt| jt.comments } %>
-  <% st.column("Document ID") {|jt| jt.job.document_id } %>
-  <% st.column("Last Modified") {|jt| jt.modified_date.to_s(:long) } %>
+<% som_table_for job_stati, :style => "width: 100%" do |st| %>
+  <% st.column("") {|js| button_to_function("Details", "audit_details(#{js.job.job_set.id});") } %>
+  <% st.column("MRN") {|js| js.exam.patient.mrn } %>
+  <% st.column("Accession #") {|js| js.exam.accession_number } %>
+  <% st.column("Single Use Patient ID") {|js| js.job.job_set.single_use_patient_id } %>
+  <% st.column("Job ID") {|js| js.job.id } %>
+  <% st.column("Status Code") {|js| js.status } %>
+  <% st.column("Comments") {|js| js.status_message } %>
+  <% st.column("Last Transaction") {|js| js.last_transaction_timestamp.to_s(:long) } %>
 <% end %>
