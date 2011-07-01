@@ -25,17 +25,21 @@ class Exam < ActiveRecord::Base
     {:conditions => query.conditions(:exam_description => lambda { query.term_to_name_string(:exam_description) }) }
   }
 
+  def latest_information
+    @latest_information ||= ViewExamStatus.find(:first, :conditions => ["exam_id = ?",self.id])
+  end
+
   # Gets the most recent report associated with this exam
   def last_report
-    Report.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
+    @last_report ||= Report.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
   end
 
   # Gets the most recent job associated with this exam
   def job
-    Job.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
+    @job ||= Job.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
   end
 
   def job_transaction
-    JobTransaction.find(:first, :conditions => ["job_id = ?", self.job.id], :order => "modified_date DESC") if self.job
+    @job_transaction ||= JobTransaction.find(:first, :conditions => ["job_id = ?", self.job.id], :order => "modified_date DESC") if self.job
   end
 end
