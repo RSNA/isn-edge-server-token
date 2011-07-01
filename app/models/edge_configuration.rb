@@ -28,7 +28,7 @@ class EdgeConfiguration < ActiveRecord::Base
     if hdm
       hdm.value
     else
-      "site-help-desk-message"
+      "please set the help_desk_message variable on the admin configuration page"
     end
   end
 
