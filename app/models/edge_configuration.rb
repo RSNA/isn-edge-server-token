@@ -28,7 +28,7 @@ class EdgeConfiguration < ActiveRecord::Base
     if hdm
       hdm.value
     else
-      "please set the help_desk_message variable on the admin configuration page"
+      "Please contact helpdesk@imsharing.org or call 1-855-IM-SHARING (467-4274) for support"
     end
   end
 
