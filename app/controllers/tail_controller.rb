@@ -10,9 +10,9 @@ class TailController < ApplicationController
   # Tails the last 200 lines of the concatenated edge server log
   def index
     if params[:log] == "prepare-content"
-      file = File.join([`echo $RSNA_ROOT`,"logs","prep-content.log"])
+      file = File.join([`echo $RSNA_ROOT`.strip,"logs","prep-content.log"])
     elsif params[:log] == "transfer-content"
-      file = File.join(["`echo $RSNA_ROOT`","logs","transfer-content.log"])
+      file = File.join([`echo $RSNA_ROOT`.strip,"logs","transfer-content.log"])
     else
       file = File.join([RAILS_ROOT,"log",RAILS_ENV + ".log"])
       params[:log] = "token-app"
