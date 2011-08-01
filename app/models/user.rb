@@ -29,7 +29,11 @@ class User < ActiveRecord::Base
   # anything else you want your user to change should be added here.
   attr_accessible :user_login, :email, :user_name, :password, :password_confirmation, :role
 
-
+  def validate
+    if self.password != nil and self.password.blank?
+      errors.add(:password, "cannot be left blank")
+    end
+  end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #

@@ -364,6 +364,13 @@ div.progressBar div.background {
  overflow: auto;
 }
 
+#adminDialog {
+ height: 400px;
+ width: 450px;
+ overflow: auto;
+}
+
+
 .contentDialog h1 {
  text-align:left;
  color: #1e222b;

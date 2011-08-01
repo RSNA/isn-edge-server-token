@@ -2,7 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
   <head>
     <title>RSNA Edge</title>
+ 
     <%= stylesheet_link_tag "sti-edge","som_table_styles" %>
+    <!--[if ie lte 6]>
+	<style type="text/css">
+/* IE6 css fixes %/
+#main-container
+{ position: relative; background-color: #1e222b; overflow: visible; }
+
+
+/* add display:inline to floated elements */
+.tab-controller,
+.tabs li,
+.tabs,
+.tabs li a,
+#image_share_logo {display:inline;}
+
+/* convert min height values */
+#main-container {height:100%;}
+
+
+/* fix negative margins */
+div.footer,
+#errorExplanation h2 {position:relative; zoom:1;}
+
+/* add zoom:1 to pos:relative elements */
+#main-container,
+div.corner-logo,
+.tab-controller,
+.tabs li,
+#image_share_logo {zoom:1;}
+
+/* add transparancy */
+.tab-controller {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);}
+.tab-controller:hover,.tab-controllers .active {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);}
+
+
+/* add zoom:1; display:inline; to inline-block elements */
+.tabs li,
+label.inline,div.demographic label {zoom:1; display:inline;}
+
+/* add overflow:visible to (submit) buttons */
+input, button {overflow:visible;}
+
+div.footer {display: none;}
+#main-container { overflow: visible; }
+	</style>
+    <![endif]-->
+
+
     <%= javascript_include_tag "jquery-1.4.2.min.js" %>
     <%= javascript_include_tag "jquery.tablesorter.min.js" %>
     <%= javascript_include_tag "application.js" %>

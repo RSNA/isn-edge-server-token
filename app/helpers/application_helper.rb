@@ -70,9 +70,13 @@ module ApplicationHelper
   # Builds a tab with the given information
   def tabs_for(name,&block)
     active = (tab_active?(name) ? "active-tabs" : "")
-    concat(content_tag(:div, :class => "tabs #{active}", :id => "#{name}_tabs") do
-      capture(&block)
-    end)
+    if active.blank?
+      ""
+    else
+      concat(content_tag(:div, :class => "tabs #{active}", :id => "#{name}_tabs") do
+               capture(&block)
+             end)
+    end
   end
 
   # Shows a text preview limited to the length given
@@ -92,6 +96,13 @@ module ApplicationHelper
     content_tag(:span, "#{name}:") +
       radio_button_tag("user_role_#{user.id}", value, selected, :onclick => "update_role(this, #{user.id}, 'update_alert_#{user.id}');")
   end
+
+  def status_button(user, name, value)
+    selected = (user.active == value ? true : false)
+    content_tag(:span, "#{name}:") +
+      radio_button_tag("user_status_#{user.id}", value, selected, :onclick => "update_status(this, #{user.id}, 'update_alert_#{user.id}');")
+  end
+
 
   # Returns the report status of the given exam
   def status_for(exam)

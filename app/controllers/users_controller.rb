@@ -7,6 +7,13 @@ class UsersController < ApplicationController
   before_filter :authenticate, :only => [:change_password]
   before_filter :get_cart
 
+  verify({
+    :only => [:create, :change_password, :reset_password, :set_role, :set_status],
+    :method => :post,
+    :render => {:text => '405 HTTP POST required', :status => 405},
+    :add_headers => {'Allow' => 'POST'}
+  })
+
   # Form for new User
   def new
     @new_user = User.new
@@ -45,6 +52,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def reset_password_form
+    @user = User.find(params[:id])
+    render :partial => "users/reset_password_form"
+  end
+
+  def reset_password
+    if params[:user]
+      @user = User.find(params[:user][:id])
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+      if @user.save
+        render :text => "Sucessfully Updated Password"
+      else
+        render :partial => "users/reset_password_form"
+      end
+    end
+  end
+
   # List Roles of users
   def roles
     @users = User.all
@@ -57,7 +82,17 @@ class UsersController < ApplicationController
     if @user.save
       render :text => "Updated"
     else
-      render :text => "Error: Failed to updated role"
+      render :text => @user.errors.to_a.flatten.join(", ")
+    end
+  end
+
+  def set_status
+    @user = User.find(params[:id])
+    @user.active = params[:active]
+    if @user.save
+      render :text => "Updated"
+    else
+      render :text => @user.errors.to_a.flatten.join(", ")
     end
   end
 

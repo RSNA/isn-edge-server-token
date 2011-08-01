@@ -41,7 +41,6 @@ function filter_by(params) {
 function search_or_filter(url, params) {
     $.ajax({
 	'url': url,
-	method: "get",
 	data: params,
 	success: function(response) {
 	    $('#search_spinner').hide();
@@ -81,7 +80,7 @@ function toggle_pin_visibility() {
 function add_to_cart(element_id, exam_id) {
     $.ajax({
 	url: "/exams/add_to_cart",
-	method: 'post',
+	type: 'post',
 	data: {'id': exam_id},
 	success: function(response) {
 	    $("#" +element_id).replaceWith("<input class=\"cart-button\" onclick=\"window.location = '/exams/show_cart'\" type=\"button\" value=\"View Cart (" + response + ")\" />");
@@ -98,7 +97,7 @@ function update_cart_count(count) {
 function delete_from_cart(element_id, exam_id) {
     $.ajax({
 	url: "/exams/delete_from_cart",
-	method: 'post',
+	type: 'post',
 	data: {'id': exam_id},
 	success: function(response) {
 	    $("#" + element_id).parent().parent().replaceWith("");
@@ -111,7 +110,7 @@ function delete_from_cart(element_id, exam_id) {
 function send_cart(form) {
     $.ajax({
 	url: "/exams/send_cart",
-	method: "post",
+	type: "post",
 	data: form.serialize(),
 	success: function(response) {
 	    $("#tokenDialog").html(response);
@@ -126,7 +125,7 @@ function send_cart(form) {
 function validate_cart(form) {
     $.ajax({
 	url: "/exams/validate_cart",
-	method: 'post',
+	type: 'post',
 	data: form.serialize(),
 	success: function(responseData) {
 	    $("#submit_spinner").hide();
@@ -157,8 +156,22 @@ function validate_cart(form) {
 function update_role(radio_button, id, element_for_update) {
     $.ajax({
 	url: "/users/set_role",
-	method: 'post',
+	type: 'post',
 	data: {'id': id, 'role_id': radio_button.value},
+	success: function(response) {
+	    $("#" + element_for_update).html(response);
+	},
+	beforeSend: function() {
+	    $("#" + element_for_update).html(" ...");
+	}
+    });
+}
+
+function update_status(radio_button, id, element_for_update) {
+    $.ajax({
+	url: "/users/set_status",
+	type: 'post',
+	data: {'id': id, 'active': radio_button.value},
 	success: function(response) {
 	    $("#" + element_for_update).html(response);
 	},
@@ -200,6 +213,40 @@ function audit_details(job_transaction_id) {
 	}
     });
 }
+
+function simple_form_dialog(id,url,title) {
+    if (title == undefined) { title = "Form" }
+    var dialog = $("#adminDialog");
+    var contents = $("#adminDialogContent");
+    center_dialog(dialog);
+    load_dialog(dialog);
+    $.ajax({
+	'url': url,
+	data: {'id': id},
+	success: function(response) {
+	    contents.html(response);
+	},
+	beforeSend: function(xml) {
+	    $("#adminDialog h1").text(title);
+	    contents.html("<img src=\"/images/ajax-loader.gif\" />");
+	}
+    });
+}
+
+function reset_password(form) {
+    $.ajax({
+	'url': '/users/reset_password',
+	type: 'post',
+	data: form.serialize(),
+	success: function(response) {
+	    $("#adminDialogContent").html(response);
+	},
+	beforeSend: function(xml) {
+	    $("#adminDialogContent").html("<img src=\"/images/ajax-loader.gif\" />");
+	}
+    });
+}
+
 
 function load_dialog(dialog) {
     //loads dialog only if it is disabled

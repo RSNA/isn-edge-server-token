@@ -35,7 +35,7 @@ module Search
       self.search_string ? sstring = self.search_string : sstring = terms[term]
       if not sstring.blank?
         mrns = []
-        mrns << sstring.gsub(/^0+/,"")
+        mrns << sstring.gsub(/^0+/,"") unless sstring.match(/^0+$/)
         mrns << sstring
         mrns.uniq
       else
