@@ -28,7 +28,11 @@ class EdgeConfiguration < ActiveRecord::Base
     if hdm
       hdm.value
     else
-      "Please contact helpdesk@imsharing.org or call 1-855-IM-SHARING (467-4274) for support"
+      "If you encounter any problems or have questions contact the Image Sharing Help Desk:<br />
+                    Email: helpdesk@imsharing.org<br />
+                    Toll-free number: 1-855-IM-SHARING (467-4274)<br />
+                    Hours: 8am-8pm Eastern Time, Monday through Friday (except holidays)"
+      #"Please contact helpdesk@imsharing.org or call 1-855-IM-SHARING (467-4274) for support"
     end
   end
 

@@ -7,16 +7,15 @@
 </div>
 
 <div>
-  <div class="inline">Token:</div><span><%= @token %></span>
+  <div class="inline">Exam ID/Token:</div><span><%= @token %></span>
 </div>
 
 <div>
-  <div class="inline" style="margin-bottom: 20px;">Password:</div>
+  <div class="inline" style="margin-bottom: 20px;">Password/PIN:</div>
   <div>_____________________________________</div>
-  <div>Write your password on the line above</div>
-  <div>Your password is case sensistive</div>
+  <div class="description">To help you remember it later, write your Password/PIN on the line above (remember it is case-sensitive). Keep this information private to protect the security of your health record. Use this information to retrieve your images into your account on one of the personal health record systems participating in the RSNA Image Share network. Radiology department staff can provide you with printed information on creating and accessing an account.</div>
 </div>
-
-<div>
+<br />
+<div class="description">
   <%= EdgeConfiguration.help_desk_message %>
 </div>
