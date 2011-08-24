@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   before_filter :get_cart
 
   verify({
-    :only => [:create, :change_password, :reset_password, :set_role, :set_status],
+    :only => [:create, :reset_password, :set_role, :set_status],
     :method => :post,
     :render => {:text => '405 HTTP POST required', :status => 405},
     :add_headers => {'Allow' => 'POST'}
