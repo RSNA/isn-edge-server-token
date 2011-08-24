@@ -9,8 +9,6 @@ This is also the class which generates the token to give to the patient and the 
 use patient identifier.
 =end
 class JobSet < ActiveRecord::Base
-  require 'digest'
-  require 'active_support'
 
   ZBASE32_ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769"
   TOKEN_LENGTH = 8
