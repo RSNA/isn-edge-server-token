@@ -14,7 +14,7 @@ class TailController < ApplicationController
     elsif params[:log] == "transfer-content"
       file = File.join([`echo $RSNA_ROOT`.strip,"logs","transfer-content.log"])
     else
-      file = File.join([RAILS_ROOT,"log",RAILS_ENV + ".log"])
+      file = File.join([`echo $RSNA_ROOT`.strip,"glassfishv3","glassfish","domains","domain1","logs","server.log"])
       params[:log] = "token-app"
     end
 
