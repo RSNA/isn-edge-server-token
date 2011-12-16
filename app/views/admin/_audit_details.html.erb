@@ -11,9 +11,15 @@
 <% job_set.jobs.each do |job| %>
 <p>
   <h3>Job # <%= job.job_id %></h3>
+  <% if job.job_transactions.last.status.status_code and job.job_transactions.last.status.status_code < 0 %>
+  <%= button_to_function("Retry Job", "retry_job('retry_link_#{job.job_id}', #{job.job_id})", :id => "retry_link_#{job.job_id}") %>
+  <% end %>
+  <br />
+  <br />
   <% som_table_for job.job_transactions do |st| %>
     <% st.column("Transaction ID", &:transaction_id) %>
     <% st.column("Status Code", &:status_code) %>
+    <% st.column("Status Message") {|jt| jt.status.description } %>
     <% st.column("Comments", &:comments) %>
     <% st.column("Modified") {|jt| jt.modified_date.to_s(:long) } %>
   <% end %>

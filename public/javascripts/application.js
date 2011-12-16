@@ -154,6 +154,17 @@ function validate_cart(form) {
     });
 }
 
+function retry_job(element_id, job_id) {
+    $.ajax({
+	url: "/exams/retry_job",
+	type: 'post',
+	data: {'id': job_id},
+	success: function(response) {
+	    $("#" +element_id).replaceWith("Retrying");
+       	}
+    });
+}
+
 // -----------------------------------
 // --- User Role Editing Functions ---
 // -----------------------------------
