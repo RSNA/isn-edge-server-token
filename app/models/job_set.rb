@@ -87,4 +87,13 @@ class JobSet < ActiveRecord::Base
     formatted_dob = self.patient.dob.strftime("%Y%m%d")
     hash = Digest::SHA256.hexdigest(self.user_token_gen + formatted_dob + self.patient_password)
   end
+
+  # Checks the configurations table for a delay_in_hrs
+  # if no delay_in_hrs is found it defaults to the column default value
+  def self.delay_in_hrs
+    default_delay_in_hrs = self.columns_hash['delay_in_hrs'].default
+    configured_delay_in_hrs = EdgeConfiguration.find_by_key("delay_in_hrs")
+    delay_in_hrs = configured_delay_in_hrs.value if configured_delay_in_hrs
+    delay_in_hrs || default_delay_in_hrs
+  end
 end
