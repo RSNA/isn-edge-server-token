@@ -161,6 +161,7 @@ div.main
 div.container { padding: 10px; margin: auto; width: 92%; padding: 20px; }
 div.container .sb-inner { background-color: #fff; }
 div.container .sb-border { background: #909090; }
+div.container th { text-align: left }
 
 div.footer
 {
@@ -362,6 +363,26 @@ div.progressBar div.background {
  height: 400px;
  width: 450px;
  overflow: auto;
+}
+
+#tokenPasswordDialog{
+  display: block;
+}
+
+#tokenSendDialog{
+  display: none;
+}
+
+#tokenSendDialog #sendNoDelay {
+  width: 220px;
+  float: right;
+  padding-left: 5px;
+}
+
+#tokenSendDialog #sendWithDelay {
+  width: 220px;
+  float: left;
+  padding-right: 5px;
 }
 
 #adminDialog {
