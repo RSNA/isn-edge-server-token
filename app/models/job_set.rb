@@ -16,6 +16,7 @@ class JobSet < ActiveRecord::Base
   set_primary_key :job_set_id
   has_many :jobs, :dependent => :destroy
   belongs_to :patient
+  belongs_to :user, :foreign_key => :user_id
 
   attr_accessor :patient_password, :patient_password_confirmation, :salt, :token
 

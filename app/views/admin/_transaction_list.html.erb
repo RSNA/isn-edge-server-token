@@ -2,9 +2,12 @@
   <% st.column("") {|js| button_to_function("Details", "audit_details(#{js.job.job_set.id});") } %>
   <% st.column("MRN") {|js| js.exam.patient.mrn } %>
   <% st.column("Accession #") {|js| js.exam.accession_number } %>
+  <% st.column("Patient Name") {|js| js.exam.patient.patient_name } %>
   <% st.column("Single Use Patient ID") {|js| js.job.job_set.single_use_patient_id } %>
   <% st.column("Job ID") {|js| js.job.id } %>
+  <% st.column("Delay in Hours") {|js| js.delay_in_hrs } %>
   <% st.column("Status Code") {|js| js.status } %>
-  <% st.column("Comments") {|js| js.status_message } %>
+  <% st.column("Status Message") {|js| js.status_message } %>
   <% st.column("Last Transaction") {|js| js.last_transaction_timestamp.to_s(:long) } %>
+  <% st.column("Submitted By") {|js| js.job.job_set.user.user_name } %>
 <% end %>
