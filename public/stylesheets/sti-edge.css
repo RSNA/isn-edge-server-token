@@ -191,7 +191,7 @@ div.app-description
 { display: none; }
 
 #search_results
-{ }
+{ overflow-x: scroll; }
 
 a.search-type-toggle
 { text-decoration: none; font-weight: bold; }
