@@ -161,6 +161,7 @@ function retry_job(element_id, job_id) {
 	data: {'id': job_id},
 	success: function(response) {
 	    $("#" +element_id).replaceWith("Retrying");
+            location.reload();
        	}
     });
 }

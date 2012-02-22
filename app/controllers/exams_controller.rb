@@ -5,7 +5,7 @@ Handling of adding and deleting exams from the cart and the creation of jobs whe
 class ExamsController < ApplicationController
   before_filter :authenticate
   before_filter :get_cart
-  before_filter :force_patient
+  before_filter :force_patient, :except=>[:retry_job]
   hipaa_filter
 
   # List the exams for the specified patient
