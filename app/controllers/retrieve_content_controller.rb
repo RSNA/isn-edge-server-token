@@ -20,7 +20,7 @@ class RetrieveContentController < ApplicationController
   end
 
   def send_key
-    @truststore = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","truststore.jks"])
+    @truststore = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","keystore.jks"])
     send_file(@truststore)
   end
 
