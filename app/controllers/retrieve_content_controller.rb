@@ -14,13 +14,18 @@ class RetrieveContentController < ApplicationController
   def index
   end
 
-  def send_zip
+  def send_retrieve
     @retrieve = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","retrieve-content.zip"])
     send_file(@retrieve)
   end
 
-  def send_key
-    @truststore = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","keystore.jks"])
+  def send_keystore
+    @keystore = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","keystore.jks"])
+    send_file(@keystore)
+  end
+
+  def send_truststore
+    @truststore = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","truststore.jks"])
     send_file(@truststore)
   end
 
