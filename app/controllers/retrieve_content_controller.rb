@@ -14,7 +14,7 @@ class RetrieveContentController < ApplicationController
   def index
   end
 
-  def send_retrieve
+  def send_retrieve_zip
     @retrieve = File.join([`echo $RSNA_ROOT`.strip,"client_downloads","retrieve-content.zip"])
     send_file(@retrieve)
   end
