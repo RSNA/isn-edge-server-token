@@ -1,0 +1,6 @@
+<%= content_for(:javascript_includes, javascript_include_tag('iframe')) %>
+<div id="ctp-frame">
+  <span class="data" id="ctp-frame-username"><%= session[:login] %></span>
+  <span class="data" id="ctp-frame-password"><%= session[:password] %></span>
+  <span class="data" id="ctp-frame-url">/xds_export</span>
+</div>
