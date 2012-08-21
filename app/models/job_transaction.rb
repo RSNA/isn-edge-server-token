@@ -17,4 +17,8 @@ class JobTransaction < ActiveRecord::Base
                 :limit => 100
             })
   end
+
+  def status
+    @status ||= StatusCode.find(self.status_code)
+  end
 end

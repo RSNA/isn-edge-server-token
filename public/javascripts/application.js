@@ -107,13 +107,16 @@ function delete_from_cart(element_id, exam_id) {
     });
 }
 
-function send_cart(form) {
+function send_cart(form, delay) {
+    if (delay == true) {
+        form.find('input[name="override_delay"]').val('1');
+    }
     $.ajax({
 	url: "/exams/send_cart",
 	type: "post",
 	data: form.serialize(),
 	success: function(response) {
-	    $("#tokenDialog").html(response);
+                   $("#tokenDialog").html(response);
 	},
 	beforeSend: function() {
 	    $("#" + form.attr('id') + " input").attr('disabled', true);
@@ -133,7 +136,8 @@ function validate_cart(form) {
 	    if (responseData == true) {
 		$("#errorExplanation").hide();
 		$("#" + form.attr('id') + " input").removeClass("inlineFieldWithErrors");
-		send_cart(form);
+                $("#tokenPasswordDialog").toggle();
+                $("#tokenSendDialog").toggle();
 	    } else {
 		$("#errorExplanation ul").html("");
 		$("#errorExplanation").show();
@@ -147,6 +151,18 @@ function validate_cart(form) {
 	    $("#" + form.attr('id') + " input").attr('disabled', true);
 	    $("#submit_spinner").show();
 	}
+    });
+}
+
+function retry_job(element_id, job_id) {
+    $.ajax({
+	url: "/exams/retry_job",
+	type: 'post',
+	data: {'id': job_id},
+	success: function(response) {
+	    $("#" +element_id).replaceWith("Retrying");
+            location.reload();
+       	}
     });
 }
 

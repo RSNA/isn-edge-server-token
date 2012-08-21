@@ -5,7 +5,7 @@ Handling of adding and deleting exams from the cart and the creation of jobs whe
 class ExamsController < ApplicationController
   before_filter :authenticate
   before_filter :get_cart
-  before_filter :force_patient
+  before_filter :force_patient, :except=>[:retry_job]
   hipaa_filter
 
   # List the exams for the specified patient
@@ -27,13 +27,15 @@ class ExamsController < ApplicationController
 
   # Given the cart, create the job set, jobs and transaction entries
   def send_cart
+    delay_in_hrs = params[:override_delay] == '1' ? 0 : JobSet.delay_in_hrs;
     @job_set = JobSet.new({
                             :patient_id => @patient.id,
                             :user_id => @user.id,
                             :patient_password => params[:patient_password],
                             :patient_password_confirmation => params[:patient_password_confirmation],
                             :email_address => params[:email],
-                            :modified_date => Time.now
+                            :modified_date => Time.now,
+                            :delay_in_hrs => delay_in_hrs
                           })
     if @job_set.save
       @cart.each do |exam_id|
@@ -80,6 +82,11 @@ class ExamsController < ApplicationController
     cart_op {|cart| [] }
     flash[:notice] = "Emptied Shopping Cart"
     redirect_to :action => :index
+  end
+
+  # Create new transaction to retry failed job
+  def retry_job
+    JobTransaction.create(:job_id => params[:id], :status_code => 1, :comments => "Retry", :modified_date => Time.now)
   end
 
 end

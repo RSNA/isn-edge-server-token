@@ -1,0 +1,9 @@
+<% content_for(:title, "Retrieve Content App Downloads") %>
+
+<p>Download all three files.  Unzip retrieve-content.zip, then copy keystore.jks and truststore.jks into the conf directory.</p>
+<ul>
+  <li><%=link_to "retrieve-content.zip", :action=>'send_retrieve_zip' %></li>
+  <li><%=link_to "keystore.jks", :action=>'send_keystore' %></li>
+  <li><%=link_to "truststore.jks", :action=>'send_truststore' %></li>
+</ul>
+

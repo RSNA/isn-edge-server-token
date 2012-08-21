@@ -36,6 +36,7 @@ class UsersController < ApplicationController
     #logout_keeping_session!
     @new_user = User.new(params[:new_user])
     @new_user.role_id = params[:new_user][:role_id].to_i
+    @new_user.user_login = params[:new_user][:user_login].downcase
     #params[:new_user][:admin] == "1" ? @new_user.admin = true : @user.admin = false
     success = @new_user && @new_user.save
     if success && @new_user.errors.empty?
