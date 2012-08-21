@@ -33,6 +33,14 @@ class PatientsController < ApplicationController
     redirect_to :controller => :exams, :action => :index
   end
 
+  # shows the xds_import iframe to CTP
+  def xds_import
+  end
+
+  # shows the xds_export iframe to CTP
+  def xds_export
+  end
+
   protected
   # Runs the query for simple searches and renders results
   def simple_search
@@ -45,6 +53,7 @@ class PatientsController < ApplicationController
     end
   end
 
+  protected
   # Runs the query for advanced searches and renders the results
   def advanced_search
     if params[:mrn].blank? and params[:patient_name].blank?

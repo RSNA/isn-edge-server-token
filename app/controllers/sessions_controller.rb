@@ -3,8 +3,6 @@
 This controller handles the login/logout function of the site.
 =end
 class SessionsController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
 
   # render log in form
   def new
@@ -24,6 +22,12 @@ class SessionsController < ApplicationController
       handle_remember_cookie! new_cookie_flag
       redirect_back_or_default('/')
       flash[:notice] = "Logged in successfully"
+
+      # Store the username and password in the users session so that it
+      # can be passed to CTP properly. I don't think this is good security
+      # but it was a committee decision as a result of a very small timeline
+      session[:login] = params[:login]
+      session[:password] = params[:password]
     else
       note_failed_signin
       @login       = params[:login]
@@ -34,6 +38,9 @@ class SessionsController < ApplicationController
 
   # Log out the user
   def destroy
+    # Ensuring the destruction of stored credentials on logout
+    session[:login] = nil
+    session[:password] = nil
     logout_killing_session!
     flash[:notice] = "You have been logged out."
     redirect_back_or_default('/')

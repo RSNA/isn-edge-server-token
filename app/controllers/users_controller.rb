@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       end
     end
   end
- 
+
   # Post handler for creating a new User
   def create
     #logout_keeping_session!
