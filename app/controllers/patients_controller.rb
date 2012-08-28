@@ -48,8 +48,8 @@ class PatientsController < ApplicationController
     if sstring.blank?
       render :partial => "patients/blank_search_term"
     else
-      patients = Patient.search(sstring)
-      render :partial => "patients/results", :locals => {:patients => patients}
+      @patients = Patient.search(sstring)
+      render :partial => "patients/results", :locals => {:patients => @patients}
     end
   end
 
@@ -59,8 +59,8 @@ class PatientsController < ApplicationController
     if params[:mrn].blank? and params[:patient_name].blank?
       render :partial => "patients/blank_search_term"
     else
-      patients = Patient.search(:mrn => params[:mrn], :patient_name => params[:patient_name])
-      render :partial => "patients/results", :locals => {:patients => patients}
+      @patients = Patient.search(:mrn => params[:mrn], :patient_name => params[:patient_name])
+      render :partial => "patients/results", :locals => {:patients => @patients}
     end
   end
 end
