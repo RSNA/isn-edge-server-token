@@ -36,6 +36,24 @@ class EdgeConfiguration < ActiveRecord::Base
     end
   end
 
+  def self.ctp_protocol
+    ctpp = self.find_by_key("ctp_protocol")
+    if ctpp
+      ctpp.value
+    else
+      "http"
+    end
+  end
+
+  def self.ctp_port
+    ctpp = self.find_by_key("ctp_port")
+    if ctpp
+      ctpp.value
+    else
+      "1080"
+    end
+  end
+
   def self.consent_duration
     consent_duration = self.find_by_key("consent_duration")
     if consent_duration

@@ -2,5 +2,7 @@
 <div id="ctp-frame">
   <span class="data" id="ctp-frame-username"><%= session[:login] %></span>
   <span class="data" id="ctp-frame-password"><%= session[:password] %></span>
+  <span class="data" id="ctp-frame-protocol"><%= EdgeConfiguration.ctp_protocol %></span>
+  <span class="data" id="ctp-frame-port"><%= EdgeConfiguration.ctp_port %></span>
   <span class="data" id="ctp-frame-url">/xds-export</span>
 </div>
