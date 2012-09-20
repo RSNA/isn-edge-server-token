@@ -4,7 +4,7 @@
   <groupId>org.rsna.isn</groupId>
   <artifactId>token-app</artifactId>
   <packaging>pom</packaging>
-  <version>2.1.1</version>
+  <version>3.0.0</version>
   <name>token-app</name>
   <url>http://www.rsna.org/</url>
 
@@ -81,8 +81,8 @@
   </pluginRepositories>
 
   <properties>
-    <jruby.version>1.5.1</jruby.version>
-    <jruby.plugins.version>0.23.0</jruby.plugins.version>
+    <jruby.version>1.6.8</jruby.version>
+    <jruby.plugins.version>0.28.4</jruby.plugins.version>
   </properties>
 
   <build>
