@@ -33,6 +33,13 @@
 
     <dependency>
       <groupId>rubygems</groupId>
+      <artifactId>jruby-jars</artifactId>
+      <version>${jruby.version}</version>
+      <type>gem</type>
+    </dependency>
+
+    <dependency>
+      <groupId>rubygems</groupId>
       <artifactId>jruby-openssl</artifactId>
       <version>0.7.2</version>
       <type>gem</type>

@@ -68,6 +68,7 @@ Warbler::Config.new do |config|
   # You can specify versions of gems by using a hash assignment:
   # config.gems["rails"] = "2.0.2"
 
+  config.gems["jruby-jars"] = "1.6.8"
   # You can also use regexps or Gem::Dependency objects for flexibility or
   # fine-grained control.
   # config.gems << /^merb-/
@@ -107,6 +108,7 @@ Warbler::Config.new do |config|
 
   # Value of RAILS_ENV for the webapp -- default as shown below
   config.webxml.rails.env = 'production'
+  config.webxml.jruby.compat.version = '1.8'
 
   # Application booter to use, one of :rack, :rails, or :merb (autodetected by default)
   # config.webxml.booter = :rails
