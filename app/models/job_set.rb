@@ -85,7 +85,8 @@ class JobSet < ActiveRecord::Base
   # generates the transaction token
   def trans_hash_gen
     formatted_dob = self.patient.dob.strftime("%Y%m%d")
-    hash = Digest::SHA256.hexdigest(self.user_token_gen + formatted_dob + self.patient_password)
+    self.email_address.blank? ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
+    hash = Digest::SHA256.hexdigest(token_or_email + formatted_dob + self.patient_password)
   end
 
   # Checks the configurations table for a delay_in_hrs

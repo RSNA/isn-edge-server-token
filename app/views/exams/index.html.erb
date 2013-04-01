@@ -1,6 +1,6 @@
 <%= content_for(:title, "Exams for #{@patient.patient_name}") %>
 
-<%= button_to("Reprint Token", :controller => :exams, :action => :print_patient_info, :token => params[:token]) if @autoprint_rsna_id %>
+<%= button_to("Reprint Token", :controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address]) if @autoprint_rsna_id %>
 
 <% form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
   <p>
@@ -15,4 +15,4 @@
   <%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>
 <% end %>
 
-<%= javascript_tag("window.open('/exams/print_patient_info?token=#{params[:token]}');") if @autoprint_rsna_id %>
+<%= javascript_tag("window.open('/exams/print_patient_info?token=#{params[:token]}&email_address=#{params[:email_address]}');") if @autoprint_rsna_id %>

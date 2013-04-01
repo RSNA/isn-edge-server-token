@@ -12,8 +12,8 @@
 
 <div class="demographic">
   <label>Exam ID/Token:</label>
-  <span><%= @job_set.token %></span>
+  <span><%= @job_set.email_address.blank? ? @job_set.token : @job_set.email_address %></span>
 </div>
 
-<div class="print-button" onclick="document.location = '<%= url_for(:controller => :exams, :action => :index, :token => @job_set.token, :patient_id => @patient.id) %>'">Print</div>
+<div class="print-button" onclick="document.location = '<%= url_for(:controller => :exams, :action => :index, :email_address => @job_set.email_address, :token => @job_set.token, :patient_id => @patient.id) %>'">Print</div>
 

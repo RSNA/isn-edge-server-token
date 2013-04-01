@@ -11,11 +11,12 @@ class ExamsController < ApplicationController
   # List the exams for the specified patient
   def index
     @exams = @patient.exams
-    @autoprint_rsna_id = (params[:token] ? true : false)
+    @autoprint_rsna_id = ((params[:token] or not params[:email_address].blank?) ? true : false)
   end
 
   def print_patient_info
     @token = params[:token]
+    @email_address = params[:email_address]
     render :layout => "layouts/print", :template => "exams/print_patient_info"
   end
 
