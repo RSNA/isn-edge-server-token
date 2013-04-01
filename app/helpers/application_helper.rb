@@ -54,7 +54,9 @@ module ApplicationHelper
       else
         false
       end
-    elsif name != :administrative
+    elsif params[:controller] == "patients" and params[:action] == "xds_export"
+      name == :research ? true : false
+    elsif name != :administrative and name != :research
       true
     end
   end
