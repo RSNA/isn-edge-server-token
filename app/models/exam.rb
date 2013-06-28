@@ -20,6 +20,10 @@ class Exam < ActiveRecord::Base
   has_many :reports
   has_many :jobs
 
+  def self.filter_cancelled(exams)
+    exams.delete_if {|e| e.last_report and e.last_report.status == "CANCELED" }
+  end
+
   named_scope :by_exam_description, lambda {|ed|
     query = Search::Query.new(ed)
     {:conditions => query.conditions(:exam_description => lambda { query.term_to_name_string(:exam_description) }) }

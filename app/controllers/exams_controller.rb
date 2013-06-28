@@ -10,7 +10,7 @@ class ExamsController < ApplicationController
 
   # List the exams for the specified patient
   def index
-    @exams = @patient.exams
+    @exams = Exam.filter_cancelled(@patient.exams)
     @autoprint_rsna_id = ((params[:token] or not params[:email_address].blank?) ? true : false)
   end
 
@@ -23,6 +23,7 @@ class ExamsController < ApplicationController
   # Filter the patients exams by the exam description
   def filter
     @exams = @patient.exams.by_exam_description(params[:filter])
+    Exam.filter_cancelled(@exams) unless params[:show_cancelled]
     render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient}
   end
 

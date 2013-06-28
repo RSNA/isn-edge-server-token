@@ -3,11 +3,19 @@
 <%= button_to_function("Reprint Token", "window.open('#{url_for(:controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address])}')") if @autoprint_rsna_id %>
 
 <% form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
-  <p>
-    <input name="filter" class="search" type="text" size="30" />
-    <%= submit_tag "Filter" %>Show Cancelled Exams?<input type="checkbox" name="cancelled" /><br />
-    <label for="filter">Filter the exams below by the exam description</label>
-  </p>
+  <table border="0" cellspacing="0" cellpadding="2">
+    <tbody>
+      <tr>
+	<td><label for="filter"><strong>Exam description</strong></label></td>
+	<td><input name="filter" class="search" type="text" size="30" /></td>
+      </tr>
+      <tr>
+	<td><strong>Show Cancelled Exams?</strong></td>
+	<td><input type="checkbox" name="show_cancelled" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <%= submit_tag "Filter" %>
 
 <% end %>
 <%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
