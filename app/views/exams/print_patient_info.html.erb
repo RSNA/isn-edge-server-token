@@ -7,7 +7,7 @@
 </div>
 
 <div>
-  <div class="inline">Exam ID/Token:</div><span><%= params[:email_address].blank? ? @token : @email_address %></span>
+  <div class="inline">Exam ID/Token:</div><span><%= @token.blank? ? @email_address : @token %></span>
 </div>
 
 <div>

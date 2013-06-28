@@ -1,11 +1,11 @@
 <%= content_for(:title, "Exams for #{@patient.patient_name}") %>
 
-<%= button_to("Reprint Token", :controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address]) if @autoprint_rsna_id %>
+<%= button_to_function("Reprint Token", "window.open('#{url_for(:controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address])}')") if @autoprint_rsna_id %>
 
 <% form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
   <p>
     <input name="filter" class="search" type="text" size="30" />
-    <%= submit_tag "Filter" %><br />
+    <%= submit_tag "Filter" %>Show Cancelled Exams?<input type="checkbox" name="cancelled" /><br />
     <label for="filter">Filter the exams below by the exam description</label>
   </p>
 

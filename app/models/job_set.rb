@@ -18,7 +18,7 @@ class JobSet < ActiveRecord::Base
   belongs_to :patient
   belongs_to :user, :foreign_key => :user_id
 
-  attr_accessor :patient_password, :patient_password_confirmation, :salt, :token
+  attr_accessor :use_rsna_id, :patient_password, :patient_password_confirmation, :salt, :token, :force_token
 
   validates_presence_of :patient_password
 
@@ -62,7 +62,12 @@ class JobSet < ActiveRecord::Base
   # Call back method used to set the single use patient id
   def before_create
     self.id = self.class.next_id
-    self.single_use_patient_id = trans_hash_gen()
+    if self.use_rsna_id
+      self.single_use_patient_id = self.patient.rsna_id
+    else
+      self.single_use_patient_id = trans_hash_gen()
+      self.patient.update_attribute(:rsna_id,self.single_use_patient_id) unless self.email_address.blank? or self.force_token
+    end
   end
 
   # Generates the user token
@@ -85,7 +90,7 @@ class JobSet < ActiveRecord::Base
   # generates the transaction token
   def trans_hash_gen
     formatted_dob = self.patient.dob.strftime("%Y%m%d")
-    self.email_address.blank? ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
+    (self.email_address.blank? or self.force_token) ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
     hash = Digest::SHA256.hexdigest(token_or_email + formatted_dob + self.patient_password)
   end
 

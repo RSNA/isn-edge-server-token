@@ -5,7 +5,7 @@ Handling of adding and deleting exams from the cart and the creation of jobs whe
 class ExamsController < ApplicationController
   before_filter :authenticate
   before_filter :get_cart
-  before_filter :force_patient, :except=>[:retry_job]
+  before_filter :force_patient, :except => [:retry_job]
   hipaa_filter
 
   # List the exams for the specified patient
@@ -28,7 +28,16 @@ class ExamsController < ApplicationController
 
   # Given the cart, create the job set, jobs and transaction entries
   def send_cart
-    delay_in_hrs = params[:override_delay] == '1' ? 0 : JobSet.delay_in_hrs;
+    case params[:override_delay]
+    when '1'
+      delay_in_hrs = 0
+    when '2'
+      delay_in_hrs = 0
+      send_on_complete = true
+    else
+      delay_in_hrs = JobSet.delay_in_hrs;
+    end
+    send_on_complete ||= false
     @job_set = JobSet.new({
                             :patient_id => @patient.id,
                             :user_id => @user.id,
@@ -36,8 +45,11 @@ class ExamsController < ApplicationController
                             :patient_password_confirmation => params[:patient_password_confirmation],
                             :email_address => params[:email],
                             :modified_date => Time.now,
-                            :delay_in_hrs => delay_in_hrs
+                            :delay_in_hrs => delay_in_hrs,
+                            :send_on_complete => send_on_complete,
+                            :force_token => params[:force_token]
                           })
+    @job_set.use_rsna_id = true unless params[:use_old].blank?
     if @job_set.save
       @cart.each do |exam_id|
         time = Time.now
@@ -64,6 +76,7 @@ class ExamsController < ApplicationController
   # Show the cart
   def show_cart
     @exams = @cart.collect {|id| Exam.find(id) }
+    @patient = @exams.first.patient if @exams and @exams.size > 0
   end
 
   # Add an exam to the cart

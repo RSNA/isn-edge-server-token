@@ -10,4 +10,6 @@
   <% st.column("Status Message") {|js| js.status_message } %>
   <% st.column("Last Transaction") {|js| js.last_transaction_timestamp.to_s(:long) } %>
   <% st.column("Submitted By") {|js| js.job.job_set.user.user_name } %>
+  <% st.column("Immediate Send?") {|js| js.job.job_set.send_on_complete ? "Yes" : "No" } %>
+  <% st.column("Retries Remaining") {|js| js.job.remaining_retries } %>
 <% end %>

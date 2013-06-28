@@ -108,8 +108,8 @@ function delete_from_cart(element_id, exam_id) {
 }
 
 function send_cart(form, delay) {
-    if (delay == true) {
-        form.find('input[name="override_delay"]').val('1');
+    if (delay != undefined) {
+        form.find('input[name="override_delay"]').val(delay);
     }
     $.ajax({
 	url: "/exams/send_cart",

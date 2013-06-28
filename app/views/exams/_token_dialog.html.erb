@@ -13,24 +13,40 @@
 
     <div id="tokenSendDialog">
       <h1>Send Cart</h1>
-      <div id="sendWithDelay">
-        <p>By choosing this option each exam will be subject to a delay period before it is sent. This gives the doctor a chance to speak with the patient before he or she get the results.<br /><br /></p>
-        <p>
-          <input type="button" value="Send Cart Normally" onclick="send_cart($('#cart_form')); return false;" />
-          <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
-        </p>
-      </div>
-      <div id="sendNoDelay">
-        <p>By choosing this option each exam will be sent as soon as its final report is available. This means that the doctor may not have a chance to speak with the patient before he or she get the results.</p>
-        <p>
-          <input type="button" value="Send Cart with Override" onclick="send_cart($('#cart_form'), 1); return false;" />
-          <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
-        </p>
-      </div>
+      <table border="0" cellspacing="0" cellpadding="2" id="send-choices">
+	<tbody>
+	  <tr>
+	    <td>By choosing this option each exam will be subject to a delay period before it is sent. This gives the doctor a chance to speak with the patient before he or she get the results.</td>
+	    <td class="center">By choosing this option each exam will be sent as soon as its final report is available. This means that the doctor may not have a chance to speak with the patient before he or she get the results.</td>
+	    <td>By choosing this option each exam will be sent immediately. Even if there is no final report available.</td>
+	  </tr>
+	  <tr class="buttons">
+	    <td>
+	      <input type="button" value="Routine" onclick="send_cart($('#cart_form')); return false;" />
+              <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
+	    </td>
+	    <td class="center">
+              <input type="button" value="When final report available" onclick="send_cart($('#cart_form'), 1); return false;" />
+              <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
+	    </td>
+	    <td>
+              <input type="button" value="Immediately" onclick="send_cart($('#cart_form'), 2); return false;" />
+              <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+
       <input type="hidden" name="override_delay" value="0" />
     </div>
 
-    <div id="tokenPasswordDialog">
+    <div id="tokenChoiceDialog" class="<%= @patient.rsna_id ? '' : 'hide' %>">
+      <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.email_address %>)?</p>
+      <input type="button" value="Yes" class="use-old-button" />
+      <input type="button" value="No" class="use-old-button" />
+    </div>
+
+    <div id="tokenPasswordDialog" class="<%= @patient.rsna_id ? 'hide' : '' %>">
       <h1>Enter Password</h1>
       <p>Please ask the patient to enter the password they would like to use to retrieve his/her images.</p>
       <p><span style="font-weight: bold;">Note:</span> Passwords are case sensitive</p>
@@ -45,13 +61,17 @@
       </p>
       <p>
         <label class="inline">Patient's Email (optional)</label>
-        <input name="email" type="text" />
+        <input name="email" type="text" value="<%= @exams.first.patient.email_address %>" />
       </p>
       <p>
         <input type="checkbox" onclick="toggle_pin_visibility();" />
         <strong>Show password in plain text?</strong> - Check this box if you would like to visually confirm you entered the password you wanted.
       </p>
-      <%= submit_tag("Done") %>
+      <p>
+	<input type="checkbox" name="force_token" />
+	<strong>Check this box to use an auto-generated token instead the email address.</strong>
+      </p>
+      <%= submit_tag("Next") %>
     </div>
     <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
   <% end %>

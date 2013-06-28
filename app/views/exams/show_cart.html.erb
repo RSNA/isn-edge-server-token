@@ -21,5 +21,19 @@
  <div>Your shopping cart is empty</div>
 <% end %>
 
+<% javascript_tag do %>
+$(document).ready(function() {
+  $(".use-old-button").click(function(e) {
+    $("#tokenChoiceDialog").hide();
+    if ($(this).val() == "Yes") {
+      $("#cart_form").append('<input type="hidden" name="use_old" value="true" />');
+      $('#tokenPasswordDialog input[name="patient_password"]').val("not-used-password1");
+      $('#tokenPasswordDialog input[name="patient_password_confirmation"]').val("not-used-password1");
+      $("#tokenSendDialog").show();
+    } else {
+      $("#tokenPasswordDialog").show();
+    }
 
-
+  });
+});
+<% end %>
