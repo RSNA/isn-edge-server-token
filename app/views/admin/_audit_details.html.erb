@@ -16,7 +16,7 @@
   <% end %>
   <br />
   <br />
-  <% som_table_for job.job_transactions do |st| %>
+  <% som_table_for job.job_transactions.sort_by(&:transaction_id) do |st| %>
     <% st.column("Transaction ID", &:transaction_id) %>
     <% st.column("Status Code", &:status_code) %>
     <% st.column("Status Message") {|jt| jt.status.description } %>

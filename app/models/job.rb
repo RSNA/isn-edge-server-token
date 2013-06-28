@@ -16,6 +16,10 @@ class Job < ActiveRecord::Base
 
   named_scope :ordered, { :order => "modified_date DESC" }
 
+  def before_create
+    self.remaining_retries = EdgeConfiguration.find_by_key("max-retries").value unless self.remaining_retries
+  end
+
   # Finds the most recent JobTransaction associated with this Job
   def last_transaction
     @last_transaction ||= self.job_transactions.find(:first, :order => "modified_date DESC")
