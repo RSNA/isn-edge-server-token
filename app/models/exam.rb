@@ -35,7 +35,11 @@ class Exam < ActiveRecord::Base
 
   # Gets the most recent report associated with this exam
   def last_report
-    @last_report ||= Report.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
+    if self.latest_information.report_id
+      @last_report ||= Report.find(self.latest_information.report_id)
+    else
+      nil
+    end
   end
 
   # Gets the most recent job associated with this exam
