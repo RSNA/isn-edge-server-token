@@ -41,7 +41,7 @@
     </div>
 
     <div id="tokenChoiceDialog" class="<%= @patient.rsna_id ? '' : 'hide' %>">
-      <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.email_address %>)?</p>
+      <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.rsna_id %>)?</p>
       <input type="button" value="Yes" class="use-old-button" />
       <input type="button" value="No" class="use-old-button" />
     </div>
@@ -61,7 +61,7 @@
       </p>
       <p>
         <label class="inline">Patient's Email (optional)</label>
-        <input name="email" type="text" value="<%= @exams.first.patient.email_address %>" />
+        <input name="email" type="text" value="<%= @exams.first.patient.rsna_id || @exams.first.patient.email_address %>" />
       </p>
       <p>
         <input type="checkbox" onclick="toggle_pin_visibility();" />
