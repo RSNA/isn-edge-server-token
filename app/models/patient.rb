@@ -10,6 +10,7 @@ class Patient < ActiveRecord::Base
   set_primary_key :patient_id
   has_many :reports, :through => :exams
   has_many :exams
+  has_many :job_sets
 
   # This builds a search query using the Search model and a with_scope that joins the RsnaId model
   # terms_for_search can be a string or a hash of field value pairs, e.g:
@@ -31,6 +32,11 @@ class Patient < ActiveRecord::Base
   # This takes the raw value of the patient name in the database and formats it with commas instead of carrots
   def patient_name
     self.attributes['patient_name'].split("^").join(", ")
+  end
+
+  def rsna_id_email
+    @rsna_id_email_record = JobSet.find(:first, :conditions => ["patient_id = ? AND email_address IS NOT NULL",self.id], :order => "job_set_id desc")
+    @rsna_id_email_record.email_address if @rsna_id_email_record
   end
 
   def consented?
