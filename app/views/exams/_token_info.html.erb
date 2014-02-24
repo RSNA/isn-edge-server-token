@@ -11,7 +11,7 @@
 </div>
 
 <div class="demographic">
-  <label>Exam ID/Token:</label>
+  <label>Exam ID or Email:</label>
   <span><%= (@job_set.email_address.blank? or @job_set.force_token) ? @job_set.token : @job_set.email_address %></span>
 </div>
 
