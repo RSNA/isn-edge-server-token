@@ -1,4 +1,4 @@
-<% form_for(:device, :html => {:id => "new_device_form", :method => 'post'}, :url => form_action) do |f| %>
+<%= form_for(:device, :html => {:id => "new_device_form", :method => 'post'}, :url => form_action) do |f| %>
   <p>
     <%= error_messages_for :device %>
     <label class="inline">AE Title</label><%= f.text_field(:ae_title) %><br />

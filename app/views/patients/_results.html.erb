@@ -1,7 +1,7 @@
-<% som_table_for patients, :sortable => true, :class => "tablesorter", :style => "width: 100%", :id => "patient_results" do |st| %>
+<%= rsna_table_for patients, :sortable => true, :class => "tablesorter", :style => "width: 100%", :id => "patient_results" do |st| %>
   <% st.column("") {|p| obtain_consent_button(p) } %>
-  <% st.column("Name") {|p| p.patient_name } %>
-  <% st.column("MRN") {|p| p.mrn } %>
-  <% st.column("Sex") {|p| p.sex } %>
-  <% st.column("Date of Birth") {|p| p.dob.to_s(:long) } %>
+  <% st.column("Name") {|p| h p.patient_name } %>
+  <% st.column("MRN") {|p| h p.mrn } %>
+  <% st.column("Sex") {|p| h p.sex } %>
+  <% st.column("Date of Birth") {|p| h p.dob.to_s(:long) } %>
 <% end %>

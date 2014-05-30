@@ -1,16 +1,16 @@
 <% content_for(:title, "Shopping Cart") %>
 
 <% if @exams.size > 0 %>
-  <% som_table_for @exams, :style => "width: 100%" do |st| %>
-    <% st.column("Accession #") {|e| e.accession_number } %>
-    <% st.column("Exam Desc") {|e| e.exam_description } %>
-    <% st.column("Exam Date") {|e| e.modified_date.to_s(:long) } %>
-    <% st.column("") {|e| button_to_function("Remove From Cart", "delete_from_cart('delete_link_#{e.id}', '#{e.id}');", :id => "delete_link_#{e.id}") } %>
+  <%= rsna_table_for @exams, :style => "width: 100%" do |st| %>
+    <% st.column("Accession #") {|e| h e.accession_number } %>
+    <% st.column("Exam Desc") {|e| h e.exam_description } %>
+    <% st.column("Exam Date") {|e| h e.modified_date.to_s(:long) } %>
+    <% st.column("") {|e| button_to("Remove From Cart", "#", onclick: "delete_from_cart('delete_link_#{e.id}', '#{e.id}');return false;", :id => "delete_link_#{e.id}") } %>
   <% end %>
 
 <div class="form-actions">
   <%= button_to("Empty Cart", {:action => "empty_cart", :controller => "exams"}, :style => "display: inline;") %>
-  <%= button_to_function("Send Cart", "center_dialog($('#tokenDialog')); load_dialog($('#tokenDialog'));") %>
+  <%= button_to("Send Cart", "#", onclick: "center_dialog($('#tokenDialog')); load_dialog($('#tokenDialog'));return false;") %>
 </div>
 
 <% content_for(:body) do %>

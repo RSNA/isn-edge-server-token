@@ -15,7 +15,7 @@ class AdminController < ApplicationController
 
   # Shows the job audit trail
   def audit
-    @job_stati = ViewJobStatus.find(:all, :limit => 100, :order => "job_set_id DESC")
+    @job_stati = ViewJobStatus.limit(100).order("job_set_id DESC")
   end
 
   # Takes a job transaction id and returns a partial containing information from the job set to the job

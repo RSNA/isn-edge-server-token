@@ -13,7 +13,7 @@ class JobSet < ActiveRecord::Base
   ZBASE32_ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769"
   TOKEN_LENGTH = 8
 
-  set_primary_key :job_set_id
+  self.primary_key = "job_set_id"
   has_many :jobs, :dependent => :destroy
   belongs_to :patient
   belongs_to :user, :foreign_key => :user_id

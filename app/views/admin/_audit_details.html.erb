@@ -12,16 +12,16 @@
 <p>
   <h3>Job # <%= job.job_id %></h3>
   <% if job.job_transactions.last.status.status_code and job.job_transactions.last.status.status_code < 0 %>
-  <%= button_to_function("Retry Job", "retry_job('retry_link_#{job.job_id}', #{job.job_id})", :id => "retry_link_#{job.job_id}") %>
+  <%= button_to("Retry Job", "#", :onclick=>"retry_job('retry_link_#{job.job_id}', #{job.job_id});return false;", :id => "retry_link_#{job.job_id}") %>
   <% end %>
   <br />
   <br />
-  <% som_table_for job.job_transactions.sort_by(&:transaction_id) do |st| %>
-    <% st.column("Transaction ID", &:transaction_id) %>
-    <% st.column("Status Code", &:status_code) %>
-    <% st.column("Status Message") {|jt| jt.status.description } %>
-    <% st.column("Comments", &:comments) %>
-    <% st.column("Modified") {|jt| jt.modified_date.to_s(:long) } %>
+  <%= rsna_table_for job.job_transactions.sort_by(&:transaction_id) do |st| %>
+    <% st.column("Transaction ID") {|jt| h jt.transaction_id } %>
+    <% st.column("Status Code") {|jt| h jt.status_code} %>
+    <% st.column("Status Message") {|jt| h jt.status.description } %>
+    <% st.column("Comments") {|jt| h jt.comments}%>
+    <% st.column("Modified") {|jt| h jt.modified_date.to_s(:long) } %>
   <% end %>
 </p>
 <% end %>

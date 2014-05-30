@@ -1,11 +1,11 @@
 <% content_for(:title, "Roles") %>
-<% som_table_for @users do |st| %>
-  <% st.column("Name", &:user_name) %>
-  <% st.column("Login", &:user_login) %>
+<% rsna_table_for @users do |st| %>
+  <% st.column("Name") {|user| h user.user_name} %>
+  <% st.column("Login") {|user| h user.user_login} %>
   <% st.column("Role") {|user| role_button(user, "User", 0) + role_button(user, "Super User", 1) + role_button(user, "Admin", 2) } %>
   <% st.column("Active?") {|user| status_button(user, "Active", true) + status_button(user, "Disabled", false) } %>
-  <% st.column("Reset Password") {|user| button_to_function("Reset Password", "simple_form_dialog('#{user.id}','/users/reset_password_form','Reset Password');") } %>
-  <%# st.column("Delete User") {|user| button_to_function("Delete", "simple_form_dialog('#{user.id}','/users/delete_form','Delete this users?');") } %>
+  <% st.column("Reset Password") {|user| button_to("Reset Password", "#", onclick: "simple_form_dialog('#{user.id}','/users/reset_password_form','Reset Password');return false;") } %>
+  <%# st.column("Delete User") {|user| button_to("Delete", "#", onclick: "simple_form_dialog('#{user.id}','/users/delete_form','Delete this users?');return false;") } %>
   <% st.column("") {|user| content_tag(:span, "", :id => "update_alert_#{user.id}") } %>
 <% end %>
 

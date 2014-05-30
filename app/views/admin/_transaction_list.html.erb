@@ -1,15 +1,15 @@
-<% som_table_for job_stati, :style => "width: 100%" do |st| %>
-  <% st.column("") {|js| button_to_function("Details", "audit_details(#{js.job.job_set.id});") } %>
-  <% st.column("MRN") {|js| js.exam.patient.mrn } %>
-  <% st.column("Accession #") {|js| js.exam.accession_number } %>
-  <% st.column("Patient Name") {|js| js.exam.patient.patient_name } %>
-  <% st.column("Single Use Patient ID") {|js| js.job.job_set.single_use_patient_id } %>
-  <% st.column("Job ID") {|js| js.job.id } %>
-  <% st.column("Delay in Hours") {|js| js.delay_in_hrs } %>
-  <% st.column("Status Code") {|js| js.status } %>
-  <% st.column("Status Message") {|js| js.status_message } %>
-  <% st.column("Last Transaction") {|js| js.last_transaction_timestamp.to_s(:long) } %>
-  <% st.column("Submitted By") {|js| js.job.job_set.user.user_name } %>
-  <% st.column("Immediate Send?") {|js| js.job.job_set.send_on_complete ? "Yes" : "No" } %>
-  <% st.column("Retries Remaining") {|js| js.job.remaining_retries } %>
+<%= rsna_table_for job_stati, :style => "width: 100%" do |st| %>
+  <% st.column("") {|js| button_to("Details", "#", onclick: "audit_details(#{js.job.job_set.id});return false;") } %>
+  <% st.column("MRN") {|js| h js.exam.patient.mrn } %>
+  <% st.column("Accession #") {|js| h js.exam.accession_number } %>
+  <% st.column("Patient Name") {|js| h js.exam.patient.patient_name } %>
+  <% st.column("Single Use Patient ID") {|js| h js.job.job_set.single_use_patient_id } %>
+  <% st.column("Job ID") {|js| h js.job.id } %>
+  <% st.column("Delay in Hours") {|js| h js.delay_in_hrs } %>
+  <% st.column("Status Code") {|js| h js.status } %>
+  <% st.column("Status Message") {|js| h js.status_message } %>
+  <% st.column("Last Transaction") {|js| h js.last_transaction_timestamp.to_s(:long) } %>
+  <% st.column("Submitted By") {|js| h js.job.job_set.user.user_name } %>
+  <% st.column("Immediate Send?") {|js| h js.job.job_set.send_on_complete ? "Yes" : "No" } %>
+  <% st.column("Retries Remaining") {|js| h js.job.remaining_retries } %>
 <% end %>

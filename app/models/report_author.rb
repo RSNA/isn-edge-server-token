@@ -5,6 +5,6 @@ in the database. It uses active record to define association methods with the Re
 model.
 =end
 class ReportAuthor < ActiveRecord::Base
-  set_primary_key :report_author_id
+  self.primary_key = "report_author_id"
   belongs_to :report
 end

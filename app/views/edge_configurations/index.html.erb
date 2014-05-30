@@ -1,8 +1,8 @@
 <% content_for(:title, "Configuration Variables") %>
 
-<% som_table_for @edge_configurations, :sortable => true do |st| %>
-  <% st.column("Key", &:key) %>
-  <% st.column("Value", &:value) %>
+<%= rsna_table_for @edge_configurations, :sortable => true do |st| %>
+  <% st.column("Key") {|ec| h ec.key} %>
+  <% st.column("Value") {|ec| h ec.value} %>
   <% st.column("") {|ec| button_to("Edit", {:controller => :edge_configurations, :action => :edit, :id => ec.id}, :method => :get) } %>
   <% st.column("") {|ec| button_to("Delete", {:controller => :edge_configurations, :action => :destroy, :id => ec.id}, :method => :post) } %>
 <% end %>

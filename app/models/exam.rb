@@ -15,7 +15,7 @@ the Search module to generate permutations of the exam description
 
 =end
 class Exam < ActiveRecord::Base
-  set_primary_key :exam_id
+  self.primary_key = "exam_id"
   belongs_to :patient
   has_many :reports
   has_many :jobs
@@ -24,13 +24,13 @@ class Exam < ActiveRecord::Base
     exams.delete_if {|e| e.last_report and e.last_report.status == "CANCELED" }
   end
 
-  named_scope :by_exam_description, lambda {|ed|
+  scope :by_exam_description, lambda {|ed|
     query = Search::Query.new(ed)
     {:conditions => query.conditions(:exam_description => lambda { query.term_to_name_string(:exam_description) }) }
   }
 
   def latest_information
-    @latest_information ||= ViewExamStatus.find(:first, :conditions => ["exam_id = ?",self.id])
+    @latest_information ||= ViewExamStatus.where("exam_id = ?",self.id).first
   end
 
   # Gets the most recent report associated with this exam
@@ -44,10 +44,10 @@ class Exam < ActiveRecord::Base
 
   # Gets the most recent job associated with this exam
   def job
-    @job ||= Job.find(:first, :conditions => ["exam_id = ?", self.id], :order => "modified_date DESC")
+    @job ||= Job.where("exam_id = ?", self.id).order("modified_date DESC").first
   end
 
   def job_transaction
-    @job_transaction ||= JobTransaction.find(:first, :conditions => ["job_id = ?", self.job.id], :order => "modified_date DESC") if self.job
+    @job_transaction ||= JobTransaction.where("job_id = ?", self.job.id).order("modified_date DESC").first if self.job
   end
 end

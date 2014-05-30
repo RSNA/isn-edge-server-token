@@ -8,7 +8,7 @@ sets the modified date to the current timestamp whenever
 the record is changes.
 =end
 class Device < ActiveRecord::Base
-  set_primary_key :device_id
+  self.primary_key = "device_id"
 
   validates_presence_of :ae_title, :host, :port_number
 

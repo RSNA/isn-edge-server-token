@@ -7,5 +7,5 @@ used by the HipaaFilter plugin.
 It is primarly accessed through the HipaaView model.
 =end
 class HipaaMRN < ActiveRecord::Base
-  set_table_name :hipaa_audit_mrns
+  self.table_name = "hipaa_audit_mrns"
 end

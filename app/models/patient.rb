@@ -7,7 +7,7 @@ It uses active record to define association methods between
 itself and the Report, Exam, and RsnaId models.
 =end
 class Patient < ActiveRecord::Base
-  set_primary_key :patient_id
+  self.primary_key = "patient_id"
   has_many :reports, :through => :exams
   has_many :exams
   has_many :job_sets
@@ -18,9 +18,7 @@ class Patient < ActiveRecord::Base
   #   Patient.search("John Doe")
   #   Patient.search(:mrn => "0982734", :rsna_id => "9823", :patient_name => "Doe, John")
   def self.search(*terms_for_search)
-    with_scope(:find => {}) do
-      self.find(:all, :conditions => Search::Query.new(*terms_for_search).conditions)
-    end
+    self.unscoped.where(Search::Query.new(*terms_for_search).conditions)
   end
 
   # Accessor for getting the exact value of patient_name in the database.  This usually contains
@@ -35,7 +33,7 @@ class Patient < ActiveRecord::Base
   end
 
   def rsna_id_email
-    @rsna_id_email_record = JobSet.find(:first, :conditions => ["patient_id = ? AND email_address IS NOT NULL",self.id], :order => "job_set_id desc")
+    @rsna_id_email_record = JobSet.where("patient_id = ? AND email_address IS NOT NULL",self.id).order("job_set_id desc").first
     @rsna_id_email_record.email_address if @rsna_id_email_record
   end
 

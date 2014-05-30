@@ -7,8 +7,8 @@ with the Patient model.
 A validate callback is also defined to confirm the entered pin information matches.
 =end
 class RsnaId < ActiveRecord::Base
-  set_table_name :patient_rsna_ids
-  set_primary_key :map_id
+  self.table_name = "patient_rsna_ids"
+  self.primary_key = "map_id"
 
   attr_accessor :pin, :confirmation_pin
 

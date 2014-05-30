@@ -9,12 +9,12 @@ job status and transaction record.
 *ordered*() - Orderes the sql by the modified_date DESC
 =end
 class Job < ActiveRecord::Base
-  set_primary_key :job_id
+  self.primary_key = "job_id"
   belongs_to :job_set
   belongs_to :exam
   has_many :job_transactions, :dependent => :destroy
 
-  named_scope :ordered, { :order => "modified_date DESC" }
+  scope :ordered, -> { order("modified_date DESC") }
 
   def before_create
     self.remaining_retries = EdgeConfiguration.find_by_key("max-retries").value unless self.remaining_retries
@@ -22,7 +22,7 @@ class Job < ActiveRecord::Base
 
   # Finds the most recent JobTransaction associated with this Job
   def last_transaction
-    @last_transaction ||= self.job_transactions.find(:first, :order => "modified_date DESC")
+    @last_transaction ||= self.job_transactions.order("modified_date DESC").first
   end
 
   # Finds the most recent status message associated with this Job

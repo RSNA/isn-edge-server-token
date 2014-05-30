@@ -8,9 +8,11 @@ This model generates and links to the HipaaAccessionNumber
 and HipaaMRN models.
 =end
 class HipaaView < ActiveRecord::Base
-  set_table_name :hipaa_audit_views
+  self.table_name = "hipaa_audit_views"
   has_many :hipaa_accession_numbers
   has_many :hipaa_mrns
+
+  attr_accessible :requesting_username, :requesting_ip, :requesting_uri, :modified_date
 
   # Create a record in the database with the given hash as the attribute mappings.
   # Create the HipaaMRN and HipaaAccessionNumber records associated with the view

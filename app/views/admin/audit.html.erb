@@ -1,6 +1,6 @@
 <%= content_for(:title, "Audit Trail") %>
 
-<% form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "filter_by($('#filter_form').serialize()); return false;"} do |f| %>
+<%= form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "filter_by($('#filter_form').serialize()); return false;"} do |f| %>
   <p>
     <input name="filter" class="search" type="text" size="30" />
     <%= submit_tag "Filter" %><br />
@@ -9,7 +9,7 @@
 
 <% end %>
 <%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
-<% content_tag :div, :id => "search_results" do %>
+<%= content_tag :div, :id => "search_results" do %>
   <%= render :partial => "admin/transaction_list", :locals => {:job_stati => @job_stati} %>
 <% end %>
 

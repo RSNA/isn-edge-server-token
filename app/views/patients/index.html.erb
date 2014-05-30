@@ -1,16 +1,16 @@
 <% content_for(:title, "Search for Patients") %>
-<% form_for :search, :html => {:id => "search_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_by($('#search_form').serialize()); return false;"} do |f| %>
+<%= form_for :search, :html => {:id => "search_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_by($('#search_form').serialize()); return false;"} do |f| %>
   <p>
     <input name="search" class="search" type="text" size="30" />
     <%= submit_tag "Search" %><br />
     <label for="search">Search by patient name, medical record number, or RSNA ID</label>
     <input name="search_type" type="hidden" value="simple" />
     <br />
-    <%= link_to_function("Advanced Search", "toggle_search_form();", :class => "search-type-toggle") %>
+    <%= link_to("Advanced Search", "#", :onclick => "toggle_search_form();", :class => "search-type-toggle") %>
   </p>
 <% end %>
 
-<% form_for :search, :html => {:id => "advanced_search_form", :method => 'get', :class => "search-form", :onsubmit => "search_by($('#advanced_search_form').serialize()); return false;"} do %>
+<%= form_for :search, :html => {:id => "advanced_search_form", :method => 'get', :class => "search-form", :onsubmit => "search_by($('#advanced_search_form').serialize()); return false;"} do %>
   <p>
     <div class="field-row">
       <label class="inline">MRN:</label><input name="mrn" type="text" size="15" />
@@ -21,13 +21,13 @@
     <input name="search_type" type="hidden" value="advanced" />
     <%= submit_tag("Search") %>
     <br />
-    <%= link_to_function("Simple Search", "toggle_search_form();", :class => "search-type-toggle") %>
+    <%= link_to("Simple Search", "#", :onclick => "toggle_search_form();", :class => "search-type-toggle") %>
   </p>
 <% end %>
 
 <%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
 <%= content_tag :div, "", :id => "search_results" %>
 
-<% content_for(:body) do %>
+<%= content_for(:body) do %>
   <%= render :partial => "patients/consent_dialog", :locals => {} %>
 <% end %>

@@ -7,8 +7,8 @@ sets the modified date to the current timestamp whenever
 the record is changes.
 =end
 class EdgeConfiguration < ActiveRecord::Base
-  set_table_name :configurations
-  set_primary_key :key
+  self.table_name = "configurations"
+  self.primary_key = "key"
 
   attr_accessor :given_key
 

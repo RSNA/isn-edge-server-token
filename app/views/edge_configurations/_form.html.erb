@@ -1,4 +1,4 @@
-<% form_for(:edge_configuration, :html => {:id => "new_edge_configuration_form", :method => 'post'}, :url => form_action) do |f| %>
+<%= form_for(:edge_configuration, :html => {:id => "new_edge_configuration_form", :method => 'post'}, :url => form_action) do |f| %>
   <p>
     <%= error_messages_for :edge_configuration %>
     <label class="inline">Key</label><%= f.text_field(:given_key) %><br />

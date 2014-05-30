@@ -1,8 +1,8 @@
-<% som_table_for exams, :sortable => true, :id => "exams_for_patient", :style => "width: 100%" do |st| %>
-  <% st.column("") {|e| button_to_function("Add to Cart", "add_to_cart('add_link_#{e.id}', #{e.id});", :id => "add_link_#{e.id}") } %>
-  <% st.column("Accession #") {|e| e.accession_number } %>
-  <% st.column("Exam Desc") {|e| e.exam_description } %>
-  <% st.column("Most Recent Change") {|e| e.latest_information.status_timestamp.to_s(:long) if e.latest_information } %>
-  <% st.column("Status") {|e| status_for(e) } %>
-  <%# st.column("Send Status") {|e| send_status_for(e) } %>
+<%= rsna_table_for exams, :sortable => true, :id => "exams_for_patient", :style => "width: 100%" do |st| %>
+  <% st.column("") {|e| button_to("Add to Cart", "#", onclick: "add_to_cart('add_link_#{e.id}', #{e.id});return false;", :id => "add_link_#{e.id}") } %>
+  <% st.column("Accession #") {|e| h e.accession_number } %>
+  <% st.column("Exam Desc") {|e| h e.exam_description } %>
+  <% st.column("Most Recent Change") {|e| h e.latest_information.status_timestamp.to_s(:long) if e.latest_information } %>
+  <% st.column("Status") {|e| h status_for(e) } %>
+  <%# st.column("Send Status") {|e| h send_status_for(e) } %>
 <% end %>

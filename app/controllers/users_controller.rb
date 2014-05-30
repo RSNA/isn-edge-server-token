@@ -7,12 +7,13 @@ class UsersController < ApplicationController
   before_filter :authenticate, :only => [:change_password]
   before_filter :get_cart
 
-  verify({
-    :only => [:create, :reset_password, :set_role, :set_status],
-    :method => :post,
-    :render => {:text => '405 HTTP POST required', :status => 405},
-    :add_headers => {'Allow' => 'POST'}
-  })
+## FIXME
+#  verify({
+#    :only => [:create, :reset_password, :set_role, :set_status],
+#    :method => :post,
+#    :render => {:text => '405 HTTP POST required', :status => 405},
+#    :add_headers => {'Allow' => 'POST'}
+#  })
 
   # Form for new User
   def new
