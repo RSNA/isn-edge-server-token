@@ -14,9 +14,11 @@ class Job < ActiveRecord::Base
   belongs_to :exam
   has_many :job_transactions, :dependent => :destroy
 
+  attr_accessible :exam_id, :job_set_id, :modified_date
+
   scope :ordered, -> { order("modified_date DESC") }
 
-  def before_create
+  before_create do
     self.remaining_retries = EdgeConfiguration.find_by_key("max-retries").value unless self.remaining_retries
   end
 

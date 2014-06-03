@@ -1,11 +1,11 @@
 <% content_for(:title, "Server Logs") %>
 
-<ul class="primary">
-  <%= content_tag(:li, link_to("Token App", :log => "token-app"), :class => (params[:log] == "token-app" ? "active" : "")) %>
-  <%= content_tag(:li, link_to("Transfer Content", :log => "transfer-content"), :class => (params[:log] == "transfer-content" ? "active" : "")) %>
-  <%= content_tag(:li, link_to("Prepare Content", :log => "prepare-content"), :class => (params[:log] == "prepare-content" ? "active" : "")) %>
-  <%= content_tag(:li, link_to("Retrieve Content", :log => "retrieve-content"), :class => (params[:log] == "retrieve-content" ? "active" : "")) %>
+<ul class="nav nav-pills">
+  <%= content_tag(:li, link_to("Token App", log: "token-app"), class: (params[:log] == "token-app" ? "active" : "")) %>
+  <%= content_tag(:li, link_to("Transfer Content", log: "transfer-content"), class: (params[:log] == "transfer-content" ? "active" : "")) %>
+  <%= content_tag(:li, link_to("Prepare Content", log: "prepare-content"), class: (params[:log] == "prepare-content" ? "active" : "")) %>
+  <%= content_tag(:li, link_to("Retrieve Content", log: "retrieve-content"), class: (params[:log] == "retrieve-content" ? "active" : "")) %>
 </ul>
 
-<%= content_tag :pre, @log %>
+<%= content_tag :pre, @log, class: "margin-top" %>
 

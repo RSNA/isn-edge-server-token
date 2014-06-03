@@ -1,5 +1,5 @@
-<%= rsna_table_for job_stati, :style => "width: 100%" do |st| %>
-  <% st.column("") {|js| button_to("Details", "#", onclick: "audit_details(#{js.job.job_set.id});return false;") } %>
+<%= rsna_table_for job_stati, class: "table table-bordered table-striped" do |st| %>
+  <% st.column("") {|js| button_to("Details", "#", class: "btn btn-primary", onclick: "audit_details(#{js.job.job_set.id});return false;") } %>
   <% st.column("MRN") {|js| h js.exam.patient.mrn } %>
   <% st.column("Accession #") {|js| h js.exam.accession_number } %>
   <% st.column("Patient Name") {|js| h js.exam.patient.patient_name } %>

@@ -3,96 +3,84 @@
   <head>
     <title>RSNA Edge</title>
 
-    <%= stylesheet_link_tag "sti-edge","som_table_styles" %>
-    <!--//[if ie lte 6]>
-	<style type="text/css">
-/* IE6 css fixes %/
-#main-container
-{ position: relative; background-color: #1e222b; overflow: visible; }
-
-
-/* add display:inline to floated elements */
-.tab-controller,
-.tabs li,
-.tabs,
-.tabs li a,
-#image_share_logo {display:inline;}
-
-/* convert min height values */
-#main-container {height:100%;}
-
-
-/* fix negative margins */
-div.footer,
-#errorExplanation h2 {position:relative; zoom:1;}
-
-/* add zoom:1 to pos:relative elements */
-#main-container,
-div.corner-logo,
-.tab-controller,
-.tabs li,
-#image_share_logo {zoom:1;}
-
-/* add transparancy */
-.tab-controller {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);}
-.tab-controller:hover,.tab-controllers .active {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);}
-
-
-/* add zoom:1; display:inline; to inline-block elements */
-.tabs li,
-label.inline,div.demographic label {zoom:1; display:inline;}
-
-/* add overflow:visible to (submit) buttons */
-input, button {overflow:visible;}
-
-div.footer {display: none;}
-#main-container { overflow: visible; }
-	</style>
-    <![endif]-->
-
+    <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application.js" %>
-    <%= javascript_include_tag "jquery.tablesorter.min.js" %>
-    <%= javascript_include_tag "shadedborder/shadedborder.js" %>
     <%= yield(:javascript_includes) %>
-    <script type="text/javascript">
-      var border = RUZEE.ShadedBorder.create({ corner:5, shadow:16,  border:2 });
-      var tab_controller = RUZEE.ShadedBorder.create({ corner:10});
-      var tab_border = RUZEE.ShadedBorder.create({ corner:5,  border:2, edges:"blr" });
-      var splitBorderTop = RUZEE.ShadedBorder.create({ corner:10, edges:"tlr" });
-      var splitBorderBottom = RUZEE.ShadedBorder.create({ corner:10, edges:"blr" });
-
-</script>
 
   </head>
 
   <body>
-    <div id="main-container">
-      <div class="header">
-	<img src="/images/rsna-image-share.png" class="rsna-edge" />
-	<div class="tab-controllers">
-	  <%= tab_controller(:clinical, :controller => :patients, :action => :new) if logged_in? %>
-	  <%= tab_controller(:research, :controller => :patients, :action => :xds_export) if logged_in? %>
-	  <%= tab_controller(:administrative, :controller => :admin, :action => :audit) if params[:controller] != "sessions" and rights?(1) %>
+    <div id="title-header" class="container-fluid">
+      <div class="row">
+	<div class="col-xs-12">
+	  <%= image_tag("IMageShareLogo.png") %>
 	</div>
-	<% logged_in_user? do %>
-	  <%= render :partial => "layouts/tabs" %>
-	<% end %>
       </div>
+    </div>
 
-      <div class="main">
-	<div class="container">
-	  <h1 id="main_title"><span><%= yield(:title) %></span></h1>
-	  <div id="contents">
-	    <div id="flash-notice"><%= flash[:notice] %></div>
-	    <%= yield %>
-	    <div class="corner-logo"><%= image_tag("/images/nibib-logo.png") %></div>
+    <div id="primary-navbar" class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav pull-right">
+	<%= global_navigation_link("Patient Search", controller: :patients, action: :new) %>
+
+	<% patient? do %>
+	  <%= global_navigation_link("Exams", controller: "exams", action: "index") %>
+	  <%= global_navigation_link("View Cart (<span class=\"cart-count\">#{@cart ? @cart.size : 0}</span>)".html_safe, controller: :exams, action: :show_cart) %>
+	<% end %>
+
+	<%= global_navigation_link("Retrieve", controller: :patients, action: :xds_import) %>
+	<%= global_navigation_link("Research Send", controller: :patients, action: :xds_export) %>
+
+	<% admin? do %>
+	  <% ["admin","tail","devices","edge_configurations","users"].include?(params[:controller]) and params[:action] != "change_password" ? active = "active" : active = "" %>
+	  <li class="dropdown <%= active %>">
+	    <a href="#" id="global-button-goverance" role="button" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+	    <ul class="dropdown-menu" role="menu" aria-labelledby="global-button-warehouse">
+	      <% super? do %>
+	        <%= global_navigation_link("Audit Trail", controller: :admin, action: :audit) %>
+              <% end %>
+
+	      <%= global_navigation_link("Logs", controller: :tail) %>
+	      <%= global_navigation_link("Devices", controller: :devices) %>
+	      <%= global_navigation_link("Configuration", controller: :edge_configurations) %>
+	      <%= global_navigation_link("New User", controller: :users, action: :new) %>
+	      <%= global_navigation_link("User Roles", controller: :users, action: :roles) %>
+	    </ul>
+	  </li>
+	<% end %>
+
+	<%= global_navigation_link("Change Password", controller: :users, action: :change_password) %>
+        <li><%= link_to("Logout", controller: :sessions, action: :destroy) %></li>
+      </ul>
+    </div>
+  </div>
+
+    <div id="main" class="container-fluid">
+      <div class="row">
+	<div class="col-xs-12">
+	  <div class="page-header">
+	    <h1 id="page-header"><%= yield(:title) %></h1>
+	    <%= flash[:notice] %>
+	  </div>
+
+	  <%= yield %>
+	</div>
+      </div>
+    </div>
+
+    <div id="footer" class="navbar-fixed-bottom">
+      <div class="container">
+	<div class="row">
+	  <div class="col-sm-12 center">
+	    &copy; 2014 Radiological Society of North America.
+	    Support: <a href="http://www.RSNA.org/Image_Share.aspx" target="_new">RSNA.org/Image_Share.aspx</a>
+	    <a href="mailto:helpdesk@imsharing.org">helpdesk@imsharing.org</a> |
+	    Toll-free: 1-855-IM-Sharing (467-4274)
+	    <span class="margin-left">An NIBIB funded Project <%= image_tag("nibib-logo.png") %></sp>
 	  </div>
 	</div>
       </div>
     </div>
-    <%= yield(:body) %>
-    <div class="footer">
-      <img src="/images/footer-hand.png" />
-    </div>
   </body>
+
 </html>

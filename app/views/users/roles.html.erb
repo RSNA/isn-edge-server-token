@@ -1,28 +1,35 @@
 <% content_for(:title, "Roles") %>
-<% rsna_table_for @users do |st| %>
+<%= rsna_table_for @users, class: "table table-bordered table-striped" do |st| %>
   <% st.column("Name") {|user| h user.user_name} %>
   <% st.column("Login") {|user| h user.user_login} %>
-  <% st.column("Role") {|user| role_button(user, "User", 0) + role_button(user, "Super User", 1) + role_button(user, "Admin", 2) } %>
-  <% st.column("Active?") {|user| status_button(user, "Active", true) + status_button(user, "Disabled", false) } %>
-  <% st.column("Reset Password") {|user| button_to("Reset Password", "#", onclick: "simple_form_dialog('#{user.id}','/users/reset_password_form','Reset Password');return false;") } %>
+  <% st.column("Role") {|user| user_role_selectors(user) } %>
+  <% st.column("Active?") {|user| user_active_selectors(user) } %>
+  <% st.column("Reset Password") {|user| button_to("Reset Password", "#", class: "btn btn-primary", onclick: "simple_form_dialog('#{user.id}','/users/reset_password_form','Reset Password');return false;") } %>
   <%# st.column("Delete User") {|user| button_to("Delete", "#", onclick: "simple_form_dialog('#{user.id}','/users/delete_form','Delete this users?');return false;") } %>
   <% st.column("") {|user| content_tag(:span, "", :id => "update_alert_#{user.id}") } %>
 <% end %>
 
-<% content_for(:body) do %>
-<div class="contentDialog" id="adminDialog">
-  <a id="dialogClose">x</a>
-  <h1></h1>
-  <div id="errorExplanation" style="display: none;">
-    <h2>Errors occured while trying to send the cart</h2>
-    <p>There was a problem with the following fields</p>
-    <ul>
-    </ul>
+<div id="admin-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" role="button">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+	<div id="errorExplanation" style="display: none;">
+	  <h2>Errors occured while trying to send the cart</h2>
+	  <p>There was a problem with the following fields</p>
+	  <ul>
+	  </ul>
+	</div>
+
+	<div class="progress progress-striped active margin-top spinner" style="display: none; width: 100%;">
+	  <div class="progress-bar" style="width: 100%"></div>
+	</div>
+
+	<div id="admin-modal-contents"></div>
+      </div>
+    </div>
   </div>
-  <div id="adminDialogContent"></div>
 </div>
-<div id="backgroundDialog"></div>
-<script language="javascript">
-  $("#dialogClose").click(function() { close_dialog($("#adminDialog")); });
-</script>
-<% end %>

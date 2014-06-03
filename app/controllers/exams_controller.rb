@@ -22,8 +22,9 @@ class ExamsController < ApplicationController
 
   # Filter the patients exams by the exam description
   def filter
-    @exams = @patient.exams.by_exam_description(params[:filter])
-    Exam.filter_cancelled(@exams) unless params[:show_cancelled]
+    @exams = @patient.exams
+    @exams = @exams.by_exam_description(params[:filter]) unless params[:filter].blank?
+    Exam.filter_cancelled(@exams) unless params[:show_cancelled].blank?
     render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient}
   end
 

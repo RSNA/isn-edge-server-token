@@ -19,9 +19,19 @@ class JobSet < ActiveRecord::Base
   belongs_to :user, :foreign_key => :user_id
 
   attr_accessor :use_rsna_id, :patient_password, :patient_password_confirmation, :salt, :token, :force_token
-
+  attr_accessible :force_token, :patient_password, :patient_password_confirmation, :patient_id, :user_id, :email_address, :modified_date, :delay_in_hrs, :send_on_complete
   validates_presence_of :patient_password
 
+  # Call back method used to set the single use patient id
+  before_create do
+    self.id = self.class.next_id
+    if self.use_rsna_id
+      self.single_use_patient_id = self.patient.rsna_id
+    else
+      self.single_use_patient_id = trans_hash_gen()
+      self.patient.update_attribute(:rsna_id,self.single_use_patient_id) unless self.email_address.blank? or self.force_token
+    end
+  end
 
   # Checks the configurations table for a site_id
   # if not site_id is found it defaults to "0001" but does not memoize
@@ -59,19 +69,8 @@ class JobSet < ActiveRecord::Base
     end
   end
 
-  # Call back method used to set the single use patient id
-  def before_create
-    self.id = self.class.next_id
-    if self.use_rsna_id
-      self.single_use_patient_id = self.patient.rsna_id
-    else
-      self.single_use_patient_id = trans_hash_gen()
-      self.patient.update_attribute(:rsna_id,self.single_use_patient_id) unless self.email_address.blank? or self.force_token
-    end
-  end
-
   # Generates the user token
-  def user_token_gen(given_salt=ActiveSupport::SecureRandom.random_bytes(64))
+  def user_token_gen(given_salt=SecureRandom.random_bytes(64))
     if @token
       @token
     else

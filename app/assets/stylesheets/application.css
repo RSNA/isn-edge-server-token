@@ -1,15 +1,42 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
- *= require_tree .
  *= require_self
- */
+ *= require slate/loader
+ *= require slate/bootswatch
+*/
+
+.hide { display: none; }
+.data { display: none; }
+.margin-top { margin-top: 10px; }
+.margin-left { margin-left: 10px; }
+.center { text-align: center; }
+
+#title-header
+{
+  background-image: -ms-linear-gradient(left, #FFFFFF 0%, #856EC6 100%);
+  background-image: -moz-linear-gradient(left, #FFFFFF 0%, #856EC6 100%);
+  background-image: -o-linear-gradient(left, #FFFFFF 0%, #856EC6 100%);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #FFFFFF), color-stop(1, #856EC6));
+  background-image: -webkit-linear-gradient(left, #FFFFFF 0%, #856EC6 100%);
+  background-image: linear-gradient(to right, #FFFFFF 0%, #856EC6 100%);
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#primary-navbar
+{
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+#page-header { margin-top: 0px; }
+#footer { font-size: 10px; background-color: #444; padding-top: 3px; padding-bottom: 3px;}
+#footer a { color: #9080c1; }
+#footer a:hover { text-decoration: underline; }
+
+
+#token-modal .modal-dialog { width: 85%; }
+#audit-modal .modal-dialog { width: 85%; }
+
+.table-tab-container { display: none; }
+.table-tab-container.active { display: block; }

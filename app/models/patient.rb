@@ -38,7 +38,7 @@ class Patient < ActiveRecord::Base
   end
 
   def consented?
-    if self.consent_timestamp and ((Time.now - self.consent_timestamp) / 3600) <= EdgeConfiguration.consent_duration
+    if self.consent_timestamp and ((Time.now - self.consent_timestamp) / 86400) <= EdgeConfiguration.consent_duration
       true
     else
       false

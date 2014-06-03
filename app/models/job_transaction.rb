@@ -7,6 +7,8 @@ class JobTransaction < ActiveRecord::Base
   self.primary_key = "transaction_id"
   belongs_to :job
 
+  attr_accessible :job_id, :status_code, :comments, :modified_date
+
   # Filters using a basic search methodology on mrn, accession number, and patient name.
   # This will be switched to use the Search::Query builder in the future.
   def self.filter(string)

@@ -7,12 +7,23 @@ sets the modified date to the current timestamp whenever
 the record is changes.
 =end
 class EdgeConfiguration < ActiveRecord::Base
+
+  # Call back function to set the modified date
+  attr_accessible :key, :value, :given_key
+  before_validation :fix_keys
+
+  def fix_keys
+    Rails.logger.debug("AM I REALLY WORKING!?")
+    self.key = self.given_key
+    self.modified_date = Time.now
+  end
+
   self.table_name = "configurations"
   self.primary_key = "key"
 
   attr_accessor :given_key
-
-  validates_presence_of :given_key
+  validates_uniqueness_of :key
+  validates_presence_of :key
 
   def self.site_id
     sid = self.find_by_key("site_id")
@@ -63,10 +74,5 @@ class EdgeConfiguration < ActiveRecord::Base
     end
   end
 
-  # Call back function to set the modified date
-  def before_save
-    self.key = self.given_key
-    self.modified_date = Time.now
-  end
 
 end

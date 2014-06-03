@@ -1,42 +1,47 @@
-<div class="contentDialog" id="consentDialog">
-  <a id="dialogClose">x</a>
-  <h1>Confirm Patient Consent</h1>
-  <p id="demographicArea">
-    <div class="demographic">
-      <label>Patient Name</label>
-      <span id="consent_demographic_patient_name" class="value"></span>
+<div id="consent-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" role="button">&times;</button>
+        <h4 class="modal-title">Confirm Patient Consent</h4>
+      </div>
+      <div class="modal-body">
+	<p id="demographicArea">
+	  <div class="demographic">
+	    <label>Patient Name</label>
+	    <span id="consent_demographic_patient_name" class="value"></span>
+	  </div>
+	  <div class="demographic">
+	    <label>Medical Record #</label>
+	    <span id="consent_demographic_mrn" class="value"></span>
+	  </div>
+	  <div class="demographic">
+	    <label>Date of Birth</label>
+	    <span id="consent_demographic_dob" class="value"></span>
+	  </div>
+	  <div class="demographic">
+	    <label>Sex</label>
+	    <span id="consent_demographic_sex" class="value"></span>
+	  </div>
+	  <div class="demographic">
+	    <label>Street Address</label>
+	    <span id="consent_demographic_street" class="value"></span>
+	  </div>
+	  <div class="demographic">
+	    <label>City, State Zip</label>
+	    <span id="consent_demographic_area" class="value"></span>
+	  </div>
+	</p>
+      </div>
+      <div class="modal-footer">
+	Have you received the patient's consent?
+	<form id="consent_form" class="form-inline" method="get" action="/patients/record_consent">
+	  <input type="hidden" name="patient_id" id="consent_patient_id" value="fake" />
+	  <button class="btn btn-primary">Yes</button>
+	  <button class="btn btn-default" onclick="$('#consent-modal').modal('toggle'); return false;">No</button>
+	</form>
+      </div>
     </div>
-    <div class="demographic">
-      <label>Medical Record #</label>
-      <span id="consent_demographic_mrn" class="value"></span>
-    </div>
-    <div class="demographic">
-      <label>Date of Birth</label>
-      <span id="consent_demographic_dob" class="value"></span>
-    </div>
-    <div class="demographic">
-      <label>Sex</label>
-      <span id="consent_demographic_sex" class="value"></span>
-    </div>
-    <div class="demographic">
-      <label>Street Address</label>
-      <span id="consent_demographic_street" class="value"></span>
-    </div>
-    <div class="demographic">
-      <label>City, State Zip</label>
-      <span id="consent_demographic_area" class="value"></span>
-    </div>
-  </p>
-  <p class="consent_buttons">
-    Have you received the patient's consent?
-    <form id="consent_form" method="get" action="/patients/record_consent">
-      <input type="hidden" name="patient_id" id="consent_patient_id" value="fake" />
-      <%= submit_tag("Yes") %>
-      <%= button_to("No", "#",:onclick => "close_dialog($('#consentDialog'));return false;") %>
-    </form>
-  </p>
+  </div>
 </div>
-<div id="backgroundDialog"></div>
-<script language="javascript">
-  $("#dialogClose").click(function() { close_dialog($("#consentDialog")); });
-</script>
+</div>

@@ -1,83 +1,111 @@
-<div class="contentDialog" id="tokenDialog">
-  <a id="dialogClose">x</a>
-  <div id="errorExplanation" style="display: none;">
-    <h2>Errors occured while trying to send the cart</h2>
-    <p>There was a problem with the following fields</p>
-    <ul>
-    </ul>
+<div id="token-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" role="button">&times;</button>
+        <h4 class="modal-title">Send Cart</h4>
+      </div>
+      <div class="modal-body" id="tokenDialog">
+
+	  <div id="errorExplanation" style="display: none;">
+	    <h2>Errors occured while trying to send the cart</h2>
+	    <p>There was a problem with the following fields</p>
+	    <ul>
+	    </ul>
+	  </div>
+	  <%= form_tag({action: "send_cart", controller: "exams"}, {id: 'cart_form', role: "form", style: "display: inline;", onsubmit: "validate_cart($('#cart_form')); return false;"}) do %>
+	  <% exams.each do |exam| %>
+	    <%= hidden_field_tag "exam_ids[]", exam.id %>
+	  <% end %>
+
+	  <div id="tokenSendDialog" style="display: none;">
+	    <div class="container-fluid">
+	      <div class="row">
+
+		<div class="col-xs-4 center">
+		  By choosing this option each exam will be subject to a delay period before it is sent.
+		  This gives the doctor a chance to speak with the patient before he or she get the results.
+		</div>
+
+		<div class="col-xs-4 center">
+		  By choosing this option each exam will be sent as soon as its final report is available.
+		  This means that the doctor may not have a chance to speak with the patient before he or she get the results.
+		</div>
+
+		<div class="col-xs-4 center">
+		  By choosing this option each exam will be sent immediately. Even if there is no final report available.
+		</div>
+
+	      </div>
+
+	      <div class="row">
+		<div class="col-xs-4 center">
+		  <%= link_to("Routine", "#", class: "btn btn-primary", onclick: "send_cart($('#cart_form')); return false;") %>
+		</div>
+
+		<div class="col-xs-4 center">
+		  <%= link_to("When final report available", "#", class: "btn btn-primary", onclick: "send_cart($('#cart_form'), 1); return false;") %>
+		</div>
+
+		<div class="col-xs-4 center">
+		  <%= link_to("Immediately", "#", class: "btn btn-primary", onclick: "send_cart($('#cart_form'), 2); return false;") %>
+		</div>
+	      </div>
+	    </div>
+
+	    <input type="hidden" name="override_delay" value="0" />
+	  </div>
+
+	  <div id="tokenChoiceDialog" style="<%= @patient.rsna_id ? '' : 'display: none;' %>">
+	    <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.rsna_id_email %>)?</p>
+	    <input type="button" value="Yes" class="use-old-button btn btn-primary" />
+	    <input type="button" value="No" class="use-old-button btn btn-default" />
+	  </div>
+
+	  <div id="tokenPasswordDialog" style="<%= @patient.rsna_id ? 'display: none;' : '' %>">
+	    <h1>Enter Password</h1>
+	    <p>Please ask the patient to enter the password they would like to use to retrieve his/her images.</p>
+	    <p><span style="font-weight: bold;">Note:</span> Passwords are case sensitive</p>
+
+	    <div class="form-group">
+              <label>Password</label>
+              <input name="patient_password" class="plain_password form-control" type="password" />
+	    </div>
+
+	    <div class="form-group">
+              <label>Confirm Password</label>
+              <input name="patient_password_confirmation" class="plain_password form-control" type="password" />
+	    </div>
+
+	    <div class="form-group">
+              <label>Patient's Email (optional)</label>
+              <input class="form-control" name="email" type="text" value="<%= @exams.first.patient.rsna_id_email || @patient.email_address %>" />
+	    </div>
+
+	    <div class="form-group">
+	      <label>
+		<input type="checkbox" onclick="toggle_pin_visibility();" />
+		<strong>Show password in plain text?</strong> - Check this box if you would like to visually confirm you entered the password you wanted.
+	      </label>
+	    </div>
+
+	    <div class="form-group">
+	      <label for="force_token">
+		<input type="checkbox" name="force_token" />
+		<strong>Check this box to use an auto-generated token instead of the email address.</strong>
+	      </label>
+	    </div>
+
+	    <%= submit_tag("Next", class: "btn btn-primary") %>
+	  </div>
+
+	  <div id="submit_spinner" class="progress progress-striped active margin-top" style="display: none; width: 100%;">
+	    <div class="progress-bar" style="width: 100%"></div>
+	  </div>
+
+	  <% end %>
+	</div>
+      </div>
+    </div>
   </div>
-    <% form_tag({:action => "send_cart", :controller => "exams"}, {:id => 'cart_form', :style => "display: inline;", :onsubmit => "validate_cart($('#cart_form')); return false;"}) do %>
-    <% exams.each do |exam| %>
-      <%= hidden_field_tag "exam_ids[]", exam.id %>
-    <% end %>
-
-    <div id="tokenSendDialog">
-      <h1>Send Cart</h1>
-      <table border="0" cellspacing="0" cellpadding="2" id="send-choices">
-	<tbody>
-	  <tr>
-	    <td>By choosing this option each exam will be subject to a delay period before it is sent. This gives the doctor a chance to speak with the patient before he or she get the results.</td>
-	    <td class="center">By choosing this option each exam will be sent as soon as its final report is available. This means that the doctor may not have a chance to speak with the patient before he or she get the results.</td>
-	    <td>By choosing this option each exam will be sent immediately. Even if there is no final report available.</td>
-	  </tr>
-	  <tr class="buttons">
-	    <td>
-	      <input type="button" value="Routine" onclick="send_cart($('#cart_form')); return false;" />
-              <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
-	    </td>
-	    <td class="center">
-              <input type="button" value="When final report available" onclick="send_cart($('#cart_form'), 1); return false;" />
-              <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
-	    </td>
-	    <td>
-              <input type="button" value="Immediately" onclick="send_cart($('#cart_form'), 2); return false;" />
-              <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
-	    </td>
-	  </tr>
-	</tbody>
-      </table>
-
-      <input type="hidden" name="override_delay" value="0" />
-    </div>
-
-    <div id="tokenChoiceDialog" class="<%= @patient.rsna_id ? '' : 'hide' %>">
-      <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.rsna_id_email %>)?</p>
-      <input type="button" value="Yes" class="use-old-button" />
-      <input type="button" value="No" class="use-old-button" />
-    </div>
-
-    <div id="tokenPasswordDialog" class="<%= @patient.rsna_id ? 'hide' : '' %>">
-      <h1>Enter Password</h1>
-      <p>Please ask the patient to enter the password they would like to use to retrieve his/her images.</p>
-      <p><span style="font-weight: bold;">Note:</span> Passwords are case sensitive</p>
-
-      <p>
-        <label class="inline">Password</label>
-        <input name="patient_password" class="plain_password" type="password" />
-      </p>
-      <p>
-        <label class="inline">Confirm Password</label>
-        <input name="patient_password_confirmation" class="plain_password" type="password" />
-      </p>
-      <p>
-        <label class="inline">Patient's Email (optional)</label>
-        <input name="email" type="text" value="<%= @exams.first.patient.rsna_id_email || @patient.email_address %>" />
-      </p>
-      <p>
-        <input type="checkbox" onclick="toggle_pin_visibility();" />
-        <strong>Show password in plain text?</strong> - Check this box if you would like to visually confirm you entered the password you wanted.
-      </p>
-      <p>
-	<input type="checkbox" name="force_token" />
-	<strong>Check this box to use an auto-generated token instead of the email address.</strong>
-      </p>
-      <%= submit_tag("Next") %>
-    </div>
-    <%= image_tag("/images/ajax-loader.gif", :id => "submit_spinner", :style => "display: none;") %>
-  <% end %>
 </div>
-
-<div id="backgroundDialog"></div>
-<script language="javascript">
-  $("#dialogClose").click(function() { close_dialog($("#tokenDialog")); });
-</script>

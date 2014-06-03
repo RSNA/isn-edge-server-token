@@ -1,26 +1,27 @@
 <%= content_for(:title, "Exams for #{@patient.patient_name}") %>
 
-<%= button_to("Reprint Token", "#", onclick: "window.open('#{url_for(:controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address])}');return false;") if @autoprint_rsna_id %>
+<%= link_to("Reprint Token", "#", class: "btn btn-primary", onclick: "window.open('#{url_for(:controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address])}');return false;") if @autoprint_rsna_id %>
 
-<%= form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
-  <table border="0" cellspacing="0" cellpadding="2">
-    <tbody>
-      <tr>
-	<td><label for="filter"><strong>Exam description</strong></label></td>
-	<td><input name="filter" class="search" type="text" size="30" /></td>
-      </tr>
-      <tr>
-	<td><strong>Show Cancelled Exams?</strong></td>
-	<td><input type="checkbox" name="show_cancelled" /></td>
-      </tr>
-    </tbody>
-  </table>
-  <%= submit_tag "Filter" %>
+<%= form_for :search, :html => {id: "filter_form", method: 'get', class: "form-inline", onsubmit: "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
+  <div class="form-group">
+    <label for="filter">Exam description</label>
+    <input name="filter" class="form-control" type="text" />
+  </div>
+  <div class="form-group">
+    <label for="show_cancelled"><input type="checkbox" name="show_cancelled" /> Show Cancelled Exams?</label>
+  </div>
+
+  <%= submit_tag "Filter", class: "btn btn-primary" %>
 
 <% end %>
-<%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
-<% content_tag :div, :id => "search_results" do %>
-  <%= render :partial => "exams/results", :locals => {:exams => @exams, :patient => @patient} %>
+
+<div id="search_spinner" class="progress progress-striped active margin-top" style="display: none; width: 560px;">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+<%# image_tag "ajax-loader.gif", style: "display: none;", id: "search_spinner" %>
+
+<%= content_tag :div, id: "search_results", class: "margin-top" do %>
+  <%= render partial: "exams/results", locals: {exams: @exams, patient: @patient} %>
 <% end %>
 
 <%= javascript_tag("window.open('/exams/print_patient_info?token=#{params[:token]}&email_address=#{params[:email_address]}');") if @autoprint_rsna_id %>

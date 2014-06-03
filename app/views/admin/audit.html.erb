@@ -1,26 +1,37 @@
 <%= content_for(:title, "Audit Trail") %>
 
-<%= form_for :search, :html => {:id => "filter_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "filter_by($('#filter_form').serialize()); return false;"} do |f| %>
-  <p>
-    <input name="filter" class="search" type="text" size="30" />
-    <%= submit_tag "Filter" %><br />
+<%= form_for :search, :html => {id: "filter_form", class: "form-inline", method: 'get', onsubmit: "filter_by($('#filter_form').serialize()); return false;"} do |f| %>
+  <div class="form-group">
+    <input name="filter" class="form-control" type="text" />
+    <%= submit_tag "Filter", class: "btn btn-primary" %><br />
     <label for="filter">Filter by patient name, medical record number, or accession number</label>
-  </p>
+  </div>
 
 <% end %>
-<%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
+
+<div id="search_spinner" class="progress progress-striped active margin-top" style="display: none; width: 560px;">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+
 <%= content_tag :div, :id => "search_results" do %>
   <%= render :partial => "admin/transaction_list", :locals => {:job_stati => @job_stati} %>
 <% end %>
 
-<% content_for(:body) do %>
-<div class="contentDialog" id="auditDialog">
-  <a id="dialogClose">x</a>
-  <h1>Audit Details</h1>
-  <div id="auditDialogContent"></div>
+<div id="audit-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" role="button">&times;</button>
+        <h4 class="modal-title">Audit Details</h4>
+      </div>
+      <div class="modal-body">
+	<div id="search_spinner" class="progress progress-striped active margin-top" style="display: none; width: 100%;">
+	  <div class="progress-bar" style="width: 100%"></div>
+	</div>
+	
+	<div class="results"></div>
+      </div>
+    </div>
+  </div>
 </div>
-<div id="backgroundDialog"></div>
-<script language="javascript">
-  $("#dialogClose").click(function() { close_dialog($("#auditDialog")); });
-</script>
-<% end %>
+

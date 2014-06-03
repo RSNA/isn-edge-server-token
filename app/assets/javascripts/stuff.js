@@ -6,24 +6,17 @@ function $$(arg) {
 }
 
 $(document).ready(function() {
-    // Style using ShadedBorder.js
-    tab_controller.render($(".tab-controller"));
-    splitBorderTop.render($("#main_title"));
-    splitBorderBottom.render($("#contents"));
-    tab_border.render($(".tabs ul li"));
+    $("#audit-modal").on('click',"#table-selector .dropdown-menu li a",function(e) {
+	$(this).parent().siblings().removeClass("active");
+	$(this).parent().addClass("active");
+	console.log($($(this).attr('href')).siblings(".table-tab-container"));
+	$($(this).attr('href')).siblings(".table-tab-container").hide();
+	$($(this).attr('href')).show();
+	$("#table-selector button .title").text($(this).text());
+	$("#table-selector button").dropdown('toggle');
+	return false;
+    });
 
-    // Create Menu Events
-    /*$(".tab-controller a").each(function(i,element) {
-	var e = $(element);
-	e.tabs_id = $("#" + e.html().toLowerCase() + "_tabs");
-	e.click(function(event) {
-	    $(".tab-controller").removeClass("active");
-	    e.parent().addClass("active")
-	    $(".tabs").hide();
-	    e.tabs_id.show();
-	    return false;
-	});
-    });*/
 });
 
 
@@ -69,7 +62,7 @@ function toggle_pin_visibility() {
 	var name = element.attr('name');
 	var type = "password";
 	if (element.attr('type') == "password") type = "text";
-	var new_element = "<input type=\"" + type + "\" name=\"" + name + "\" value=\"" + value + "\" class=\"plain_password\" />";
+	var new_element = "<input type=\"" + type + "\" name=\"" + name + "\" value=\"" + value + "\" class=\"plain_password form-control\" />";
 	element.replaceWith(new_element);
     });
 }
@@ -78,15 +71,16 @@ function toggle_pin_visibility() {
 // ------ CART Functionality ------
 // --------------------------------
 function add_to_cart(element_id, exam_id) {
+    console.log(element_id,exam_id);
     $.ajax({
 	url: "/exams/add_to_cart",
-	type: 'post',
 	data: {'id': exam_id},
 	success: function(response) {
-	    $("#" +element_id).replaceWith("<input class=\"cart-button\" onclick=\"window.location = '/exams/show_cart'\" type=\"button\" value=\"View Cart (" + response + ")\" />");
+	    $("#" +element_id).replaceWith("<input class=\"btn btn-primary\" onclick=\"window.location = '/exams/show_cart'\" type=\"button\" value=\"View Cart (" + response + ")\" />");
 	    update_cart_count(response);
 	}
     });
+    return false;
 }
 
 function update_cart_count(count) {
@@ -97,10 +91,9 @@ function update_cart_count(count) {
 function delete_from_cart(element_id, exam_id) {
     $.ajax({
 	url: "/exams/delete_from_cart",
-	type: 'post',
 	data: {'id': exam_id},
 	success: function(response) {
-	    $("#" + element_id).parent().parent().replaceWith("");
+	    $("#" + element_id).parents('tr').remove()
 	    $('#flash-notice').html("Removed exam from cart");
 	    update_cart_count(response);
 	}
@@ -113,7 +106,6 @@ function send_cart(form, delay) {
     }
     $.ajax({
 	url: "/exams/send_cart",
-	type: "post",
 	data: form.serialize(),
 	success: function(response) {
                    $("#tokenDialog").html(response);
@@ -128,7 +120,6 @@ function send_cart(form, delay) {
 function validate_cart(form) {
     $.ajax({
 	url: "/exams/validate_cart",
-	type: 'post',
 	data: form.serialize(),
 	success: function(responseData) {
 	    $("#submit_spinner").hide();
@@ -157,7 +148,6 @@ function validate_cart(form) {
 function retry_job(element_id, job_id) {
     $.ajax({
 	url: "/exams/retry_job",
-	type: 'post',
 	data: {'id': job_id},
 	success: function(response) {
 	    $("#" +element_id).replaceWith("Retrying");
@@ -169,11 +159,11 @@ function retry_job(element_id, job_id) {
 // -----------------------------------
 // --- User Role Editing Functions ---
 // -----------------------------------
-function update_role(radio_button, id, element_for_update) {
+function update_role(label, id, element_for_update) {
+    var radio_button = $(label).find('input[type="radio"]');
     $.ajax({
 	url: "/users/set_role",
-	type: 'post',
-	data: {'id': id, 'role_id': radio_button.value},
+	data: {'id': id, 'role_id': radio_button.val()},
 	success: function(response) {
 	    $("#" + element_for_update).html(response);
 	},
@@ -183,11 +173,11 @@ function update_role(radio_button, id, element_for_update) {
     });
 }
 
-function update_status(radio_button, id, element_for_update) {
+function update_status(label, id, element_for_update) {
+    var radio_button = $(label).find('input[type="radio"]');
     $.ajax({
 	url: "/users/set_status",
-	type: 'post',
-	data: {'id': id, 'active': radio_button.value},
+	data: {'id': id, 'active': radio_button.val()},
 	success: function(response) {
 	    $("#" + element_for_update).html(response);
 	},
@@ -209,44 +199,44 @@ function obtain_consent(patient_id, demographics) {
     }
     $('#consent_demographic_area').html(demographics['city'] + ", " + demographics['state'] + " " + demographics['zip_code']);
     $('#consent_patient_id').val(demographics['patient_id']);
-    center_dialog($("#consentDialog"));
-    load_dialog($("#consentDialog"));
+    $('#consent-modal').modal('toggle');
 }
 
 function audit_details(job_transaction_id) {
-    var dialog = $("#auditDialog");
-    var contents = $("#auditDialogContent");
-    center_dialog(dialog);
-    load_dialog(dialog);
+    var contents = $("#audit-modal .modal-body .results");
+    $("#audit-modal").modal('toggle');
+
     $.ajax({
 	url: "/admin/audit_details",
 	data: {id: job_transaction_id},
 	success: function(response) {
+	    contents.find(".spinner").hide();
 	    contents.html(response);
 	},
 	beforeSend: function(xml) {
-	    contents.html("<img src=\"/images/ajax-loader.gif\" />");
+	    contents.find(".spinner").show();
 	}
     });
 }
 
 function simple_form_dialog(id,url,title) {
     if (title == undefined) { title = "Form" }
-    var dialog = $("#adminDialog");
-    var contents = $("#adminDialogContent");
-    center_dialog(dialog);
-    load_dialog(dialog);
+    $("#admin-modal").modal('toggle');
+    var contents = $("#admin-modal-contents");
+    console.log(contents,title);
     $.ajax({
 	'url': url,
 	data: {'id': id},
 	success: function(response) {
-	    contents.html(response);
+	    $("#admin-modal .modal-body .spinner").hide();
+	    $(contents).html(response);
 	},
 	beforeSend: function(xml) {
-	    $("#adminDialog h1").text(title);
-	    contents.html("<img src=\"/images/ajax-loader.gif\" />");
+	    $("#admin-modal .modal-header h4").text(title);
+	    $("#admin-modal .modal-body .spinner").show();
 	}
     });
+    return false;
 }
 
 function reset_password(form) {
@@ -255,55 +245,16 @@ function reset_password(form) {
 	type: 'post',
 	data: form.serialize(),
 	success: function(response) {
-	    $("#adminDialogContent").html(response);
+	    $("#admin-modal .modal-body .spinner").hide();
+	    $("#admin-modal-contents").html(response);
 	},
 	beforeSend: function(xml) {
-	    $("#adminDialogContent").html("<img src=\"/images/ajax-loader.gif\" />");
+	    $("#admin-modal-contents").html("");
+	    $("#admin-modal .modal-body .spinner").show();
 	}
     });
 }
 
-
-function load_dialog(dialog) {
-    //loads dialog only if it is disabled
-    if(consent_status==0){
-	$("#backgroundDialog").css({
-	    "opacity": "0.7"
-	});
-	$("#backgroundDialog").fadeIn("slow");
-	dialog.fadeIn("slow");
-	consent_status = 1;
-    }
-}
-
-function close_dialog(dialog) {
-    //disables dialog only if it is enabled
-    if(consent_status==1){
-	$("#backgroundDialog").fadeOut("slow");
-	dialog.fadeOut("slow");
-	consent_status = 0;
-    }
-}
-
-function center_dialog(dialog) {
-    var windowWidth = document.documentElement.clientWidth;
-    var windowHeight = document.documentElement.clientHeight;
-    var dialogHeight = dialog.height();
-    var dialogWidth = dialog.width();
-    var scrollTop = getPageScroll()[1];
-
-    dialog.css({
-	"position": "absolute",
-	"top": (windowHeight/2-dialogHeight/2) + scrollTop,
-	"left": windowWidth/2-dialogWidth/2
-    });
-
-    //only need force for IE6
-    $("#backgroundDialog").css({
-	"height": windowHeight
-    });
-
-}
 
 function getPageScroll() {
     var xScroll, yScroll;

@@ -1,9 +1,20 @@
-<%= form_for(:device, :html => {:id => "new_device_form", :method => 'post'}, :url => form_action) do |f| %>
-  <p>
-    <%= error_messages_for :device %>
-    <label class="inline">AE Title</label><%= f.text_field(:ae_title) %><br />
-    <label class="inline">Host</label><%= f.text_field(:host) %><br />
-    <label class="inline">Port Number</label><%= f.text_field(:port_number) %><br />
-    <%= submit_tag(submit_text) %>
-  </p>
+<%= form_for(:device, html: {id: "new_device_form", class: "form", method: 'post'}, :url => form_action) do |f| %>
+  <%= error_messages_for :device %>
+
+  <div class="form-group">
+    <label class="inline">AE Title</label>
+    <%= f.text_field(:ae_title, class: "form-control") %>
+  </div>
+
+  <div class="form-group">
+    <label class="inline">Host</label>
+    <%= f.text_field(:host, class: "form-control") %>
+  </div>
+
+  <div class="form-group">
+    <label class="inline">Port Number</label>
+    <%= f.text_field(:port_number, class: "form-control") %>
+  </div>
+
+  <%= submit_tag(submit_text, class: "btn btn-primary") %>
 <% end %>

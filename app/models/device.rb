@@ -11,6 +11,7 @@ class Device < ActiveRecord::Base
   self.primary_key = "device_id"
 
   validates_presence_of :ae_title, :host, :port_number
+  attr_accessible :ae_title, :host, :port_number
 
   # Call back function to set the modified date
   def before_save

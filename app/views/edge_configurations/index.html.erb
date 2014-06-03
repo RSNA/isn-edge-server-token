@@ -1,12 +1,12 @@
 <% content_for(:title, "Configuration Variables") %>
 
-<%= rsna_table_for @edge_configurations, :sortable => true do |st| %>
+<%= rsna_table_for @edge_configurations, class: "sortable table table-bordered table-striped" do |st| %>
   <% st.column("Key") {|ec| h ec.key} %>
   <% st.column("Value") {|ec| h ec.value} %>
-  <% st.column("") {|ec| button_to("Edit", {:controller => :edge_configurations, :action => :edit, :id => ec.id}, :method => :get) } %>
-  <% st.column("") {|ec| button_to("Delete", {:controller => :edge_configurations, :action => :destroy, :id => ec.id}, :method => :post) } %>
+  <% st.column("") {|ec| button_to("Edit", {controller: :edge_configurations, action: :edit, id: ec.id}, class: "btn btn-primary", method: :get) } %>
+  <% st.column("") {|ec| button_to("Delete", {controller: :edge_configurations, action: :destroy, id: ec.id}, class: "btn btn-primary", method: :post) } %>
 <% end %>
 
 <div style="margin-top: 10px; margin-left: 5px;">
-  <%= button_to("Add New Configuration Variable", {:controller => :edge_configurations, :action => :new}, :method => :get) %>
+  <%= button_to("Add New Configuration Variable", {controller: :edge_configurations, action: :new}, :class => "btn btn-primary", method: :get) %>
 </div>

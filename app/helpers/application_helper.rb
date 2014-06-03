@@ -46,39 +46,11 @@ module ApplicationHelper
     logged_in? and @user.role_id >= level
   end
 
-  # Returns true or false after checking controller information to determine which tab group is active
-  def tab_active?(name)
-    if ["tail", "users","admin","devices","edge_configurations"].include?(params[:controller]) and params[:action] != "change_password"
-      if name == :administrative
-        true
-      else
-        false
-      end
-    elsif params[:controller] == "patients" and params[:action] == "xds_export"
-      name == :research ? true : false
-    elsif name != :administrative and name != :research
-      true
-    end
-  end
-
-  # Builds a tab controller button
-  def tab_controller(name, *args)
-    active = (tab_active?(name) ? "active" : "")
-    content_tag(:span, :class => "tab-controller #{active}") do
-      link_to(name.to_s.titleize, *args)
-    end
-  end
-
-  # Builds a tab with the given information
-  def tabs_for(name,&block)
-    active = (tab_active?(name) ? "active-tabs" : "")
-    if active.blank?
-      ""
-    else
-      concat(content_tag(:div, :class => "tabs #{active}", :id => "#{name}_tabs") do
-               capture(&block)
-             end)
-    end
+  def global_navigation_link(title,url_opts, matching_url_ops = {})
+    matching_url_ops = url_opts if matching_url_ops == {}
+    matches = matching_url_ops.keys.collect {|key| matching_url_ops[key].to_s == params[key].to_s ? true : false }
+    matches.include?(false) ? active = "" : active = "active"
+    content_tag(:li, link_to(title, url_opts, :name => title.downcase.gsub(" ","-").gsub("/","")), :class => active)
   end
 
   # Shows a text preview limited to the length given
@@ -95,14 +67,27 @@ module ApplicationHelper
   # Builds a button for updating a user role
   def role_button(user, name, value)
     selected = (user.role_id == value ? true : false)
-    content_tag(:span, "#{name}:") +
-      radio_button_tag("user_role_#{user.id}", value, selected, :onclick => "update_role(this, #{user.id}, 'update_alert_#{user.id}');")
+    content_tag(:label, class: "btn btn-primary #{selected ? 'active' : ''}", onclick: "update_role(this, #{user.id}, 'update_alert_#{user.id}'); return false;") do
+      radio_button_tag("user_role_#{user.id}", value, selected) + name
+    end
+  end
+
+  def user_role_selectors(user)
+    buttons = role_button(user, "User", 0) + role_button(user, "Super User", 1) + role_button(user, "Admin", 2)
+    content_tag(:div, class: "btn-group", "data-toggle" => "buttons") { buttons.html_safe }
   end
 
   def status_button(user, name, value)
     selected = (user.active == value ? true : false)
-    content_tag(:span, "#{name}:") +
-      radio_button_tag("user_status_#{user.id}", value, selected, :onclick => "update_status(this, #{user.id}, 'update_alert_#{user.id}');")
+    content_tag(:label, class: "btn btn-primary #{selected ? 'active' : ''}", :onclick => "update_status(this, #{user.id}, 'update_alert_#{user.id}'); return false;") do
+      radio_button_tag("user_status_#{user.id}", value, selected) + name
+    end
+  end
+
+  def user_active_selectors(user)
+    values = [true, false]
+    buttons = values.inject("") {|out,value| out + status_button(user,(value ? 'Active' : 'Disabled'),value) }
+    content_tag(:div, class: "btn-group", "data-toggle" => "buttons") { buttons.html_safe }
   end
 
 
@@ -128,10 +113,14 @@ module ApplicationHelper
   # and returns the appropriate action button
   def obtain_consent_button(patient)
     if patient.consented?
-      button_to("Select", :controller => :exams, :action => :index, :patient_id => patient.id)
+      button_to("Select", {controller: :exams, action: :index, patient_id: patient.id}, {class: "btn btn-primary"})
     else
-      button_to("Select", "#", onclick: "obtain_consent(#{patient.id},$.parseJSON('#{patient.attributes.to_json.gsub("'","\\\\'")}'));return false;")
+      button_to("Select", "#", onclick: "obtain_consent(#{patient.id},$.parseJSON('#{patient.attributes.to_json.gsub("'","\\\\'")}'));return false;", class: "btn btn-primary")
     end
+  end
+
+  def job_name(job)
+    "Job ##{job.job_id}#{job.job_transactions.last.status.status_code < 0 ? " (error)" : ""}"
   end
 
 end

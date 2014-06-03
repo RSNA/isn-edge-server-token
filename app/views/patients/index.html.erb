@@ -1,33 +1,53 @@
 <% content_for(:title, "Search for Patients") %>
-<%= form_for :search, :html => {:id => "search_form", :method => 'get', :style => "margin-bottom: 30px;", :onsubmit => "search_by($('#search_form').serialize()); return false;"} do |f| %>
-  <p>
-    <input name="search" class="search" type="text" size="30" />
-    <%= submit_tag "Search" %><br />
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#simple-search" data-toggle="tab">Simple Search</a></li>
+  <li><a href="#advanced-search" data-toggle="tab">Advanced Search</a></li>
+</ul>
+
+<div class="tab-content margin-top">
+  <div class="tab-pane active" id="simple-search">
+    <%= form_for :search, :html => {id: "search_form", method: :get, class: "form-inline", onsubmit: "search_by($('#search_form').serialize()); return false;"} do |f| %>
+    <div class="form-group">
+      <input name="search" class="search form-control" type="text" size="30" />
+      <%= submit_tag "Search", :class => "btn btn-primary" %>
+      <input name="search_type" type="hidden" value="simple" />
+    </div>
+    <br />
     <label for="search">Search by patient name, medical record number, or RSNA ID</label>
-    <input name="search_type" type="hidden" value="simple" />
-    <br />
-    <%= link_to("Advanced Search", "#", :onclick => "toggle_search_form();", :class => "search-type-toggle") %>
-  </p>
-<% end %>
+    <% end %>
+  </div>
 
-<%= form_for :search, :html => {:id => "advanced_search_form", :method => 'get', :class => "search-form", :onsubmit => "search_by($('#advanced_search_form').serialize()); return false;"} do %>
-  <p>
-    <div class="field-row">
-      <label class="inline">MRN:</label><input name="mrn" type="text" size="15" />
+  <div class="tab-pane" id="advanced-search">
+
+    <%= form_for :search, :html => {id: "advanced_search_form", method: :get, class: "form-inline", onsubmit: "search_by($('#advanced_search_form').serialize()); return false;"} do %>
+    <div class="form-group">
+      <label class="control-label">MRN
+	<input class="form-control" name="mrn" type="text" />
+      </label>
     </div>
-    <div class="field-row">
-      <label class="inline">Patient Name:</label><input name="patient_name" type="text" size="30" />
+
+    <div class="form-group">
+      <label class="control-label">Patient Name
+	<input class="form-control" name="patient_name" type="text" />
+      </label>
     </div>
+
     <input name="search_type" type="hidden" value="advanced" />
-    <%= submit_tag("Search") %>
-    <br />
-    <%= link_to("Simple Search", "#", :onclick => "toggle_search_form();", :class => "search-type-toggle") %>
-  </p>
-<% end %>
 
-<%= image_tag "/images/ajax-loader.gif", :style => "display: none;", :id => "search_spinner" %>
-<%= content_tag :div, "", :id => "search_results" %>
+    <div class="form-group">
+      <%= submit_tag("Search", class: "btn btn-primary") %>
+    </div>
+    <% end %>
 
-<%= content_for(:body) do %>
-  <%= render :partial => "patients/consent_dialog", :locals => {} %>
-<% end %>
+  </div>
+</div>
+
+<div id="search_spinner" class="progress progress-striped active margin-top" style="display: none; width: 560px;">
+  <div class="progress-bar" style="width: 100%"></div>
+</div>
+
+<%= content_tag :div, "", class: "margin-top", id: "search_results" %>
+
+<%= render partial: "patients/consent_dialog", locals: {} %>
+

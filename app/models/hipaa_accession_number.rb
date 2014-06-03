@@ -8,4 +8,6 @@ It is primarly accessed through the HipaaView model.
 =end
 class HipaaAccessionNumber < ActiveRecord::Base
   self.table_name = "hipaa_audit_accession_numbers"
+
+  attr_accessible :view_id, :accession_number
 end
