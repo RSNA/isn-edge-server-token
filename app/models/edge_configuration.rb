@@ -74,5 +74,14 @@ class EdgeConfiguration < ActiveRecord::Base
     end
   end
 
+  def self.assume_last_name_first
+    ec = self.find_by_key("assume_last_name_first")
+    if ec
+      ec.value.downcase == "true"
+    else
+      false
+    end
+  end
+
 
 end

@@ -50,9 +50,7 @@ module Search
     def term_to_name_string(term)
       self.search_string ? sstring = self.search_string : sstring = terms[term]
       if not sstring.blank?
-        names = []
-        names << sstring
-        names = names + Search::Helpers.permutations(sstring)
+        names = Search::Helpers.permutations(sstring)
         names.uniq
       else
         []
@@ -99,7 +97,7 @@ module Search
   module Helpers
 
     StringPermutationExp = /, +|[,\^ ]/
-    PostgresPermutationExp = "(, +)|[,\\^ ]"
+    PostgresPermutationExp = "[,\\^ ]+" #"(, +)|[,\\^ ]" this would have to match two characters between the words
 
     # Builds permutations of a string based on a default (StringPermutationExp) or specified permutation pattern (RegExp)
     # substituting the permutation points with a default (PostgresPermutationExp) or specified Postgresql RegExp.
@@ -107,10 +105,14 @@ module Search
     #   permutations("john doe") # => ["john(, +)|[,\\^ ]doe", "doe(, +)|[,\\^ ]john"]
     #   permutations("1, 2, 3") # => ["1(, +)|[,\\^ ]2(, +)|[,\\^ ]3", "1(, +)|[,\\^ ]3(, +)|[,\\^ ]2", "2(, +)|[,\\^ ]1(, +)|[,\\^ ]3", "2(, +)|[,\\^ ]3(, +)|[,\\^ ]1", "3(, +)|[,\\^ ]1(, +)|[,\\^ ]2", "3(, +)|[,\\^ ]2(, +)|[,\\^ ]1"]
     def self.permutations(string, options={})
-      options.reverse_merge!({:pattern => StringPermutationExp, :db_exp => PostgresPermutationExp})
+      options.reverse_merge!({pattern: StringPermutationExp, db_exp: PostgresPermutationExp, assume_last_name_first: EdgeConfiguration.assume_last_name_first})
       items = string.split(options[:pattern])
-      permutate(items).collect do |permutation|
-        permutation.join(options[:db_exp])
+      if options[:assume_last_name_first]
+        ["^" + items.join(options[:db_exp])]
+      else
+        permutate(items).collect do |permutation|
+          permutation.join(options[:db_exp])
+        end
       end
     end
 
