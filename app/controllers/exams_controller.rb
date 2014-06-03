@@ -83,7 +83,16 @@ class ExamsController < ApplicationController
 
   # Add an exam to the cart
   def add_to_cart
-    cart_op {|cart| cart << params[:id].to_i } if not params[:id].blank? and not get_cart.find {|i| i == params[:id].to_i }
+    cart_op do |cart|
+      if params[:id].class == Array
+        params[:id].collect!(&:to_i)
+        params[:id].delete_if {|id| cart.include?(id) }
+        cart = cart + params[:id]
+      else
+        cart << params[:id].to_i if not params[:id].blank? and not get_cart.find {|i| i == params[:id].to_i }
+      end
+      cart
+    end
     render_cart_size
   end
 

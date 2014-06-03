@@ -90,6 +90,15 @@ module ApplicationHelper
     content_tag(:div, class: "btn-group", "data-toggle" => "buttons") { buttons.html_safe }
   end
 
+  # Button for adding to cart if it's not already it it
+  def cart_add_button(cart,exam)
+    if cart.include?(exam.id)
+      button_to("View Cart (#{cart.size})", {controller: :exams, action: :show_cart}, class: "btn btn-primary view-cart")
+    else
+      button_to("Add to Cart", "#", id: "add_link_#{exam.id}", data: exam.id, class: "btn btn-primary add-to-cart", onclick: "return add_to_cart('add_link_#{exam.id}', #{exam.id});")
+    end
+  end
+
 
   # Returns the report status of the given exam
   def status_for(exam)

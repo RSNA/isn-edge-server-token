@@ -1,5 +1,5 @@
 <%= rsna_table_for exams, sortable: true, id: "exams_for_patient", class: "table table-bordered table-striped" do |st| %>
-  <% st.column("") {|e| button_to("Add to Cart", "#", id: "add_link_#{e.id}", class: "btn btn-primary", onclick: "return add_to_cart('add_link_#{e.id}', #{e.id});") } %>
+  <% st.column("") {|e| cart_add_button(@cart,e) } %>
   <% st.column("Accession #") {|e| h e.accession_number } %>
   <% st.column("Exam Desc") {|e| h e.exam_description } %>
   <% st.column("Most Recent Change") {|e| h e.latest_information.status_timestamp.to_s(:long) if e.latest_information } %>

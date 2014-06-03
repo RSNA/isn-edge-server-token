@@ -17,6 +17,11 @@ $(document).ready(function() {
 	return false;
     });
 
+    $("#main").on('click',"#select-all-button",function(e) {
+	var ids = $.map($(".add-to-cart"),function(obj,index) { return $(obj).attr('data') });
+	add_to_cart(null,ids);
+	return false;
+    });
 });
 
 
@@ -71,12 +76,17 @@ function toggle_pin_visibility() {
 // ------ CART Functionality ------
 // --------------------------------
 function add_to_cart(element_id, exam_id) {
-    console.log(element_id,exam_id);
     $.ajax({
 	url: "/exams/add_to_cart",
 	data: {'id': exam_id},
 	success: function(response) {
-	    $("#" +element_id).replaceWith("<input class=\"btn btn-primary\" onclick=\"window.location = '/exams/show_cart'\" type=\"button\" value=\"View Cart (" + response + ")\" />");
+	    var html = "<input class=\"btn btn-primary view-cart\" onclick=\"window.location = '/exams/show_cart'\" type=\"button\" value=\"View Cart (" + response + ")\" />";
+	    if (element_id == null) {
+		$(".add-to-cart").each(function(index,obj) { $(obj).replaceWith(html); });
+	    } else {
+		$("#" +element_id).replaceWith(html);
+		$(".view-cart").each(function(index,obj) { $(obj).val("View Cart (" + response + ")"); });
+	    }
 	    update_cart_count(response);
 	}
     });
