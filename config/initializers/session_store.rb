@@ -1,3 +1,7 @@
-# Be sure to restart your server when you modify this file.
-
-Rails.application.config.session_store :cookie_store, key: '_token-app_session'
+# Configure the TorqueBox Servlet-based session store.
+# Provides for server-based, in-memory, cluster-compatible sessions
+if ENV['TORQUEBOX_APP_NAME']
+  TokenApp::Application.config.session_store :torquebox_store
+else
+  TokenApp::Application.config.session_store :cookie_store, :key => '_CHANGEME_session'
+end  
