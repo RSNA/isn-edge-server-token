@@ -69,6 +69,22 @@ class JobSet < ActiveRecord::Base
     end
   end
 
+  def user_access_code_gen()
+    hash = Digest::SHA256.hexdigest(SecureRandom.random_bytes(64)).to_i(16)
+    gen_digits = []
+    d = hash
+    for i in 0..18
+      d,r = d.divmod(32)
+      gen_digits << r
+    end
+    check_char = ZBASE32_ALPHABET[gen_digits.each_with_index.map {|x, i| x * (i.even? ? 1 : 2)}.reduce(:+) % 32]
+    code_str = ""
+    for d in gen_digits
+      code_str << ZBASE32_ALPHABET[d]
+    end
+    code_str << check_char
+  end
+
   # Generates the user token
   def user_token_gen(given_salt=SecureRandom.random_bytes(64))
     if @token
