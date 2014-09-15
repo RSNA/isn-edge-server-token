@@ -124,7 +124,7 @@ module ApplicationHelper
     if patient.consented?
       button_to("Select", {controller: :exams, action: :index, patient_id: patient.id}, {class: "btn btn-primary"})
     else
-      button_to("Select", "#", onclick: "obtain_consent(#{patient.id},$.parseJSON('#{patient.attributes.to_json.gsub("'","\\\\'")}'));return false;", class: "btn btn-primary")
+      button_to("Select", "#", onclick: "obtain_consent(#{patient.id},$.parseJSON(#{patient.attributes.to_json.to_json}));return false;", class: "btn btn-primary")
     end
   end
 

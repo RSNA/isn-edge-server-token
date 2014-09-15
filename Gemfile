@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'jbundler'
+
 gem 'rails', '4.1.1'
 gem 'activerecord-jdbcpostgresql-adapter'
 
@@ -16,3 +18,5 @@ gem 'uglifier', '>= 1.3.0'
 gem "font-awesome-rails"
 gem 'therubyrhino'
 
+
+gem "torquebox", "3.1.0"

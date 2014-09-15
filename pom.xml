@@ -8,83 +8,16 @@
   <name>token-app</name>
   <url>http://www.rsna.org/</url>
 
-  <repositories>
-    <repository>
-      <id>rubygems-proxy</id>
-      <name>Rubygems Proxy</name>
-      <url>http://rubygems-proxy.torquebox.org/releases</url>
-      <layout>default</layout>
-        <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>fale</enabled>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
+  <properties>
+    <torquebox.version>3.1.1</torquebox.version>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.jruby</groupId>
-      <artifactId>jruby-complete</artifactId>
-      <version>${jruby.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>jruby-jars</artifactId>
-      <version>${jruby.version}</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>jruby-openssl</artifactId>
-      <version>0.7.2</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>activerecord-jdbcpostgresql-adapter</artifactId>
-      <version>1.1.0</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>rails</artifactId>
-      <version>2.3.8</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>rubyzip</artifactId>
-      <version>0.9.9</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>warbler</artifactId>
-      <version>1.3.6</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>jruby-rack</artifactId>
-      <version>1.1.10</version>
-      <type>gem</type>
-    </dependency>
-
-    <dependency>
-      <groupId>rubygems</groupId>
-      <artifactId>rake</artifactId>
-      <version>0.8.7</version>
-      <type>gem</type>
+      <groupId>org.rsna.isn</groupId>
+      <artifactId>torquebox</artifactId>
+      <version>${torquebox.version}</version>
+      <type>zip</type>
     </dependency>
   </dependencies>
 
@@ -97,69 +30,106 @@
     </pluginRepository>
   </pluginRepositories>
 
-  <properties>
-    <jruby.version>1.6.8</jruby.version>
-    <jruby.plugins.version>0.28.6</jruby.plugins.version>
-  </properties>
-
   <build>
     <plugins>
-      <plugin>
-	<groupId>de.saumya.mojo</groupId>
-	<artifactId>jruby-maven-plugin</artifactId>
-	<version>${jruby.plugins.version}</version>
-      </plugin>
-      <plugin>
-	<groupId>de.saumya.mojo</groupId>
-	<artifactId>gem-maven-plugin</artifactId>
-	<version>${jruby.plugins.version}</version>
-	<extensions>true</extensions>
-      </plugin>
-      <plugin>
-	<groupId>de.saumya.mojo</groupId>
-	<artifactId>rails2-maven-plugin</artifactId>
-	<version>${jruby.plugins.version}</version>
+
+   <plugin>
+	<groupId>com.savage7.maven.plugins</groupId>
+	<artifactId>maven-external-dependency-plugin</artifactId>
+	<version>0.4</version>
+	<inherited>false</inherited>
+	<configuration>
+	  <stagingDirectory>
+	    ${project.build.directory}
+	  </stagingDirectory>
+	  <createChecksum>true</createChecksum>
+	  <skipChecksumVerification>false</skipChecksumVerification>
+	  <force>false</force>
+	  <artifactItems>
+	    <artifactItem>
+	      <groupId>org.rsna.isn</groupId>
+	      <artifactId>torquebox</artifactId>
+	      <version>${torquebox.version}</version>
+	      <packaging>zip</packaging>
+	      <downloadUrl>
+		http://torquebox.org/release/org/torquebox/torquebox-dist/{version}/torquebox-dist-{version}-bin.zip
+	      </downloadUrl>
+	      <checksum>e5251b0141c975b6ec8789998ab6a65233ce2b3a</checksum>
+	    </artifactItem>
+	  </artifactItems>
+	</configuration>
+
 	<executions>
 	  <execution>
-	    <id>make-war</id>
-	    <phase>compile</phase>
+	    <id>clean-external-dependencies</id>
+	    <phase>clean</phase>
 	    <goals>
-	      <goal>rake</goal>
+	      <!-- mvn com.savage7.maven.plugins:maven-external-dependency-plugin:clean-external -->
+	      <goal>clean-external</goal>
 	    </goals>
-	    <configuration>
-	      <args>war</args>
-	    </configuration>
+	  </execution>
+	  <execution>
+	    <id>resolve-install-external-dependencies</id>
+	    <phase>process-resources</phase>
+	    <goals>
+	      <!-- mvn com.savage7.maven.plugins:maven-external-dependency-plugin:resolve-external -->
+	      <goal>resolve-external</goal>
+
+	      <!-- mvn com.savage7.maven.plugins:maven-external-dependency-plugin:install-external -->
+	      <goal>install-external</goal>
+	    </goals>
+	  </execution>
+	  <execution>
+	    <id>deploy-external-dependencies</id>
+	    <phase>deploy</phase>
+	    <goals>
+	      <!-- mvn com.savage7.maven.plugins:maven-external-dependency-plugin:deploy-external -->
+	      <goal>deploy-external</goal>
+	    </goals>
 	  </execution>
 	</executions>
       </plugin>
-
       <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.4.3</version>
-        <executions>
-          <execution>
-            <id>copy-war</id>
-            <phase>package</phase>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-dependency-plugin</artifactId>
+	<version>2.2</version>
+	<executions>
+	  <execution>
+            <id>unpack-torquebox</id>
+            <phase>process-resources</phase>
             <goals>
-              <goal>copy-resources</goal>
+              <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${basedir}/target</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}</directory>
-		  <includes>
-		    <include>*.war</include>
-		  </includes>
-		  <filtering>false</filtering>
-		</resource>
-              </resources>
-	      <nonFilteredFileExtensions>
-		<nonFilteredFileExtension>war</nonFilteredFileExtension>
-	      </nonFilteredFileExtensions>
+              <includeGroupIds>org.rsna.isn</includeGroupIds>
+              <includeArtifactIds>torquebox</includeArtifactIds>
+              <outputDirectory>
+		${basedir}/..
+              </outputDirectory>
             </configuration>
-          </execution>
-        </executions>
+	  </execution>
+	</executions>
+      </plugin>
+      <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>exec-maven-plugin</artifactId>
+	<version>1.1</version>
+	<executions>
+	  <execution>
+	    <id>make-knob</id>
+	    <phase>compile</phase>
+	    <goals>
+	      <goal>exec</goal>
+	    </goals>
+	    <configuration>
+	      <executable>${basedir}/make-knob.sh</executable>
+	      <arguments>
+		<argument>${basedir}/../torquebox-${torquebox.version}</argument>
+		<argument>${basedir}</argument>
+	      </arguments>
+	    </configuration>
+	  </execution>
+	</executions>
       </plugin>
       </plugins>
     </build>
