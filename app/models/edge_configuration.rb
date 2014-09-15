@@ -13,7 +13,6 @@ class EdgeConfiguration < ActiveRecord::Base
   before_validation :fix_keys
 
   def fix_keys
-    Rails.logger.debug("AM I REALLY WORKING!?")
     self.key = self.given_key
     self.modified_date = Time.now
   end

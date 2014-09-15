@@ -1,0 +1,3 @@
+<%= pagination(limit,offset,count,sort) do %>
+  <%= render :partial => "data_browser/results_#{table_name.singularize}", :locals => {:results => results} %>
+<% end %>

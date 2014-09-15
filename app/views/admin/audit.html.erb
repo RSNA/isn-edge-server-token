@@ -23,7 +23,7 @@
 </div>
 
 <%= content_tag :div, id: "search_results", class: "margin-top" do %>
-  <%= render :partial => "admin/transaction_list", :locals => {:job_stati => @job_stati} %>
+  <%= render :partial => "admin/transaction_list", :locals => {job_stati: @job_stati, limit: @limit, offset: @offset, count: @count} %>
 <% end %>
 
 <div id="audit-modal" class="modal fade">
@@ -34,7 +34,7 @@
         <h4 class="modal-title">Audit Details</h4>
       </div>
       <div class="modal-body">
-	<div id="search_spinner" class="progress progress-striped active margin-top" style="display: none; width: 100%;">
+	<div id="dialog-spinner" class="progress progress-striped active margin-top" style="display: none; width: 100%;">
 	  <div class="progress-bar" style="width: 100%"></div>
 	</div>
 

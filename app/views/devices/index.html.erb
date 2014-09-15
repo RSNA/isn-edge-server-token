@@ -6,6 +6,7 @@
   <% st.column("Port Number") {|d| h d.port_number} %>
   <% st.column("") {|device| button_to("Edit", {controller: :devices, action: :edit, id: device.id}, class: "btn btn-primary", method: :get) } %>
   <% st.column("") {|device| button_to("Delete", {controller: :devices, action: :destroy, id: device.id}, class: "btn btn-primary", method: :post) } %>
+  <% st.column("") {|device| link_to("Test", {controller: :devices, action: :test, id: device.id}, class: "btn btn-primary test-button") + content_tag(:div,"", class: "test-response") } %>
 <% end %>
 
 <div style="margin-top: 10px; margin-left: 5px;">

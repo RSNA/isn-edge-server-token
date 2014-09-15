@@ -1,0 +1,13 @@
+<div class="paginator-buttons <%= placement %>">
+  <div class="left-buttons pull-left">
+    <button class="begin btn btn-default <%= disable_previous %>"><i class="glyphicon glyphicon-fast-backward"></i></button>
+    <button class="dec btn btn-default <%= disable_previous %>"><i class="glyphicon glyphicon-step-backward"></i></button>
+  </div>
+
+  <span class="status"><%= "#{offset} - #{offset + limit} of #{count}" %></span>
+
+  <div class="right-buttons pull-right">
+    <button class="inc btn btn-default <%= disable_next %>"><i class="glyphicon glyphicon-step-forward"></i></button>
+    <button class="end btn btn-default <%= disable_next %>"><i class="glyphicon glyphicon-fast-forward"></i></button>
+  </div>
+</div>

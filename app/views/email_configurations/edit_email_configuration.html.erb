@@ -1,0 +1,107 @@
+<%= content_for(:javascript_includes, javascript_include_tag('pages/email_configuration.js')) %>
+<%= content_for(:title, "Email Configuration") %>
+
+<%= form_tag({controller: :email_configurations, action: :save_email_configuration}, id: "email-config-form", class: "form", role: "form") do %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 style="display: inline">Patient Email - </h4>
+    <div class="btn-group enabler" data="patient-email-panel" data-toggle="buttons">
+      <label class="btn btn-primary <%= email_value_for('enable_patient_email') == 'true' ? 'active' : '' %>">
+	<input type="radio" name="enable_patient_email" value="true"> Enabled
+      </label>
+      <label class="btn btn-primary  <%= email_value_for('enable_patient_email') != 'true' ? 'active' : '' %>">
+	<input type="radio" name="enable_patient_email" value="false"> Disabled
+      </label>
+    </div>
+  </div>
+  <div id="patient-email-panel" class="panel-body" style="<%= email_value_for('enable_patient_email') == 'true' ? '' : 'display: none;' %>">
+    <div class="form-group">
+      <label>Subject</label>
+      <input class="form-control" type="text" name="patient_email_subject" value="<%= email_value_for('patient_email_subject') %>" />
+    </div>
+
+    <div class="form-group">
+      <label>Body</label>
+      <textarea class="form-control" name="patient_email_body" rows="5" /><%= email_value_for('patient_email_body') %></textarea>
+    </div>
+
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 style="display: inline">Error Email - </h4>
+    <div class="btn-group enabler" data="error-email-panel" data-toggle="buttons">
+      <label class="btn btn-primary  <%= email_value_for('enable_error_email') == 'true' ? 'active' : '' %>">
+	<input type="radio" name="enable_error_email" value="true"> Enabled
+      </label>
+      <label class="btn btn-primary  <%= email_value_for('enable_error_email') != 'true' ? 'active' : '' %>">
+	<input type="radio" name="enable_error_email" value="false"> Disabled
+      </label>
+    </div>
+  </div>
+  <div id="error-email-panel" class="panel-body" style="<%= email_value_for('enable_error_email') == 'true' ? '' : 'display: none;' %>">
+    <div class="form-group">
+      <label>Recipients</label>
+      <input class="form-control" type="text" value="<%= email_value_for('error_email_recipients') %>" name="error_email_recipients" />
+    </div>
+
+    <div class="form-group">
+      <label>Body</label>
+      <textarea class="form-control" name="error_email_body" rows="5"><%= email_value_for('error_email_body') %></textarea>
+    </div>
+
+    <label>Error Email Types</label>
+
+    <%= email_type_checkbox("error_email.type.failed_to_perpare_content","Failed to Prepare Content") %>
+    <%= email_type_checkbox("error_email.type.unable_to_find_images","Unable to Find Images") %>
+    <%= email_type_checkbox("error_email.type.dicom-c-move-failed","DICOM C-MOVE Failed") %>
+    <%= email_type_checkbox("error_email.type.failed_to_transfer_to_clearinghouse","Failed to Transfer to Clearinghouse") %>
+    <%= email_type_checkbox("error_email.type.failed_to_generate_kos","Failed to Generate KOS") %>
+    <%= email_type_checkbox("error_email.type.failed_to_register_patient","Failed to Register Patient") %>
+    <%= email_type_checkbox("error_email.type.failed_to_submit_documents","Failed to Submit Documents") %>
+
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 style="display: inline">General Email Configuration</h4>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label>Bounce Email</label>
+      <input class="form-control" type="text" value="<%= email_value_for('bounce_email') %>" name="bounce_email" />
+    </div>
+
+    <div class="form-group">
+      <label>Reply to Email</label>
+      <input class="form-control" type="text" value="<%= email_value_for('reply_to_email') %>" name="reply_to_email" />
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 style="display: inline">Email Server Login Information</h4>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label>Username</label>
+      <input class="form-control" type="text" value="<%= email_value_for('mail.smtp.username') %>" name="mail.smtp.username" />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input class="form-control" type="password" value="<%= email_value_for('mail.smtp.password') %>" name="mail.smtp.password" />
+    </div>
+
+  </div>
+</div>
+
+<div class="form-group">
+  <%= submit_tag("Save", class: "btn btn-primary") %>
+</div>
+
+<% end %>

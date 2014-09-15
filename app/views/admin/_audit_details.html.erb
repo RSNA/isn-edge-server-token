@@ -11,26 +11,26 @@
 
 <div class="btn-group" id="table-selector">
   <button id="table-selector-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" role="button">
-    <span class="title">Job #<%= job_name(job_set.jobs.first) %></span> <span class="caret"></span>
+    <span class="title"><%= job_name(job) %></span> <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <% job_set.jobs.each_with_index do |job,i| %>
-      <li class="<%= i == 0 ? 'active' : '' %>"><a href="#table-for-<%= job.job_id %>"><%= job_name(job) %></a></li>
+    <% job_set.jobs.each_with_index do |j,i| %>
+      <li class="<%= j.job_id == job.job_id ? 'active' : '' %>"><a href="#table-for-<%= j.job_id %>"><%= job_name(j) %></a></li>
     <% end %>
   </ul>
 </div>
 
 
-<% job_set.jobs.each_with_index do |job,i| %>
-<div class="table-tab-container <%= i == 0 ? 'active' : '' %>" id="table-for-<%= job.job_id %>">
+<% job_set.jobs.each_with_index do |j,i| %>
+<div class="table-tab-container <%= j.job_id == job.job_id ? 'active' : '' %>" id="table-for-<%= j.job_id %>">
 
   <p>
-    <% if job.job_transactions.last.status.status_code and job.job_transactions.last.status.status_code < 0 %>
-      <%= button_to("Retry Job #{job.job_id}", "#", id: "retry_link_#{job.job_id}", class: "btn btn-primary", onclick: "retry_job('retry_link_#{job.job_id}', #{job.job_id});return false;") %>
+    <% if j.job_transactions.last.status.status_code and j.job_transactions.last.status.status_code < 0 %>
+      <%= button_to("Retry Job #{j.job_id}", "#", id: "retry_link_#{j.job_id}", class: "btn btn-primary", onclick: "retry_job('retry_link_#{j.job_id}', #{j.job_id});return false;") %>
     <% end %>
   </p>
 
-  <%= rsna_table_for job.job_transactions.sort_by(&:transaction_id), class: "table table-bordered table-striped margin-top" do |st| %>
+  <%= rsna_table_for j.job_transactions.sort_by(&:transaction_id), class: "table table-bordered table-striped margin-top" do |st| %>
     <% st.column("Transaction ID") {|jt| h jt.transaction_id } %>
     <% st.column("Status Code") {|jt| h jt.status_code} %>
     <% st.column("Status Message") {|jt| h jt.status.description } %>

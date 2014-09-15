@@ -15,14 +15,18 @@ class AdminController < ApplicationController
 
   # Shows the job audit trail
   def audit
-    @job_stati = ViewJobStatus.limit(100).order("job_set_id DESC")
+    @limit = (params[:limit].blank? ? 20 : params[:limit].to_i)
+    @offset = (params[:offset].blank? ? 0 : params[:offset].to_i)
+    @count = ViewJobStatus.count
+    @job_stati = ViewJobStatus.limit(@limit).order("job_set_id DESC")
   end
 
   # Takes a job transaction id and returns a partial containing information from the job set to the job
   def audit_details
+    @job = Job.find(params[:job_id])
     @job_set = JobSet.find(params[:id])
     render({:partial => "admin/audit_details",
-      :locals => {:patient => @job_set.patient, :job_set => @job_set}
+      :locals => {:patient => @job_set.patient, :job_set => @job_set, :job => @job}
     })
   end
 
@@ -30,6 +34,11 @@ class AdminController < ApplicationController
   def audit_filter
     @job_stati = ViewJobStatus.filter(params[:filter])
     @job_stati = @job_stati.where("v_job_status.status = ?",params[:status_code].to_i) unless params[:status_code].blank?
-    render(:partial => "admin/transaction_list", :locals => {:job_stati => @job_stati})
+    limit = (params[:limit].blank? ? 20 : params[:limit].to_i)
+    offset = (params[:offset].blank? ? 0 : params[:offset].to_i)
+    count = @job_stati.count
+    @results = @job_stati.limit(limit).offset(offset)
+    render(:partial => "admin/transaction_list", :locals => {job_stati: @results, offset: offset, limit: limit, count: count})
   end
+
 end

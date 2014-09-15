@@ -1,5 +1,8 @@
+<%= pagination(limit,offset,count) do %>
+
 <%= rsna_table_for job_stati, class: "table table-bordered table-striped" do |st| %>
-  <% st.column("") {|js| button_to("Details", "#", class: "btn btn-primary", onclick: "audit_details(#{js.job.job_set.id});return false;") } %>
+  <% st.column("") {|js| link_to("Details", "#", class: "btn btn-primary audit-details", 'job-transaction-id' => js.job.job_set.id, 'job-id' => js.job.job_id) } %>
+  <% st.column("") {|js| link_to("Retry", "#", class: "btn btn-primary retry-job", data: js.job.job_id) if js.status < 0 } %>
   <% st.column("MRN") {|js| h js.exam.patient.mrn } %>
   <% st.column("Accession #") {|js| h js.exam.accession_number } %>
   <% st.column("Patient Name") {|js| h js.exam.patient.patient_name } %>
@@ -12,4 +15,6 @@
   <% st.column("Submitted By") {|js| h js.job.job_set.user.user_name } %>
   <% st.column("Immediate Send?") {|js| h js.job.job_set.send_on_complete ? "Yes" : "No" } %>
   <% st.column("Retries Remaining") {|js| h js.job.remaining_retries } %>
+<% end %>
+
 <% end %>

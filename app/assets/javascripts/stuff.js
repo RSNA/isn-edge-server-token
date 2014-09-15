@@ -9,7 +9,6 @@ $(document).ready(function() {
     $("#audit-modal").on('click',"#table-selector .dropdown-menu li a",function(e) {
 	$(this).parent().siblings().removeClass("active");
 	$(this).parent().addClass("active");
-	console.log($($(this).attr('href')).siblings(".table-tab-container"));
 	$($(this).attr('href')).siblings(".table-tab-container").hide();
 	$($(this).attr('href')).show();
 	$("#table-selector button .title").text($(this).text());
@@ -22,6 +21,48 @@ $(document).ready(function() {
 	add_to_cart(null,ids);
 	return false;
     });
+
+    $(".test-button").click(function(e) {
+	var contents = $(this).siblings('.test-response');
+	$.ajax($(this).attr('href'),
+	       { success: function(response) { contents.text(response); },
+	         beforeSend: function() { contents.text("..."); }
+	       });
+	return false;
+    });
+
+    $("body").on("click","a.retry-job",retry_job);
+    $("body").on("click","a.audit-details",audit_details);
+
+    $("body").on('click',".paginator-buttons button",function(e) {
+	var pane = $("#search_results");
+	var data = pane.find(".paginator-data");
+	var offset = parseInt(data.find(".offset").text());
+	var limit = parseInt(data.find(".limit").text());
+	var count = parseInt(data.find(".count").text());
+	var form_data = $("form").serializeArray();
+	if ($(this).hasClass("dec")) { var new_offset = offset - limit; }
+	else if ($(this).hasClass("inc")) { var new_offset = offset + limit; }
+	else if ($(this).hasClass("begin")) { var new_offset = 0; }
+	else if ($(this).hasClass("end")) { var new_offset = count - limit; }
+	else { var new_offset = offset; }
+	form_data.push({name: 'offset', value: new_offset});
+	form_data.push({name:'limit', value: limit});
+	$.ajax("/admin/audit_filter",
+	       { data: form_data,
+		 beforeSend: function() {
+		     $('#search_results').hide();
+		     $('#search_spinner').show();
+		 },
+		 success: function(response) {
+		     $('#search_spinner').hide();
+		     $('#search_results').html(response);
+		     $('#search_results').show();
+		 }
+	       });
+	return false;
+    });
+
 });
 
 
@@ -155,15 +196,18 @@ function validate_cart(form) {
     });
 }
 
-function retry_job(element_id, job_id) {
+function retry_job() {
+    var element = $(this);
+    var job_id = $(this).attr('data');
     $.ajax({
 	url: "/exams/retry_job",
 	data: {'id': job_id},
 	success: function(response) {
-	    $("#" +element_id).replaceWith("Retrying");
+	    $(element).replaceWith("Retrying");
             location.reload();
        	}
     });
+    return false;
 }
 
 // -----------------------------------
@@ -212,28 +256,32 @@ function obtain_consent(patient_id, demographics) {
     $('#consent-modal').modal('toggle');
 }
 
-function audit_details(job_transaction_id) {
+function audit_details() {
+    var job_transaction_id = $(this).attr('job-transaction-id');
+    var job_id = $(this).attr('job-id');
     var contents = $("#audit-modal .modal-body .results");
     $("#audit-modal").modal('toggle');
 
     $.ajax({
 	url: "/admin/audit_details",
-	data: {id: job_transaction_id},
+	data: {'id': job_transaction_id, 'job_id': job_id},
 	success: function(response) {
-	    contents.find(".spinner").hide();
+	    $("#dialog-spinner").hide();
 	    contents.html(response);
 	},
 	beforeSend: function(xml) {
-	    contents.find(".spinner").show();
+	    contents.html("");
+	    $("#dialog-spinner").show();
 	}
     });
+
+    return false;
 }
 
 function simple_form_dialog(id,url,title) {
     if (title == undefined) { title = "Form" }
     $("#admin-modal").modal('toggle');
     var contents = $("#admin-modal-contents");
-    console.log(contents,title);
     $.ajax({
 	'url': url,
 	data: {'id': id},

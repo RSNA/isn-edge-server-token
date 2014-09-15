@@ -21,7 +21,7 @@
     <div id="primary-navbar" class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <ul class="nav navbar-nav pull-right">
-	<%= global_navigation_link("Patient Search", controller: :patients, action: :new) %>
+	<%= global_navigation_link("Patient Search", {controller: :patients, action: :new}, {controller: :patients, action: :index}) %>
 
 	<% patient? do %>
 	  <%= global_navigation_link("Exams", controller: "exams", action: "index") %>
@@ -42,7 +42,9 @@
 
 	      <%= global_navigation_link("Logs", controller: :tail) %>
 	      <%= global_navigation_link("Devices", controller: :devices) %>
-	      <%= global_navigation_link("Configuration", controller: :edge_configurations) %>
+	      <%= global_navigation_link("Configuration", controller: :edge_configurations, action: :index) %>
+	      <%= global_navigation_link("Email Configuration", controller: :email_configurations, action: :edit_email_configuration) %>
+	      <%= global_navigation_link("Advanced Email Config", controller: :email_configurations, action: :index) %>
 	      <%= global_navigation_link("New User", controller: :users, action: :new) %>
 	      <%= global_navigation_link("User Roles", controller: :users, action: :roles) %>
 	    </ul>

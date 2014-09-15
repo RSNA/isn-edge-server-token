@@ -129,7 +129,28 @@ module ApplicationHelper
   end
 
   def job_name(job)
-    "Job ##{job.job_id}#{job.job_transactions.last.status.status_code < 0 ? " (error)" : ""}"
+    "Acc ##{job.exam.accession_number} - Job ##{job.job_id}#{job.job_transactions.last.status.status_code < 0 ? " (error)" : ""}"
   end
+
+  def pagination(limit,offset,count,&block)
+    if count > 0
+      content = capture(&block)
+      disable_previous = "disabled" if offset <= 0
+      disable_next = "disabled" if offset + limit >= count
+      locals = {
+        :limit => limit,
+        :offset => offset,
+        :count => count,
+        :disable_previous => disable_previous,
+        :disable_next => disable_next,
+        :content => content,
+      }
+      locals[:locals] = locals.clone
+      return render(:partial => "admin/paginator", :locals => locals)
+    else
+      return render(:partial => "admin/no_results")
+    end
+  end
+
 
 end

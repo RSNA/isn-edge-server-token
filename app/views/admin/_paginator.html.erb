@@ -1,0 +1,17 @@
+<div class="paginator-data hide">
+  <span class="limit"><%= limit %></span>
+  <span class="offset"><%= offset %></span>
+  <span class="count"><%= count %></span>
+</div>
+
+<% if count > 50 %>
+<%= render :partial => "admin/paginator_buttons", :locals => locals.merge(:placement => "top") %>
+<%= content %>
+<%= render :partial => "admin/paginator_buttons", :locals => locals.merge(:placement => "bottom") %>
+
+<% else %>
+
+<div class="paginator-buttons"><span class="status">Total results: <%= count %></span></div>
+<%= content %>
+
+<% end %>

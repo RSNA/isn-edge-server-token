@@ -55,4 +55,13 @@ class DevicesController < ApplicationController
     end
   end
 
+  def test
+    @device = Device.find(params[:id])
+    if @device
+      render :text => Java::OrgRsnaIsnPrepcontentDcm::DcmUtil.CEcho(@device.host,@device.port_number.to_i,@device.ae_title)
+    else
+      render :text => "Could not find device"
+    end
+  end
+
 end
