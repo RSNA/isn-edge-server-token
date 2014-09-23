@@ -361,16 +361,10 @@ div.progressBar div.background {
  overflow: auto;
 }
 
-#tokenDialog{
+#cart-dialog{
  height: 400px;
- width: 650px;
+ width: 500px;
  overflow: auto;
-}
-
-#tokenPasswordDialog {}
-
-#tokenSendDialog{
-  display: none;
 }
 
 .hide { display: none; }

@@ -1,6 +1,6 @@
 <%= content_for(:title, "Exams for #{@patient.patient_name}") %>
 
-<%= link_to("Reprint Token", "#", class: "btn btn-primary", onclick: "window.open('#{url_for(:controller => :exams, :action => :print_patient_info, :token => params[:token], :email_address => params[:email_address])}');return false;") if @autoprint_rsna_id %>
+<%= link_to("Reprint Token", "#", class: "btn btn-primary", onclick: "window.open('#{url_for({:controller => :exams, :action => :print_patient_info}.merge(@send_components))};return false;") if @autoprint_rsna_id %>
 
 <%= form_for :search, :html => {id: "filter_form", method: 'get', class: "form-inline", onsubmit: "search_or_filter('/exams/filter',$('#filter_form').serialize()); return false;"} do |f| %>
   <div class="form-group">
@@ -25,4 +25,4 @@
   <%= render partial: "exams/results", locals: {exams: @exams, patient: @patient} %>
 <% end %>
 
-<%= javascript_tag("window.open('/exams/print_patient_info?token=#{params[:token]}&email_address=#{params[:email_address]}');") if @autoprint_rsna_id %>
+<%= javascript_tag("window.open('#{url_for({controller: :exams, action: :print_patient_info}.merge(@send_components))}');") if @autoprint_rsna_id %>

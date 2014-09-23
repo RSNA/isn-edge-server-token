@@ -36,7 +36,7 @@ a.btn { text-decoration: none !important; }
 #footer a:hover { text-decoration: underline; }
 
 
-#token-modal .modal-dialog { width: 85%; }
+#cart-modal .modal-dialog { width: 680px; }
 #audit-modal .modal-dialog { width: 85%; }
 
 .table-tab-container { display: none; }
@@ -47,3 +47,5 @@ a.btn { text-decoration: none !important; }
 
 .paginator-buttons .status
 { font-weight: bold; }
+
+.monospace { font-family: "Lucida Console", Monaco, monospace; }

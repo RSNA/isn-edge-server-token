@@ -1,4 +1,5 @@
 <% content_for(:title, "Shopping Cart") %>
+<% content_for(:javascript_includes, javascript_include_tag("pages/cart.js")) %>
 
 <% if @exams.size > 0 %>
   <%= rsna_table_for @exams, class: "table table-bordered table-striped" do |st| %>
@@ -10,28 +11,11 @@
 
 <div>
   <%= link_to("Empty Cart", {action: "empty_cart", controller: "exams"}, class: "btn btn-primary") %>
-  <%= link_to("Send Cart", "#", class: "btn btn-primary", onclick: "$('#token-modal').modal('toggle'); return false;") %>
+  <%= link_to("Send Cart", "#", id: "send-cart-button", class: "btn btn-primary") %>
 </div>
 
 <%= render partial: "exams/token_dialog", locals: {exams: @exams} %>
 
 <% else %>
  <div>Your shopping cart is empty</div>
-<% end %>
-
-<%= javascript_tag do %>
-$(document).ready(function() {
-  $(".use-old-button").click(function(e) {
-    $("#tokenChoiceDialog").hide();
-    if ($(this).val() == "Yes") {
-      $("#cart_form").append('<input type="hidden" name="use_old" value="true" />');
-      $('#tokenPasswordDialog input[name="patient_password"]').val("not-used-password1");
-      $('#tokenPasswordDialog input[name="patient_password_confirmation"]').val("not-used-password1");
-      $("#tokenSendDialog").show();
-    } else {
-      $("#tokenPasswordDialog").show();
-    }
-
-  });
-});
 <% end %>

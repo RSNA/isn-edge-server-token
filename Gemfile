@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'jbundler'
-
 gem 'rails', '4.1.1'
 gem 'activerecord-jdbcpostgresql-adapter'
 

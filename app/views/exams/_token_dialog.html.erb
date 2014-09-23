@@ -1,11 +1,11 @@
-<div id="token-modal" class="modal fade">
+<div id="cart-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" role="button">&times;</button>
         <h4 class="modal-title">Send Cart</h4>
       </div>
-      <div class="modal-body" id="tokenDialog">
+      <div class="modal-body" id="cart-dialog">
 
 	  <div id="errorExplanation" style="display: none;">
 	    <h2>Errors occured while trying to send the cart</h2>
@@ -13,12 +13,41 @@
 	    <ul>
 	    </ul>
 	  </div>
-	  <%= form_tag({action: "send_cart", controller: "exams"}, {id: 'cart_form', role: "form", style: "display: inline;", onsubmit: "validate_cart($('#cart_form')); return false;"}) do %>
+	  <%= form_tag({action: "send_cart", controller: "exams"}, {id: 'cart-form', role: "form", style: "display: inline;"}) do %>
 	  <% exams.each do |exam| %>
 	    <%= hidden_field_tag "exam_ids[]", exam.id %>
 	  <% end %>
 
-	  <div id="tokenSendDialog" style="display: none;">
+	  <div id="cart-send-type-dialog">
+	    <div class="row">
+	      <div class="col-md-6 center">
+		Send the patient's exams to the clearing house so that the patient can collect them from a PHR.
+	      </div>
+	      <div class="col-md-6 center">
+		Send the patient's exams to the clearing house so that another site can retrieve them.
+	      </div>
+	    </div>
+
+	    <div class="row">
+	      <div class="col-md-6 center">
+		<input type="button" value="Regular Send" class="send-type-choice btn btn-primary" />
+	      </div>
+	      <div class="col-md-6 center">
+		<input type="button" value="Site to Site" class="send-type-choice btn btn-primary" data="site-to-site" />
+	      </div>
+	    </div>
+	    <input type="hidden" value="" name="send_type" />
+	  </div>
+
+	  <!-- Previously sent scenario -->
+	  <div id="cart-use-previous-dialog" style="display: none;">
+	    <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.rsna_id_email %>)?</p>
+	    <input type="button" value="Yes" class="use-old-button btn btn-primary" />
+	    <input type="button" value="No" class="use-old-button btn btn-default" />
+	  </div>
+
+	  <!-- Send urgency dialog -->
+	  <div id="cart-send-dialog" style="display: none;">
 	    <div class="container-fluid">
 	      <div class="row">
 
@@ -40,15 +69,15 @@
 
 	      <div class="row">
 		<div class="col-xs-4 center">
-		  <%= link_to("Routine", "#", class: "btn btn-primary", onclick: "send_cart($('#cart_form')); return false;") %>
+		  <%= link_to("Routine", "#", class: "send-cart-button btn btn-primary", data: 0) %>
 		</div>
 
 		<div class="col-xs-4 center">
-		  <%= link_to("When final report available", "#", class: "btn btn-primary", onclick: "send_cart($('#cart_form'), 1); return false;") %>
+		  <%= link_to("When final report available", "#", class: "send-cart-button btn btn-primary", data: 1) %>
 		</div>
 
 		<div class="col-xs-4 center">
-		  <%= link_to("Immediately", "#", class: "btn btn-primary", onclick: "send_cart($('#cart_form'), 2); return false;") %>
+		  <%= link_to("Immediately", "#", class: "send-cart-button btn btn-primary", data: 2) %>
 		</div>
 	      </div>
 	    </div>
@@ -56,49 +85,18 @@
 	    <input type="hidden" name="override_delay" value="0" />
 	  </div>
 
-	  <div id="tokenChoiceDialog" style="<%= @patient.rsna_id ? '' : 'display: none;' %>">
-	    <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.rsna_id_email %>)?</p>
-	    <input type="button" value="Yes" class="use-old-button btn btn-primary" />
-	    <input type="button" value="No" class="use-old-button btn btn-default" />
-	  </div>
-
-	  <div id="tokenPasswordDialog" style="<%= @patient.rsna_id ? 'display: none;' : '' %>">
-	    <h1>Enter Password</h1>
-	    <p>Please ask the patient to enter the password they would like to use to retrieve his/her images.</p>
-	    <p><span style="font-weight: bold;">Note:</span> Passwords are case sensitive</p>
-
+	  <!-- Enter email address dialog -->
+	  <div id="cart-email-dialog" style="<%= @patient.rsna_id ? 'display: none;' : '' %>">
+	    <p>Please enter the patient's email address.</p>
 	    <div class="form-group">
-              <label>Password</label>
-              <input name="patient_password" class="plain_password form-control" type="password" />
-	    </div>
-
-	    <div class="form-group">
-              <label>Confirm Password</label>
-              <input name="patient_password_confirmation" class="plain_password form-control" type="password" />
-	    </div>
-
-	    <div class="form-group">
-              <label>Patient's Email (optional)</label>
+              <label>Patient's Email</label>
               <input class="form-control" name="email" type="text" value="<%= @exams.first.patient.rsna_id_email || @patient.email_address %>" />
 	    </div>
 
-	    <div class="form-group">
-	      <label>
-		<input type="checkbox" onclick="toggle_pin_visibility();" />
-		<strong>Show password in plain text?</strong> - Check this box if you would like to visually confirm you entered the password you wanted.
-	      </label>
-	    </div>
-
-	    <div class="form-group">
-	      <label for="force_token">
-		<input type="checkbox" name="force_token" />
-		<strong>Check this box to use an auto-generated token instead of the email address.</strong>
-	      </label>
-	    </div>
-
-	    <%= submit_tag("Next", class: "btn btn-primary") %>
+	    <%= submit_tag("Next", id: "validate-email-button", class: "btn btn-primary") %>
 	  </div>
 
+	  <!-- submission spinner -->
 	  <div id="submit_spinner" class="progress progress-striped active margin-top" style="display: none; width: 100%;">
 	    <div class="progress-bar" style="width: 100%"></div>
 	  </div>

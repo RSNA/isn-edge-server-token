@@ -18,18 +18,25 @@ class JobSet < ActiveRecord::Base
   belongs_to :patient
   belongs_to :user, :foreign_key => :user_id
 
-  attr_accessor :use_rsna_id, :patient_password, :patient_password_confirmation, :salt, :token, :force_token
-  attr_accessible :force_token, :patient_password, :patient_password_confirmation, :patient_id, :user_id, :email_address, :modified_date, :delay_in_hrs, :send_on_complete
-  validates_presence_of :patient_password
+  attr_accessor :use_rsna_id, :salt, :token, :send_components
+  attr_accessible :use_rsna_id, :send_to_site, :patient_password, :patient_password_confirmation, :patient_id, :user_id, :email_address, :modified_date, :delay_in_hrs, :send_on_complete, :access_code
+
+  validates_presence_of :email_address
 
   # Call back method used to set the single use patient id
   before_create do
     self.id = self.class.next_id
-    if self.use_rsna_id
+    if self.logic_type == :rsna_id
       self.single_use_patient_id = self.patient.rsna_id
-    else
+      self.access_code = self.rsna_id_access_code
+      self.send_components = {:access_code => self.access_code, :email_address => self.email_address, :formatted_dob => self.formatted_dob}
+    elsif self.logic_type == :standard
       self.single_use_patient_id = trans_hash_gen()
-      self.patient.update_attribute(:rsna_id,self.single_use_patient_id) unless self.email_address.blank? or self.force_token
+      self.access_code = self.send_components[:access_code]
+      self.patient.update_attribute(:rsna_id,self.single_use_patient_id)
+    elsif self.logic_type == :send_to_site
+      self.single_use_patient_id = trans_hash_gen()
+      self.access_code = self.send_components[:access_code]
     end
   end
 
@@ -48,9 +55,9 @@ class JobSet < ActiveRecord::Base
   # Checks to see if the confirmation password and password match before saving
   # to the database.
   def validate
-    if self.patient_password != self.patient_password_confirmation
-      errors.add(:patient_password, "and password confirmation do not match")
-    end
+    #if self.patient_password != self.patient_password_confirmation
+    #  errors.add(:patient_password, "and password confirmation do not match")
+    #end
   end
 
   # Creates a JobSet record using the patient_id and username supplied in the arguments
@@ -70,19 +77,24 @@ class JobSet < ActiveRecord::Base
   end
 
   def user_access_code_gen()
-    hash = Digest::SHA256.hexdigest(SecureRandom.random_bytes(64)).to_i(16)
-    gen_digits = []
-    d = hash
-    for i in 0..18
-      d,r = d.divmod(32)
-      gen_digits << r
+    if @access_code
+      @access_code
+    else
+      hash = Digest::SHA256.hexdigest(SecureRandom.random_bytes(64)).to_i(16)
+      gen_digits = []
+      d = hash
+      for i in 0..18
+        d,r = d.divmod(32)
+        gen_digits << r
+      end
+      check_char = ZBASE32_ALPHABET[gen_digits.each_with_index.map {|x, i| x * (i.even? ? 1 : 2)}.reduce(:+) % 32]
+      code_str = ""
+      for d in gen_digits
+        code_str << ZBASE32_ALPHABET[d]
+      end
+      code_str << check_char
+      @access_code = code_str
     end
-    check_char = ZBASE32_ALPHABET[gen_digits.each_with_index.map {|x, i| x * (i.even? ? 1 : 2)}.reduce(:+) % 32]
-    code_str = ""
-    for d in gen_digits
-      code_str << ZBASE32_ALPHABET[d]
-    end
-    code_str << check_char
   end
 
   # Generates the user token
@@ -102,11 +114,45 @@ class JobSet < ActiveRecord::Base
     end
   end
 
+  def rsna_id_access_code
+    @matching_js ||= self.patient.job_sets.where({:single_use_patient_id => self.patient.rsna_id}).first
+    if @matching_js and @matching_js.access_code
+      @matching_js.access_code
+    else
+      nil
+    end
+  end
+
+  def logic_type
+    if self.send_to_site
+      :send_to_site
+    elsif self.use_rsna_id
+      if self.rsna_id_access_code
+        :rsna_id
+      else
+        :standard
+      end
+    else
+      :standard
+    end
+  end
+
+  def formatted_dob
+    @formatted_dob ||= self.patient.dob.strftime("%Y%m%d")
+  end
+
   # generates the transaction token
   def trans_hash_gen
-    formatted_dob = self.patient.dob.strftime("%Y%m%d")
-    (self.email_address.blank? or self.force_token) ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
-    hash = Digest::SHA256.hexdigest(token_or_email + formatted_dob + self.patient_password)
+
+    # site to site - token (old style) + formatted_dob + access code
+    # new workflow - patient email + formatted_dob + access code
+    if self.logic_type == :send_to_site
+      self.send_components = {:token => self.user_token_gen, :formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
+    else
+      self.send_components = {:email_address => self.email_address.downcase, :formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
+    end
+    #(self.email_address.blank? or self.force_token) ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
+    return Digest::SHA256.hexdigest(self.send_components.values.join("")) # hashes in ruby >= 1.9 are ordered in the order keys are added
   end
 
   # Checks the configurations table for a delay_in_hrs

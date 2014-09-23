@@ -11,7 +11,8 @@ class ExamsController < ApplicationController
   # List the exams for the specified patient
   def index
     @exams = Exam.filter_cancelled(@patient.exams)
-    @autoprint_rsna_id = ((params[:token] or not params[:email_address].blank?) ? true : false)
+    @autoprint_rsna_id = (["send_to_site", "rsna_id", "standard"].include?(params[:logic_type]) ? true : false)
+    @send_components = {:email_address => params[:email_address], :token => params[:token], :formatted_dob => params[:formatted_dob], :access_code => params[:access_code]}
   end
 
   def print_patient_info
@@ -43,15 +44,13 @@ class ExamsController < ApplicationController
     @job_set = JobSet.new({
                             :patient_id => @patient.id,
                             :user_id => @user.id,
-                            :patient_password => params[:patient_password],
-                            :patient_password_confirmation => params[:patient_password_confirmation],
                             :email_address => params[:email],
                             :modified_date => Time.now,
                             :delay_in_hrs => delay_in_hrs,
                             :send_on_complete => send_on_complete,
-                            :force_token => params[:force_token]
+                            :use_rsna_id => (params[:new_email] == "true" ? false : true),
+                            :send_to_site => (not params[:send_to_site].blank?)
                           })
-    @job_set.use_rsna_id = true unless params[:use_old].blank?
     if @job_set.save
       @cart.each do |exam_id|
         time = Time.now
@@ -63,15 +62,6 @@ class ExamsController < ApplicationController
       render :partial => "exams/token_info"
     else
       render :text => "An error occured while saving your cart information"
-    end
-  end
-
-  def validate_cart
-    @job_set = JobSet.new({:patient_password => params[:patient_password], :patient_password_confirmation => params[:patient_password_confirmation]})
-    if @job_set.valid?
-      render :json => true
-    else
-      render :json => @job_set.errors
     end
   end
 

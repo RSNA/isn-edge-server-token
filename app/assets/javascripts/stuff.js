@@ -151,51 +151,6 @@ function delete_from_cart(element_id, exam_id) {
     });
 }
 
-function send_cart(form, delay) {
-    if (delay != undefined) {
-        form.find('input[name="override_delay"]').val(delay);
-    }
-    $.ajax({
-	url: "/exams/send_cart",
-	data: form.serialize(),
-	success: function(response) {
-                   $("#tokenDialog").html(response);
-	},
-	beforeSend: function() {
-	    $("#" + form.attr('id') + " input").attr('disabled', true);
-	    $("#submit_spinner").show();
-	}
-    });
-}
-
-function validate_cart(form) {
-    $.ajax({
-	url: "/exams/validate_cart",
-	data: form.serialize(),
-	success: function(responseData) {
-	    $("#submit_spinner").hide();
-	    $("#" + form.attr('id') + " input").attr('disabled',false);
-	    if (responseData == true) {
-		$("#errorExplanation").hide();
-		$("#" + form.attr('id') + " input").removeClass("inlineFieldWithErrors");
-                $("#tokenPasswordDialog").toggle();
-                $("#tokenSendDialog").toggle();
-	    } else {
-		$("#errorExplanation ul").html("");
-		$("#errorExplanation").show();
-		$.each(responseData, function(i,pair) {
-		    $('#errorExplanation ul').append("<li>" + pair[0].replace("_"," ") + " " + pair[1] + "</li>");
-		    $("input[name='" + pair[0] + "']").addClass('inlineFieldWithErrors');
-		});
-	    }
-	},
-	beforeSend: function() {
-	    $("#" + form.attr('id') + " input").attr('disabled', true);
-	    $("#submit_spinner").show();
-	}
-    });
-}
-
 function retry_job() {
     var element = $(this);
     var job_id = $(this).attr('data');

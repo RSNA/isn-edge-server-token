@@ -6,14 +6,22 @@
   <div class="inline">Date of Birth:</div><span><%= @patient.dob %></span>
 </div>
 
+<% if params[:token] %>
 <div>
-  <div class="inline">Exam ID or Email:</div><span><%= @token.blank? ? @email_address : @token %></span>
+  <div class="inline">Token:</div><span><%= format_token(params[:token]) %></span>
+</div>
+<% else %>
+<div>
+  <div class="inline">Email:</div><span><%= params[:email_address] %></span>
+</div>
+<% end %>
+
+<div>
+  <div class="inline">Access Code:</div><span><%= format_token(params[:access_code]) %></span>
 </div>
 
 <div>
-  <div class="inline" style="margin-bottom: 20px;">Password:</div>
-  <div>_____________________________________</div>
-  <div class="description">To help you remember it later, write your Password on the line above (remember it is case-sensitive). Keep this information private to protect the security of your health record. Use this information to retrieve your images into your account on one of the personal health record systems participating in the RSNA Image Share network. Radiology department staff can provide you with printed information on creating and accessing an account.</div>
+  <div class="description">Keep this information private to protect the security of your health record. Use this information to retrieve your images into your account on one of the personal health record systems participating in the RSNA Image Share network. Radiology department staff can provide you with printed information on creating and accessing an account.</div>
 </div>
 <br />
 <div class="description">

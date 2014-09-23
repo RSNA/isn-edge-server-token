@@ -6,14 +6,26 @@
 </div>
 
 <div class="demographic">
+  <label>Access Code:</label>
+  <span><%= format_token(@job_set.send_components[:access_code]) %></span>
+</div>
+
+<div class="demographic">
   <label>Date of Birth:</label>
   <span><%= @patient.dob %></span>
 </div>
 
+<% if @job_set.logic_type == :send_to_site %>
 <div class="demographic">
-  <label>Exam ID or Email:</label>
-  <span><%= (@job_set.email_address.blank? or @job_set.force_token) ? @job_set.token : @job_set.email_address %></span>
+  <label>Token:</label>
+  <span><%= format_token(@job_set.send_components[:token]) %></span>
 </div>
+<% else %>
+<div class="demographic">
+  <label>Email Address:</label>
+  <span><%= @job_set.send_components[:email_address] %></span>
+</div>
+<% end %>
 
-<a class="btn btn-primary" onclick="document.location = '<%= url_for(:controller => :exams, :action => :index, :email_address => @job_set.email_address, :token => @job_set.token, :patient_id => @patient.id) %>'">Print</a>
+<%= link_to("Print", {:controller => :exams, :action => :index, logic_type: @job_set.logic_type, :patient_id => @patient.id}.merge(@job_set.send_components), class: "btn btn-primary") %>
 

@@ -23,3 +23,4 @@ div.inline { position: relative; font-weight: bold; width: 4in; display: inline-
 div.description { font-size: 16pt; }
 div.footer
 { page-break-after: avoid; }
+.monospace { font-family: "Lucida Console", Monaco, monospace; }
