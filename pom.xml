@@ -9,7 +9,7 @@
   <url>http://www.rsna.org/</url>
 
   <properties>
-    <torquebox.version>3.1.1</torquebox.version>
+    <torquebox.version>3.x.incremental.1870</torquebox.version>
   </properties>
 
   <dependencies>
@@ -52,9 +52,9 @@
 	      <version>${torquebox.version}</version>
 	      <packaging>zip</packaging>
 	      <downloadUrl>
-		http://torquebox.org/release/org/torquebox/torquebox-dist/{version}/torquebox-dist-{version}-bin.zip
+		http://torquebox.org/builds/1870/torquebox-dist-bin.zip
 	      </downloadUrl>
-	      <checksum>e5251b0141c975b6ec8789998ab6a65233ce2b3a</checksum>
+	      <checksum>20514dd381a69c289997f66fc05e4c686f7833d7</checksum>
 	    </artifactItem>
 	  </artifactItems>
 	</configuration>

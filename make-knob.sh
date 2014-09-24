@@ -10,4 +10,5 @@ unset RUBYOPT
 
 echo "Making knob file"
 chmod +x $JRUBY
-RAILS_ENV=production $JRUBY $JRUBY_HOME/bin/torquebox archive --package_gems "$BASE_DIR"
+$JRUBY -S bundle install
+RAILS_ENV=production $JRUBY -S torquebox archive --precompile-assets --package_gems "$BASE_DIR"
