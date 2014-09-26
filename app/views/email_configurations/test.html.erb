@@ -1,0 +1,16 @@
+<%= content_for(:title, "Test email configuration") %>
+<%= content_for(:javascript_includes, javascript_include_tag("pages/test_email.js")) %>
+
+<%= form_tag({action: "try_email", controller: "email_configuration"}, {id: 'email-form', role: "form", style: "display: inline;"}) do %>
+
+  <div class="form-group">
+    <label for="email">Email to send test message</label>
+    <input name="email" class="form-control" type="text" />
+  </div>
+
+  <%= submit_tag("Send Test", class: "btn btn-primary") %>
+
+<% end %>
+
+<div class="margin-top" id="debug-window">
+</div>
