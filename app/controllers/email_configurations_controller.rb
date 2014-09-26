@@ -17,8 +17,16 @@ class EmailConfigurationsController < ApplicationController
       EmailConfiguration.update_or_insert(k,v)
     end
 
-    flash[:notice] = 'Email Configuration Saved'
+    flash[:notice] = 'Email configuration saved'
     redirect_to action: :edit_email_configuration
+  end
+
+  def test
+  end
+
+  def try_email
+    output = Java::OrgRsnaIsnUtil::Email.send(params[:recipient],"Test email","This test message was sent from the isn image sharing server.")
+    render :text => "<pre class=\"well\">#{output}</pre>"
   end
 
   private

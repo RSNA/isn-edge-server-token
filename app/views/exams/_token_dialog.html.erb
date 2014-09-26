@@ -21,19 +21,19 @@
 	  <div id="cart-send-type-dialog">
 	    <div class="row">
 	      <div class="col-md-6 center">
-		Send the patient's exams to the clearing house so that the patient can collect them from a PHR.
+		Send the exams so that the patient can collect them from a PHR.
 	      </div>
 	      <div class="col-md-6 center">
-		Send the patient's exams to the clearing house so that another site can retrieve them.
+		Send the exams so that the another site can collect them.
 	      </div>
 	    </div>
 
 	    <div class="row">
 	      <div class="col-md-6 center">
-		<input type="button" value="Regular Send" class="send-type-choice btn btn-primary" />
+		<input type="button" value="Send to Patient" class="send-type-choice btn btn-primary" />
 	      </div>
 	      <div class="col-md-6 center">
-		<input type="button" value="Site to Site" class="send-type-choice btn btn-primary" data="site-to-site" />
+		<input type="button" value="Send to Site" class="send-type-choice btn btn-primary" data="site-to-site" />
 	      </div>
 	    </div>
 	    <input type="hidden" value="" name="send_type" />
@@ -41,7 +41,7 @@
 
 	  <!-- Previously sent scenario -->
 	  <div id="cart-use-previous-dialog" style="display: none;">
-	    <p>This patient already has an account. Would you like to use the patient's previous password and email address (<%= @patient.rsna_id_email %>)?</p>
+	    <p>This patient already has an account. Would you like to use the patient's previous access code and email address (<%= @patient.rsna_id_email %>)?</p>
 	    <input type="button" value="Yes" class="use-old-button btn btn-primary" />
 	    <input type="button" value="No" class="use-old-button btn btn-default" />
 	  </div>
