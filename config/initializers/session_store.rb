@@ -3,5 +3,5 @@
 if ENV['TORQUEBOX_APP_NAME']
   TokenApp::Application.config.session_store :torquebox_store
 else
-  TokenApp::Application.config.session_store :cookie_store, :key => '_CHANGEME_session'
+  TokenApp::Application.config.session_store :cookie_store, :key => '_isn_token_app_session'
 end  

@@ -80,4 +80,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  if ENV['TORQUEBOX_APP_NAME']
+    config.logger = TorqueBox::Logger.new
+  end
+
 end

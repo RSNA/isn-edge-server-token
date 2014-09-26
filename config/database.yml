@@ -8,4 +8,4 @@ development:
 
 production:
   adapter: jdbc
-  jndi: jdbc/rsnadb
+  jndi: java:/rsnadbDS
