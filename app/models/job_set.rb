@@ -147,7 +147,7 @@ class JobSet < ActiveRecord::Base
     # site to site - token (old style) + formatted_dob + access code
     # new workflow - patient email + formatted_dob + access code
     if self.logic_type == :send_to_site
-      self.send_components = {:token => self.user_token_gen, :formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
+      self.send_components = {:formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
     else
       self.send_components = {:email_address => self.email_address.downcase, :formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
     end

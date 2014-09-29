@@ -16,10 +16,6 @@
 </div>
 
 <% if @job_set.logic_type == :send_to_site %>
-<div class="demographic">
-  <label>Token:</label>
-  <span><%= format_token(@job_set.send_components[:token]) %></span>
-</div>
 <% else %>
 <div class="demographic">
   <label>Email Address:</label>

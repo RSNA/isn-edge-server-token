@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+
+<%= image_tag("IMageShareLogo.png") %>
+<div class="pull-right"><%= image_tag("nibib-logo.png") %></div>
+<div class="subtitle">Take Control of Your Medical Images</div>
+
+<p>
+  Staff at <%= EdgeConfiguration.site_id %> have made imaging records of the patient listed below available for you
+  to access in delivering care to this patient. Your radiology department can retrieve these records for
+  viewing and import using the RSNA Image Share Edge Server and the following information:
+
+    <ul>
+      <li>Patient Name: <%= @patient.patient_name %></li>
+      <li>Date of Birth: <%= @patient.dob %></li>
+      <li>Access Code:<strong> <%= format_token(params[:access_code]) %></strong></li>
+    </ul>
+
+</p>
+
+<p>
+  This message and the image records it references may be privileged, confidential, contain protected
+  health information about an identified patient or be otherwise protected from disclosure. State
+  and federal law protect the confidentiality of this information. If the reader of this message is not
+  the intended recipient; you are prohibited from using, disclosing, reproducing or distributing this
+  information; you should immediately notify the sender by telephone or e-mail and delete this message.
+</p>
+
+<p>
+  If you have questions, have received this information inadvertently or encounter any problems accessing
+  information, please contact the Image Sharing Help Desk:
+</p>
+
+<p>
+  Email: helpdesk@imsharing.org
+</p>
+
+<p>
+  Tollfree number: 1-855-IMSHARING (467-4274)
+</p>
+
+<p>
+  Hours: 8am-8pm Eastern Time, Monday through Friday (except holidays)
+</p>
+
+    </div>
+  </div>
+</div>

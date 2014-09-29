@@ -39,6 +39,8 @@ a.btn { text-decoration: none !important; }
 #cart-modal .modal-dialog { width: 680px; }
 #audit-modal .modal-dialog { width: 85%; }
 
+.subtitle { margin-left: 10px; margin-bottom: 10px; font-weight: bold; text-decoration: italics; }
+
 .table-tab-container { display: none; }
 .table-tab-container.active { display: block; }
 
@@ -49,3 +51,5 @@ a.btn { text-decoration: none !important; }
 { font-weight: bold; }
 
 .monospace { font-family: "Lucida Console", Monaco, monospace; }
+
+a.highlight { text-decotation: underline; }

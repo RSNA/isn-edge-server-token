@@ -18,7 +18,11 @@ class ExamsController < ApplicationController
   def print_patient_info
     @token = params[:token]
     @email_address = params[:email_address]
-    render :layout => "layouts/print", :template => "exams/print_patient_info"
+    if @email_address
+      render :layout => "layouts/print", :template => "exams/print_patient_info"
+    else
+      render :layout => "layouts/print", :template => "exams/print_site_to_site_info"
+    end
   end
 
   # Filter the patients exams by the exam description

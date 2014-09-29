@@ -29,7 +29,7 @@ class EdgeConfiguration < ActiveRecord::Base
     if sid
       sid.value
     else
-      "0001"
+      "unknown site"
     end
   end
 

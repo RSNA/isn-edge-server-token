@@ -1,29 +1,71 @@
-<div>
-  <div class="inline">Patient Name:</div><span><%= @patient.patient_name %></span>
-</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
 
-<div>
-  <div class="inline">Date of Birth:</div><span><%= @patient.dob %></span>
-</div>
+<%= image_tag("IMageShareLogo.png") %>
+<div class="pull-right"><%= image_tag("nibib-logo.png") %></div>
+<div class="subtitle">Take Control of Your Medical Images</div>
 
-<% if params[:token] %>
-<div>
-  <div class="inline">Token:</div><span><%= format_token(params[:token]) %></span>
-</div>
-<% else %>
-<div>
-  <div class="inline">Email:</div><span><%= params[:email_address] %></span>
-</div>
-<% end %>
+<p>
+Thanks for agreeing to try Image Share, a network that lets you access and take control of your medical imaging results. Image Share was developed by the Radiological Society of North America (RSNA) and its partners with funding from the National Institute of Biomedical Imaging and Bioengineering.
+</p>
 
-<div>
-  <div class="inline">Access Code:</div><span><%= format_token(params[:access_code]) %></span>
-</div>
+<p>
+There are three simple steps to using Image Share:
+</p>
 
-<div>
-  <div class="description">Keep this information private to protect the security of your health record. Use this information to retrieve your images into your account on one of the personal health record systems participating in the RSNA Image Share network. Radiology department staff can provide you with printed information on creating and accessing an account.</div>
-</div>
-<br />
-<div class="description">
+<ol>
+  <li>
+    <p>
+      <strong>Your imaging results will be sent to the Image Clearinghouse.</strong>
+      Radiology staff will send your imaging records to a secure online data repository so you can access them.
+      <strong>Note that the records may not be available in the Clearinghouse for up to 3 days to allow your care team to communicate with you about the results.</strong>
+      <% if EmailConfiguration.value_for("patient_email") == "true" %>
+	  You will receive an email notification when your information is ready to be accessed.
+      <% end %>
+    </p>
+  </li>
+
+  <li>
+    <p>
+      You create a personal health record (PHR) account on one of the participating image-enabled PHR systems:
+    </p>
+
+    <ul>
+      <li><strong>DICOM Grid:</strong> <a class="highlight" href="http://imageshare.dicomgrid.com">http://imageshare.dicomgrid.com</a></li>
+      <li><strong>itMD:</strong> <a class="highlight" href="http://share.itMD.net/claim">http://share.itMD.net/claim</a></li>
+      <li><strong>lifeIMAGE:</strong> <a class="highlight" href="https://cloud.lifeimage.com/rsna/phr">https://cloud.lifeimage.com/rsna/phr</a></li>
+    </ul>
+
+    <p class="margin-top">
+      Each of these sites provides detailed instructions on creating an account and using it to retrieve your imaging results. Be careful to record your PHR account information (PHR provider, user name and password) and keep it secure, as you do with all your valuable online information.
+    </p>
+  </li>
+
+  <li>
+    <p>You use your PHR account to access and take control of your imaging results. You will need three pieces of information to access your information:</p>
+
+    <ul>
+      <li>Your email address</li>
+      <li>Date of Birth</li>
+      <li>Access Code:<strong> <%= format_token(params[:access_code]) %></strong></li>
+    </ul>
+
+    <p class="margin-top">
+      You will use these three pieces of information to retrieve the images and report into your PHR account. You can then use your PHR account to share information with others you trust, including care providers. They can view the images and the report anywhere Internet access is available. Some PHRs enable you to email a link to your images, so a provider can view your examinations without the need for you to be present.
+    </p>
+
+  </li>
+</ol>
+
+<p>
+  More information about the Image Share network is available at <a class="highlight" href="http://www.rsna.org/Image_Share.aspx">http://www.rsna.org/Image_Share.aspx</a>.
+</p>
+
+<p class="description">
   <%= EdgeConfiguration.help_desk_message.html_safe %>
+</p>
+
+    </div>
+  </div>
 </div>
