@@ -15,9 +15,13 @@
   <dependencies>
     <dependency>
       <groupId>org.rsna.isn</groupId>
-      <artifactId>torquebox</artifactId>
-      <version>${torquebox.version}</version>
-      <type>zip</type>
+      <artifactId>core</artifactId>
+      <version>3.2.0-t1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.rsna.isn</groupId>
+      <artifactId>prep-content</artifactId>
+      <version>3.2.0-t1</version>
     </dependency>
   </dependencies>
 
@@ -98,16 +102,32 @@
             <id>unpack-torquebox</id>
             <phase>process-resources</phase>
             <goals>
-              <goal>unpack-dependencies</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
-              <includeGroupIds>org.rsna.isn</includeGroupIds>
-              <includeArtifactIds>torquebox</includeArtifactIds>
+	      <artifactItems>
+		<artifactItem>
+		     <groupId>org.rsna.isn</groupId>
+		     <artifactId>torquebox</artifactId>
+		     <version>${torquebox.version}</version>
+		     <type>zip</type>
+		</artifactItem>
+	      </artifactItems>
               <outputDirectory>
 		${basedir}/..
               </outputDirectory>
             </configuration>
 	  </execution>
+	  <execution>
+            <id>copy-dependencies</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/vendor/jars</outputDirectory>
+            </configuration>
+          </execution>
 	</executions>
       </plugin>
       <plugin>
