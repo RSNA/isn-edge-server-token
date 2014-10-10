@@ -14,32 +14,33 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   # Check if the user exists
+
   def authenticate
-    authenticate_on(:to_s)
+    @logged_in = nil
+    @sso_token_str ||= cookies[:RSNA_SSO]
+    @manager ||= Java::com.iplanet.sso.SSOTokenManager.getInstance()
+    begin
+      @token = manager.createSSOToken(@sso_token_str)
+    if manager.isValidToken(@token)
+      @logged_in = true
+      @auth_level = @token.getAuthLevel()
+    end
+    rescue
+      @logged_in = nil
+    end
+    if @logged_in.nil?
+      access_denied
+    end
   end
 
   # Check if the user is a super user
   def super_authenticate
-    authenticate_on(:super?)
+    @auth_level > 0
   end
 
   # Check if the user is and administrator
   def admin_authenticate
-    authenticate_on(:admin?)
-  end
-
-  # Generalized method for checking that the user can authenticate
-  # and then using the specified symbol as a method to check the
-  # roll of the user
-  def authenticate_on(auth_method)
-    if logged_in?
-      @user ||= User.find(session[:user_id])
-      session[:username] = @user.login
-      flash[:notice] = "Your user does not have sufficient rights to access this page" unless @user.send(auth_method)
-      access_denied unless @user.send(auth_method)
-    else
-      access_denied
-    end
+    @auth_level > 1
   end
 
   private

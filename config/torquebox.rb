@@ -1,4 +1,7 @@
 TorqueBox.configure do
+
+  authentication :default, :domain => 'AMRealm'
+
   web do
     context "/"
   end
