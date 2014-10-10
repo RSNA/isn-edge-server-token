@@ -6,3 +6,7 @@ tmp/*
 target/*
 *.war
 *.knob
+public/assets
+vendor/bundle
+vendor/cache
+vendor/jars
