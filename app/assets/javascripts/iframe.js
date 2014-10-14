@@ -1,11 +1,9 @@
 $(document).ready(function() {
     var hostname = window.location.hostname;
-    var username = $("#ctp-frame-username").text();
-    var password = $("#ctp-frame-password").text();
     var ctpport = $("#ctp-frame-port").text();
     var ctpprotocol = $("#ctp-frame-protocol").text();
     var url = $("#ctp-frame-url").text();
-    var iframe_source = ctpprotocol + '://' + hostname + ':' + ctpport + '/login?' + 'username=' + username + '&password=' + password + '&url=' + url;
+    var iframe_source = ctpprotocol + '://' + hostname + ':' + ctpport + url;
     $("#ctp-frame").html('<iframe id="ctp-iframe" src="' + iframe_source + '"></iframe>');
     var i = $("#ctp-iframe");
     var width = i.parent().width() - 20;
