@@ -20,12 +20,12 @@ class ApplicationController < ActionController::Base
     @sso_token_str ||= cookies[:RSNA_SSO]
     @manager ||= Java::com.iplanet.sso.SSOTokenManager.getInstance()
     begin
-      @token = manager.createSSOToken(@sso_token_str)
-    if manager.isValidToken(@token)
+      @token = @manager.createSSOToken(@sso_token_str)
+    if @manager.isValidToken(@token)
       @logged_in = true
       @auth_level = @token.getAuthLevel()
     end
-    rescue
+    rescue Java::ComIplanetSso::SSOException
       @logged_in = nil
     end
     if @logged_in.nil?

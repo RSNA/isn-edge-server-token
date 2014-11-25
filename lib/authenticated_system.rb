@@ -1,5 +1,8 @@
+require 'net/http'
+
 module AuthenticatedSystem
   protected
+    @@primed_agent = false
     # Returns true or false if the user is logged in.
     # Preloads @current_user with the user model if they're logged in.
     def logged_in?
@@ -70,6 +73,13 @@ module AuthenticatedSystem
       respond_to do |format|
         format.html do
           store_location
+          if !@@primed_agent
+            agent_url = URI(ENV["OPENAM_URL"])
+            agent_url.path = "/agentapp/"
+            logger.info "Priming Agent #{agent_url}"
+            Net::HTTP.get_response(agent_url).body
+            @@primed_agent = true
+          end
           redirect_to ENV["OPENAM_URL"] + "/UI/Login?goto=" + CGI.escape(request.original_url)
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
