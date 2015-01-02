@@ -3,7 +3,7 @@ require 'net/http'
 if !ENV['ISN_BUILD']
   Java::org.rsna.isn.util.Environment.init("token")
 end
-if ENV["RAILS_ENV"] == "production"
+if ENV["RAILS_ENV"] == "production" and !ENV['ISN_BUILD']
   logger.info "Waiting for OpenAM startup #{openam_url}"
 
   openam_url = URI(ENV["OPENAM_URL"])
