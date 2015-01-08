@@ -11,39 +11,43 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   #protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  include AuthenticatedSystem
-
   # Check if the user exists
 
   def authenticate
     @logged_in = nil
-    @sso_token_str ||= cookies[:RSNA_SSO]
-    @manager ||= Java::com.iplanet.sso.SSOTokenManager.getInstance()
-    begin
-      @token = @manager.createSSOToken(@sso_token_str)
-    if @manager.isValidToken(@token)
+    @sso_cookie_name ||= SSO::get_cookie_name
+    @sso_token_str ||= cookies[@sso_cookie_name.to_sym]
+
+    if SSO::valid_token? @sso_token_str
       @logged_in = true
-      @auth_level = @token.getAuthLevel()
+      @sso_groups = SSO::get_attributes(@sso_token_str)[:roles] ||
+                    []
     end
-    rescue Java::ComIplanetSso::SSOException
-      @logged_in = nil
-    end
+
     if @logged_in.nil?
-      access_denied
+      redirect_to SSO::get_redirect_url(request.original_url)
     end
+
   end
 
   # Check if the user is a super user
   def super_authenticate
-    @auth_level > 0
+    @sso_groups.include?("Super") || @sso_groups.include?("Admin")
   end
 
   # Check if the user is and administrator
   def admin_authenticate
-    @auth_level > 1
+    @sso_groups.include?("Admin")
+  end
+
+  protected
+
+  def logged_in?
+    !@logged_in.nil?
   end
 
   private
+
   # Perform the operation given in the block on each item in the cart
   # and store the return in place of that item in the cart
   def cart_item_op(&block)
