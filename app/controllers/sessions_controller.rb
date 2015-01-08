@@ -2,8 +2,6 @@
 =Description
 This controller handles the login/logout function of the site.
 =end
-require 'torquebox'
-require 'torquebox-security'
 
 class SessionsController < ApplicationController
 

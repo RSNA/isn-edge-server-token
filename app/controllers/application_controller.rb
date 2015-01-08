@@ -15,13 +15,23 @@ class ApplicationController < ActionController::Base
 
   def authenticate
     @logged_in = nil
+    @sso_groups = []
+    @user = nil
     @sso_cookie_name ||= SSO::get_cookie_name
     @sso_token_str ||= cookies[@sso_cookie_name.to_sym]
 
     if SSO::valid_token? @sso_token_str
       @logged_in = true
-      @sso_groups = SSO::get_attributes(@sso_token_str)[:roles] ||
-                    []
+      user_attrs = SSO::get_attributes(@sso_token_str)
+      uid = user_attrs["uid"].first
+      @user = User.find_by_user_login(uid)
+      if @user.nil?
+        @user = User.new(user_login: uid,
+                         user_name: user_attrs["cn"].first)
+        @user.save
+      end
+      @sso_groups = user_attrs[:roles] || []
+
     end
 
     if @logged_in.nil?
