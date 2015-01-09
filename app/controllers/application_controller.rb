@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     end
 
     if @logged_in.nil?
-      redirect_to SSO::get_redirect_url(request.original_url)
+      redirect_to SSO::get_redirect_url(request.original_url).to_s
     end
 
   end
