@@ -27,8 +27,8 @@ class ApplicationController < ActionController::Base
       @user = User.find_by_user_login(uid)
       if @user.nil?
         @user = User.new(user_login: uid,
-                         user_name: user_attrs["cn"].first,
-                         role_id: 0)
+                         user_name: user_attrs["cn"].first)
+        @user.role_id = 0
         @user.save
       end
       @sso_groups = user_attrs[:roles] || []
