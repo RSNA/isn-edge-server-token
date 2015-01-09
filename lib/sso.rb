@@ -16,7 +16,8 @@ module SSO
 
   def self.get_redirect_url(goto_url)
     openam_url = sso_url
-    openam_url.path+=("/UI/Login?goto="+CGI.escape(goto_url))
+    openam_url.path+="/UI/Login"
+    openam_url.query = "goto="+CGI.escape(goto_url)
     openam_url
   end
 
