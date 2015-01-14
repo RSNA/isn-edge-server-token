@@ -154,7 +154,7 @@ module ApplicationHelper
 
   # formats token or access code for readability
   def format_token(token)
-    content_tag(:span, token.split("").inject("") {|memo,char| memo += "-" if memo.size > 0 and memo.gsub("-","").size % 4 == 0; memo += char }.upcase, :class => "monospace")
+    content_tag(:span, token.split("").inject("") {|memo,char| memo += "-" if memo.size > 0 and memo.gsub("-","").size % 5 == 0; memo += char }, :class => "monospace")
   end
 
 end
