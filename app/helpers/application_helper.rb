@@ -6,14 +6,14 @@ module ApplicationHelper
 
   # Used to only show the block when the user is a super user
   def super?(&block)
-    if @sso_groups.include?("Super") || @sso_groups.include?("Admin")
+    if @sso_groups.include?("Super") || @sso_groups.include?("Admin") || @user.role_id >= 1
       concat(capture(&block))
     end
   end
 
   # Used to only show the block when the user is an administartor
   def admin?(&block)
-    if @sso_groups.include?("Admin")
+    if @sso_groups.include?("Admin") || @user.role_id >= 2
       concat(capture(&block))
     end
   end
