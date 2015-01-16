@@ -52,8 +52,7 @@
 	  </li>
 	<% end %>
 
-	<%= global_navigation_link("Change Password", controller: :users, action: :change_password) %>
-        <li><%= link_to("Logout", controller: :sessions, action: :destroy) %></li>
+        <li><%= link_to("Log Out", SSO::logout_url.t_s) %></li>
       </ul>
     </div>
   </div>
