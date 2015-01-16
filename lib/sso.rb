@@ -8,6 +8,12 @@ module SSO
     URI(ENV["OPENAM_URL"])
   end
 
+  def self.sso_console
+    openam_url = sso_url
+    openam_url.path+="/console"
+    openam_url
+  end
+
   def self.logout_url
     openam_url = sso_url
     openam_url.path+="/UI/Logout"

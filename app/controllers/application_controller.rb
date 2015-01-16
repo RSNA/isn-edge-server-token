@@ -23,6 +23,12 @@ class ApplicationController < ActionController::Base
     if SSO::valid_token? @sso_token_str
       @logged_in = true
       user_attrs = SSO::get_attributes(@sso_token_str)
+      begin
+        if (/uid=(.+?),/.match(user_attrs["dn"].first))[1] == "amAdmin"
+          return redirect_to SSO::sso_console.to_s
+        end
+      rescue
+      end
       uid = user_attrs["uid"].first
       @user = User.find_by_user_login(uid)
       if @user.nil?
