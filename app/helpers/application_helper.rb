@@ -148,7 +148,7 @@ module ApplicationHelper
       locals[:locals] = locals.clone
       return render(:partial => "admin/paginator", :locals => locals)
     else
-      return render(:partial => "admin/no_results")
+      return render(html: "No Audits")
     end
   end
 
