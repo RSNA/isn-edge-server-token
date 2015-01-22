@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on("ready page:load", function() {
     $('.btn-group.enabler label').click(function(e) {
 	var id = "#" + $(this).parent().attr('data');
 	if ($(this).find('input').val() == 'true') {

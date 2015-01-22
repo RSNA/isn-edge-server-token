@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on("ready page:load", function() {
     $("#email-form").submit(function(e) {
         $.ajax("/email_configurations/try_email",
                {data: $(this).serializeArray(),

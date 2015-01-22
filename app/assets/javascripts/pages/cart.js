@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on("ready page:load", function() {
 
     $("#send-cart-button").click(function() { $("#cart-modal").modal('toggle'); return false; });
 

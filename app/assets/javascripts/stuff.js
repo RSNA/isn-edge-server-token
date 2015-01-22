@@ -5,7 +5,7 @@ function $$(arg) {
     return $(arg);
 }
 
-$(document).ready(function() {
+$(document).on("ready page:load", function() {
     $("#audit-modal").on('click',"#table-selector .dropdown-menu li a",function(e) {
 	$(this).parent().siblings().removeClass("active");
 	$(this).parent().addClass("active");

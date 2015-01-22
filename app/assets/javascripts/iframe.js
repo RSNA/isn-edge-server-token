@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on("ready page:load", function() {
     var hostname = window.location.hostname;
     var ctpport = $("#ctp-frame-port").text();
     var ctpprotocol = $("#ctp-frame-protocol").text();
