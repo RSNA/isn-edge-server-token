@@ -7,6 +7,7 @@ $(document).on("ready page:load", function() {
 	if ($(this).attr('data') == "site-to-site") {
 	    $("#cart-form").append('<input type="hidden" name="send_to_site" value="true" />');
 	    $("#cart-send-dialog").show();
+	    $("#cart-email-dialog").hide();
 	} else {
 	    $("#cart-use-previous-dialog").show();
 	}
@@ -26,7 +27,7 @@ $(document).on("ready page:load", function() {
     });
 
     $("#cart-modal").on('click',"#validate-email-button",function(e) {
-	if ($("#cart-form input[name='email']").val().length > 0) {
+	if (($("#cart-form input[name='email']").val().length > 0) || ($(".send-type-choice").attr('data') == "site-to-site")) {
 	    $("#errorExplanation").html("").hide();
 	    $("#cart-email-dialog").hide();
 	    $("#cart-send-dialog").show();
