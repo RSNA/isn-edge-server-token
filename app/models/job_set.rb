@@ -145,11 +145,7 @@ class JobSet < ActiveRecord::Base
 
     # site to site - token (old style) + formatted_dob + access code
     # new workflow - patient email + formatted_dob + access code
-    if self.logic_type == :send_to_site
-      self.send_components = {:formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
-    else
-      self.send_components = {:email_address => self.email_address.downcase, :formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
-    end
+    self.send_components = {:formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
     #(self.email_address.blank? or self.force_token) ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
     return Digest::SHA256.hexdigest(self.send_components.values.join("")) # hashes in ruby >= 1.9 are ordered in the order keys are added
   end
