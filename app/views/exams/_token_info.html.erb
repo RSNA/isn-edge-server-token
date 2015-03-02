@@ -15,5 +15,10 @@
   <span><%= @patient.dob %></span>
 </div>
 
+<% if @job_set.logic_type == :site_to_site %>
+<div>
+  Send printout to a destination site in the Image Share Network to enable them to retrieve exam.
+</div>
+<% end %>
 <%= link_to("Print", {:controller => :exams, :action => :index, logic_type: @job_set.logic_type, :patient_id => @patient.id}.merge(@job_set.send_components), class: "btn btn-primary") %>
 
