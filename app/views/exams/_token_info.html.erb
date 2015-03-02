@@ -15,13 +15,5 @@
   <span><%= @patient.dob %></span>
 </div>
 
-<% if @job_set.logic_type == :send_to_site %>
-<% else %>
-<div class="demographic">
-  <label>Email Address:</label>
-  <span><%= @job_set.send_components[:email_address] %></span>
-</div>
-<% end %>
-
 <%= link_to("Print", {:controller => :exams, :action => :index, logic_type: @job_set.logic_type, :patient_id => @patient.id}.merge(@job_set.send_components), class: "btn btn-primary") %>
 
