@@ -4,10 +4,10 @@
 
 <%= image_tag("IMageShareLogo.png") %>
 <div class="pull-right"><%= image_tag("nibib-logo.png") %></div>
-<div class="subtitle">Take Control of Your Medical Images</div>
+<div class="subtitle">Image Share Gives You Control of Your Medical Images</div>
 
 <p>
-Thanks for agreeing to try Image Share, a network that lets you access and take control of your medical imaging results. Image Share was developed by the Radiological Society of North America (RSNA) and its partners with funding from the National Institute of Biomedical Imaging and Bioengineering.
+Thanks for agreeing to try Image Share, a network that lets you take control of your medical imaging results. Image Share was developed by the Radiological Society of North America (RSNA) and its partners with funding from the National Institute of Biomedical Imaging and Bioengineering.
 </p>
 
 <p>
@@ -17,8 +17,7 @@ There are three simple steps to using Image Share:
 <ol>
   <li>
     <p>
-      <strong>Your imaging results will be sent to the Image Clearinghouse.</strong>
-      Radiology staff will send your imaging records to a secure online data repository so you can access them.
+      Staff will send your imaging records to a secure online data repository called the Image Chearinghouse so you can access them.
       <strong>Note that the records may not be available in the Clearinghouse for up to 3 days to allow your care team to communicate with you about the results.</strong>
       <% if EmailConfiguration.value_for("patient_email") == "true" %>
 	  You will receive an email notification when your information is ready to be accessed.
@@ -28,7 +27,7 @@ There are three simple steps to using Image Share:
 
   <li>
     <p>
-      You create a personal health record (PHR) account on one of the participating image-enabled PHR systems:
+      You need to create an account on one of the participating image-enabled personal health record(PHR) systems:
     </p>
 
     <ul>
@@ -38,21 +37,20 @@ There are three simple steps to using Image Share:
     </ul>
 
     <p class="margin-top">
-      Each of these sites provides detailed instructions on creating an account and using it to retrieve your imaging results. Be careful to record your PHR account information (PHR provider, user name and password) and keep it secure, as you do with all your valuable online information.
+      Each of these sites provides simple instructions to creating an account and use it to get your imaging results. Be sure to record your PHR account information and keep it secure, as you do with all your valuable online information.
     </p>
   </li>
 
   <li>
-    <p>You use your PHR account to access and take control of your imaging results. You will need three pieces of information to access your information:</p>
+    <p>You use your PHR account to access and take control of your imaging results. You will need two pieces of information to access your information:</p>
 
     <ul>
-      <li>Your email address</li>
       <li>Date of Birth</li>
       <li>Access Code:<strong> <%= format_token(params[:access_code]) %></strong></li>
     </ul>
 
     <p class="margin-top">
-      You will use these three pieces of information to retrieve the images and report into your PHR account. You can then use your PHR account to share information with others you trust, including care providers. They can view the images and the report anywhere Internet access is available. Some PHRs enable you to email a link to your images, so a provider can view your examinations without the need for you to be present.
+      Enter the information and retrieve the images and reports. You can then use your PHR account to share information with others you trust, including care providers. With your permission they can view the images and the report anywhere Internet access is available.
     </p>
 
   </li>
