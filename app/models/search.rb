@@ -96,7 +96,7 @@ module Search
 
   module Helpers
 
-    StringPermutationExp = /, +|[,\^ ]/
+    StringPermutationExp = /, +|[,\^\- ]/
     PostgresPermutationExp = "[,\\^ ]+" #"(, +)|[,\\^ ]" this would have to match two characters between the words
 
     # Builds permutations of a string based on a default (StringPermutationExp) or specified permutation pattern (RegExp)
@@ -106,7 +106,9 @@ module Search
     #   permutations("1, 2, 3") # => ["1(, +)|[,\\^ ]2(, +)|[,\\^ ]3", "1(, +)|[,\\^ ]3(, +)|[,\\^ ]2", "2(, +)|[,\\^ ]1(, +)|[,\\^ ]3", "2(, +)|[,\\^ ]3(, +)|[,\\^ ]1", "3(, +)|[,\\^ ]1(, +)|[,\\^ ]2", "3(, +)|[,\\^ ]2(, +)|[,\\^ ]1"]
     def self.permutations(string, options={})
       options.reverse_merge!({pattern: StringPermutationExp, db_exp: PostgresPermutationExp, assume_last_name_first: EdgeConfiguration.assume_last_name_first})
-      items = string.split(options[:pattern])
+      items = string.split(options[:pattern]).collect do |e|
+        Regexp.escape(e)
+      end
       if options[:assume_last_name_first]
         ["^" + items.join(options[:db_exp])]
       else
