@@ -8,6 +8,14 @@ class EdgeConfigurationsController < ApplicationController
 
   include ConfigurationMethods
 
+  def test
+  end
+
+  def try_xds
+    output = Java::OrgRsnaIsnTransfercontentTest::XDStest.submit()
+    render :text => "<pre class=\"well\">#{output}</pre>"
+  end
+
   private
   def model
     EdgeConfiguration

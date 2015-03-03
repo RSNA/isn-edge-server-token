@@ -1,0 +1,11 @@
+<%= content_for(:title, "Test Clearinghouse configuration") %>
+<%= content_for(:javascript_includes, javascript_include_tag("pages/test_xds.js")) %>
+
+<%= form_tag({action: "try_xds", controller: "edge_configuration"}, {id: 'conf-form', role: "form", style: "display: inline;"}) do %>
+
+   <%= submit_tag("Test Clearinghouse Connection", class: "btn btn-primary") %>
+
+<% end %>
+
+<div class="margin-top" id="debug-window">
+</div>
