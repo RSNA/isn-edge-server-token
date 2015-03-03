@@ -23,6 +23,11 @@
       <artifactId>prep-content</artifactId>
       <version>3.2.0-t1</version>
     </dependency>
+    <dependency>
+      <groupId>org.rsna.isn</groupId>
+      <artifactId>transfer-content</artifactId>
+      <version>3.2.0-t1</version>
+    </dependency>
   </dependencies>
 
   <pluginRepositories>
