@@ -1,13 +1,29 @@
 $(document).on("ready page:load", function() {
 
+    var send_cart = function(override) {
+        $('#cart-form input[name="override_delay"]').val(override);
+	$.ajax({
+	    url: "/exams/send_cart",
+	    data: $('#cart-form').serialize(),
+	    success: function(response) {
+                $("#cart-dialog").html(response);
+	    },
+	    beforeSend: function() {
+		$("#cart-form input").attr('disabled', true);
+		$("#submit_spinner").show();
+	    }
+	});
+    };
+
     $("#send-cart-button").click(function() { $("#cart-modal").modal('toggle'); return false; });
 
     $(".send-type-choice").click(function(e) {
 	$("#cart-send-type-dialog").hide();
 	if ($(this).attr('data') == "site-to-site") {
 	    $("#cart-form").append('<input type="hidden" name="send_to_site" value="true" />');
-	    $("#cart-send-dialog").show();
+	    $("#cart-send-dialog").hide();
 	    $("#cart-email-dialog").hide();
+	    send_cart(2);
 	} else {
 	    $("#cart-use-previous-dialog").show();
 	}
@@ -41,19 +57,7 @@ $(document).on("ready page:load", function() {
     });
 
     $("#cart-modal").on('click',".send-cart-button",function() {
-        $('#cart-form input[name="override_delay"]').val($(this).attr('data'));
-	console.log($(this).attr('data'));
-	$.ajax({
-	    url: "/exams/send_cart",
-	    data: $('#cart-form').serialize(),
-	    success: function(response) {
-                $("#cart-dialog").html(response);
-	    },
-	    beforeSend: function() {
-		$("#cart-form input").attr('disabled', true);
-		$("#submit_spinner").show();
-	    }
-	});
+	send_cart($(this).attr('data'));
 	return false;
     });
 
