@@ -13,7 +13,7 @@ class EdgeConfigurationsController < ApplicationController
 
   def try_xds
     output = CGI::escapeHTML(`$JAVA_HOME/bin/java -cp $RSNA_ROOT/transfer-content-3.2.0-t1.jar org.rsna.isn.transfercontent.test.XdsTest`)
-    render :text => "<pre class=\"well\">#{output}</pre>"
+    render :text => "<pre>#{output}</pre>"
   end
 
   private
