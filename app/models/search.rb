@@ -50,7 +50,9 @@ module Search
     def term_to_name_string(term)
       self.search_string ? sstring = self.search_string : sstring = terms[term]
       if not sstring.blank?
-        names = Search::Helpers.permutations(sstring)
+        names = sstring.split(/, +|[,\^\- ]/).collect do |e|
+          Regexp.escape(e)
+        end
         names.uniq
       else
         []
@@ -84,7 +86,7 @@ module Search
     # Concatinates a fields given value(s) into an sql statement seperated by the "OR" keyword
     def field_concatinator(field, values)
       if values.size > 0
-        list = [(["#{field} ~* ?"]*values.size).join(" OR ")] + values
+        list = [(["#{field} ~* ?"]*values.size).join(" AND ")] + values
         list[0] = "(#{list[0]})"
         list
       else
@@ -112,24 +114,10 @@ module Search
       if options[:assume_last_name_first]
         ["^" + items.join(options[:db_exp])]
       else
-        permutate(items).collect do |permutation|
+        items.permutation.to_a.collect do |permutation|
           permutation.join(options[:db_exp])
         end
       end
-    end
-
-    # Recursive method that builds the permutations given a head, tail, and accumulator
-    def self.permutate(tail,head=[],accum=[])
-      if tail.size <= 1
-        accum << head + tail
-      else
-        tail.collect do |tail_item|
-          t = tail.clone
-          t.delete(tail_item)
-          permutate(t,head + [tail_item], accum)
-        end
-      end
-      accum
     end
 
     # Simple string replace using the default or specified matching pattern (RegExp)
