@@ -37,7 +37,9 @@ module Search
         mrns = []
         mrns << sstring.gsub(/^0+/,"") unless sstring.match(/^0+$/)
         mrns << sstring
-        mrns.uniq
+        mrns.uniq.collect do |e|
+          Regexp.escape(e)
+        end
       else
         []
       end
