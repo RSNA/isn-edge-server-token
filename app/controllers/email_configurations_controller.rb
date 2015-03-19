@@ -25,8 +25,8 @@ class EmailConfigurationsController < ApplicationController
   end
 
   def try_email
-    output = Java::OrgRsnaIsnUtil::EmailUtil.send(params[:email],"Test email","This test message was sent from the isn image sharing server.")
-    render :text => "<pre class=\"well\">#{output}</pre>"
+    output = CGI::escapeHTML(Java::OrgRsnaIsnUtil::EmailUtil.send(params[:email],"Test email","This test message was sent from the isn image sharing server."))
+    render :text => "<pre>#{output}</pre>"
   end
 
   private
