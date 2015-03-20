@@ -5,7 +5,7 @@
   <%= rsna_table_for @exams, class: "table table-bordered table-striped" do |st| %>
     <% st.column("Accession #") {|e| h e.accession_number } %>
     <% st.column("Exam Desc") {|e| h e.exam_description } %>
-    <% st.column("Exam Date") {|e| h e.modified_date.to_s(:long) } %>
+    <% st.column("Exam Date") {|e| h e.modified_date.to_s(:rfc822) } %>
     <% st.column("") {|e| button_to("Remove From Cart", "#", id: "delete_link_#{e.id}", class: "btn btn-primary", onclick: "delete_from_cart('delete_link_#{e.id}', '#{e.id}');return false;") } %>
   <% end %>
 

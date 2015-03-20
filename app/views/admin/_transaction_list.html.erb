@@ -11,7 +11,7 @@
   <% st.column("Delay in Hours") {|js| h js.delay_in_hrs } %>
   <% st.column("Status Code") {|js| h js.status } %>
   <% st.column("Status Message") {|js| h js.status_message } %>
-  <% st.column("Last Transaction") {|js| h js.last_transaction_timestamp.to_s(:long) } %>
+  <% st.column("Last Transaction") {|js| h js.last_transaction_timestamp.to_s(:rfc822) } %>
   <% st.column("Submitted By") {|js| h js.job.job_set.user.user_name } %>
   <% st.column("Immediate Send?") {|js| h js.job.job_set.send_on_complete ? "Yes" : "No" } %>
   <% st.column("Retries Remaining") {|js| h js.job.remaining_retries } %>

@@ -35,7 +35,7 @@
     <% st.column("Status Code") {|jt| h jt.status_code} %>
     <% st.column("Status Message") {|jt| h jt.status.description } %>
     <% st.column("Comments") {|jt| h jt.comments}%>
-    <% st.column("Modified") {|jt| h jt.modified_date.to_s(:long) } %>
+    <% st.column("Modified") {|jt| h jt.modified_date.to_s(:rfc822) } %>
   <% end %>
 </div>
 <% end %>

@@ -2,7 +2,7 @@
   <% st.column("") {|e| cart_add_button(@cart,e) } %>
   <% st.column("Accession #") {|e| h e.accession_number } %>
   <% st.column("Exam Desc") {|e| h e.exam_description } %>
-  <% st.column("Most Recent Change") {|e| h e.latest_information.status_timestamp.to_s(:long) if e.latest_information } %>
+  <% st.column("Most Recent Change") {|e| h e.latest_information.status_timestamp.to_s(:rfc822) if e.latest_information } %>
   <% st.column("Status") {|e| h status_for(e) } %>
   <%# st.column("Send Status") {|e| h send_status_for(e) } %>
 <% end %>
