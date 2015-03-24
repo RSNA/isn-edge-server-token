@@ -6,7 +6,7 @@ module ConfigurationMethods
 
   # List configuration variables
   def index
-    @edge_configurations = model.all()
+    @edge_configurations = model.order(:key).all()
     render :template => "edge_configurations/index"
   end
 

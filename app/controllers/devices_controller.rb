@@ -8,7 +8,7 @@ class DevicesController < ApplicationController
 
   # List all devices
   def index
-    @devices = Device.all()
+    @devices = Device.order(:ae_title).all()
   end
 
   # Form for a new device
