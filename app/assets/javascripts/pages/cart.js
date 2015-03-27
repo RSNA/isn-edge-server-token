@@ -24,8 +24,11 @@ $(document).on("ready page:load", function() {
 	    $("#cart-send-dialog").hide();
 	    $("#cart-email-dialog").hide();
 	    send_cart(2);
-	} else {
+	} else if($("#cart-form input[name='email']").val().length > 0) {
 	    $("#cart-use-previous-dialog").show();
+	} else {
+	    $("#cart-form").append('<input type="hidden" name="new_email" value="true" />');
+	    $("#cart-email-dialog").show();
 	}
 	return false;
     });
