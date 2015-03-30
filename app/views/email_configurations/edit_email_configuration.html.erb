@@ -43,7 +43,7 @@
   </div>
   <div id="error-email-panel" class="panel-body" style="<%= email_value_for('enable_error_email') == 'true' ? '' : 'display: none;' %>">
     <div class="form-group">
-      <label>Recipients</label>
+      <label>Recipients, separate by comma for multiple recipients</label>
       <input class="form-control" type="text" value="<%= email_value_for('error_email_recipients') %>" name="error_email_recipients" />
     </div>
 
@@ -67,7 +67,35 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4 style="display: inline">General Email Configuration</h4>
+    <h4 style="display: inline">Email Server Information</h4>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label>SMTP Host</label>
+      <input class="form-control" type="text" value="<%= email_value_for('mail.smtp.host') %>" name="mail.smtp.host" />
+    </div>
+
+    <div class="form-group">
+      <label>SMTP Username</label>
+      <input class="form-control" type="text" value="<%= email_value_for('mail.smtp.username') %>" name="mail.smtp.username" />
+    </div>
+
+    <div class="form-group">
+      <label>SMTP Password</label>
+      <input class="form-control" type="password" value="<%= email_value_for('mail.smtp.password') %>" name="mail.smtp.password" />
+    </div>
+
+    <div class="form-group">
+      <label>Email Sender</label>
+      <input class="form-control" type="text" value="<%= email_value_for('mail.smtp.from') %>" name="mail.smtp.from" />
+    </div>
+
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 style="display: inline">General Email Configuration(Optional)</h4>
   </div>
   <div class="panel-body">
     <div class="form-group">
@@ -79,24 +107,6 @@
       <label>Reply to Email</label>
       <input class="form-control" type="text" value="<%= email_value_for('reply_to_email') %>" name="reply_to_email" />
     </div>
-  </div>
-</div>
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 style="display: inline">Email Server Login Information</h4>
-  </div>
-  <div class="panel-body">
-    <div class="form-group">
-      <label>Username</label>
-      <input class="form-control" type="text" value="<%= email_value_for('mail.smtp.username') %>" name="mail.smtp.username" />
-    </div>
-
-    <div class="form-group">
-      <label>Password</label>
-      <input class="form-control" type="password" value="<%= email_value_for('mail.smtp.password') %>" name="mail.smtp.password" />
-    </div>
-
   </div>
 </div>
 
