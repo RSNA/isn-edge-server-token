@@ -51,17 +51,6 @@
       <label>Body</label>
       <textarea class="form-control" name="error_email_body" rows="5"><%= email_value_for('error_email_body') %></textarea>
     </div>
-
-    <label>Error Email Types</label>
-
-    <%= email_type_checkbox("error_email.type.failed_to_perpare_content","Failed to Prepare Content") %>
-    <%= email_type_checkbox("error_email.type.unable_to_find_images","Unable to Find Images") %>
-    <%= email_type_checkbox("error_email.type.dicom-c-move-failed","DICOM C-MOVE Failed") %>
-    <%= email_type_checkbox("error_email.type.failed_to_transfer_to_clearinghouse","Failed to Transfer to Clearinghouse") %>
-    <%= email_type_checkbox("error_email.type.failed_to_generate_kos","Failed to Generate KOS") %>
-    <%= email_type_checkbox("error_email.type.failed_to_register_patient","Failed to Register Patient") %>
-    <%= email_type_checkbox("error_email.type.failed_to_submit_documents","Failed to Submit Documents") %>
-
   </div>
 </div>
 
