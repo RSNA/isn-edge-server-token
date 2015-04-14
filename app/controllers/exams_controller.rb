@@ -12,13 +12,14 @@ class ExamsController < ApplicationController
   def index
     @exams = Exam.filter_cancelled(@patient.exams)
     @autoprint_rsna_id = (["send_to_site", "rsna_id", "standard"].include?(params[:logic_type]) ? true : false)
-    @send_components = {:email_address => params[:email_address], :token => params[:token], :formatted_dob => params[:formatted_dob], :access_code => params[:access_code]}
+    @send_components = {:email_address => params[:email_address], :token => params[:token], :formatted_dob => params[:formatted_dob], :access_code => params[:access_code], :logic_type => params[:logic_type]}
   end
 
   def print_patient_info
     @token = params[:token]
     @email_address = params[:email_address]
-    if @email_address
+    @logic_type = param[:logic_type]
+    if @logic_type != "send_to_site"
       render :layout => "layouts/print", :template => "exams/print_patient_info"
     else
       render :layout => "layouts/print", :template => "exams/print_site_to_site_info"
