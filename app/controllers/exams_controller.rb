@@ -18,7 +18,7 @@ class ExamsController < ApplicationController
   def print_patient_info
     @token = params[:token]
     @email_address = params[:email_address]
-    @logic_type = param[:logic_type]
+    @logic_type = params[:logic_type]
     if @logic_type != "send_to_site"
       render :layout => "layouts/print", :template => "exams/print_patient_info"
     else
