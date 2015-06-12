@@ -151,14 +151,12 @@ function delete_from_cart(element_id, exam_id) {
     });
 }
 
-function retry_job() {
-    var element = $(this);
-    var job_id = $(this).attr('data');
+function retry_job(elm_id, job_id) {
     $.ajax({
 	url: "/exams/retry_job",
 	data: {'id': job_id},
 	success: function(response) {
-	    $(element).replaceWith("Retrying");
+	    $("#" + elm_id).replaceWith("Retrying");
             location.reload();
        	}
     });
