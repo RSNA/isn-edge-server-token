@@ -31,7 +31,7 @@ $(document).on("ready page:load", function() {
 	return false;
     });
 
-    $("body").on("click","a.retry-job",retry_job);
+    $("body").on("click","a.retry-job",function(elm) { retry_job($(this).id, $(this).attr('data')); return false});
     $("body").on("click","a.audit-details",audit_details);
 
     $("body").on('click',".paginator-buttons button",function(e) {

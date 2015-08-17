@@ -2,7 +2,7 @@
 
 <%= rsna_table_for job_stati, class: "table table-bordered table-striped" do |st| %>
   <% st.column("") {|js| link_to("Details", "#", class: "btn btn-primary audit-details", 'job-transaction-id' => js.job.job_set.id, 'job-id' => js.job.job_id) } %>
-  <% st.column("") {|js| link_to("Retry", "#", class: "btn btn-primary retry-job", data: js.job.job_id) if js.status < 0 } %>
+  <% st.column("") {|js| link_to("Retry", "#", id: "retry_button_#{js.job.job_id}", class: "btn btn-primary retry-job", data: js.job.job_id) if js.status < 0 } %>
   <% st.column("MRN") {|js| h js.exam.patient.mrn } %>
   <% st.column("Accession #") {|js| h js.exam.accession_number } %>
   <% st.column("Patient Name") {|js| h js.exam.patient.patient_name } %>
