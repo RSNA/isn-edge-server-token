@@ -70,20 +70,20 @@ class ApplicationController < ActionController::Base
   # Perform the operation given in the block on each item in the cart
   # and store the return in place of that item in the cart
   def cart_item_op(&block)
-    session[:cart] = Marshal.dump(get_cart.collect(&block))
+    session[:cart] = get_cart.collect(&block)
   end
 
   # Perform the operation given in the block which must return a cart.
   # It yeilds the current cart and stores the new return of the block
   # as the new cart.
   def cart_op
-    session[:cart] = Marshal.dump(yield(get_cart))
+    session[:cart] = yield(get_cart)
   end
 
   # Return the cart object (Array) that is stored in the session
   def get_cart
     if session[:cart]
-      @cart = Marshal.load(session[:cart])
+      @cart = session[:cart]
     else
       @cart = []
     end
