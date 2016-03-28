@@ -50,13 +50,13 @@ class ApplicationController < ActionController::Base
   # Check if the user is a super user
   def super_authenticate
     authenticate if @logged_in.nil?
-    @sso_groups.include?("Super") || @sso_groups.include?("Admin")
+    unauthorized if !(@sso_groups.include?("Super") || @sso_groups.include?("Admin"))
   end
 
   # Check if the user is and administrator
   def admin_authenticate
     authenticate if @logged_in.nil?
-    @sso_groups.include?("Admin")
+    unauthorized if !@sso_groups.include?("Admin")
   end
 
   protected
@@ -66,6 +66,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def unauthorized
+    flash[:notice] = "You are not authorized to view that page."
+    redirect_to controller: :patients
+  end
 
   # Perform the operation given in the block on each item in the cart
   # and store the return in place of that item in the cart
