@@ -49,13 +49,13 @@ class ApplicationController < ActionController::Base
 
   # Check if the user is a super user
   def super_authenticate
-    return authenticate if @logged_in.nil?
+    authenticate and return if @logged_in.nil?
     unauthorized if !(@sso_groups.include?("Super") || @sso_groups.include?("Admin"))
   end
 
   # Check if the user is and administrator
   def admin_authenticate
-    return authenticate if @logged_in.nil?
+    authenticate and return if @logged_in.nil?
     unauthorized if !@sso_groups.include?("Admin")
   end
 
