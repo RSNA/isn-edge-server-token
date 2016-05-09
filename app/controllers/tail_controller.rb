@@ -13,14 +13,14 @@ class TailController < ApplicationController
       file = File.join([`echo $RSNA_ROOT`.strip,"logs","prep-content.log"])
     elsif params[:log] == "transfer-content"
       file = File.join([`echo $RSNA_ROOT`.strip,"logs","transfer-content.log"])
-    elsif params[:log] == "retrieve-content"
-      file = File.join([`echo $RSNA_ROOT`.strip,"logs","retrieve-content.log"])
+    elsif params[:log] == "openam"
+      file = File.join([`echo $RSNA_ROOT`.strip,"openam-cfg","openam","log","*"])
     else
-      file = File.join([`echo $RSNA_ROOT`.strip,"torquebox-3.x.incremental.1870","jboss","standalone","log","server.log"])
+      file = File.join([`echo $RSNA_ROOT`.strip,"torquebox-3.1.2","jboss","standalone","log","server.log"])
       params[:log] = "token-app"
     end
 
-    @log = `tail -n 200 #{file}` if File.exists?(file)
+    @log = `tail -n 200 #{file}` if params[:log] == "openam" or File.exists?(file)
     @log ||= "The log file (#{file}) is empty"
   end
 
