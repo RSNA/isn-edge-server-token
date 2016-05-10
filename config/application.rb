@@ -24,5 +24,10 @@ module TokenApp
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    version_file = File.join([ENV['RSNA_ROOT'].strip,"version"])
+
+    config.edge_version = File.read(version_file).strip
+
   end
 end
