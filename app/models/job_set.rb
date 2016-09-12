@@ -10,7 +10,8 @@ use patient identifier.
 =end
 class JobSet < ActiveRecord::Base
 
-  ZBASE32_ALPHABET = "ybndrfg8ejkmcpqxot1uwisza345h769"
+  ALPHABET = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz"
+  ACCESS_CODE_LEN = 9
   TOKEN_LENGTH = 8
 
   self.primary_key = "job_set_id"
@@ -82,14 +83,14 @@ class JobSet < ActiveRecord::Base
       hash = Digest::SHA256.hexdigest(SecureRandom.random_bytes(64)).to_i(16)
       gen_digits = []
       d = hash
-      for i in 0..18
-        d,r = d.divmod(32)
+      for i in 0..ACCESS_CODE_LEN
+        d,r = d.divmod(ALPHABET.length)
         gen_digits << r
       end
-      check_char = ZBASE32_ALPHABET[gen_digits.each_with_index.map {|x, i| x * (i.even? ? 1 : 2)}.reduce(:+) % 32]
+      check_char = ALPHABET[gen_digits.each_with_index.map {|x, i| x * (i.even? ? 1 : 2)}.reduce(:+) % ALPHABET.length]
       code_str = ""
       for d in gen_digits
-        code_str << ZBASE32_ALPHABET[d]
+        code_str << ALPHABET[d]
       end
       code_str << check_char
       @access_code = code_str
