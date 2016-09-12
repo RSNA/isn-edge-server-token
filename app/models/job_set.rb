@@ -127,8 +127,6 @@ class JobSet < ActiveRecord::Base
   # generates the transaction token
   def trans_hash_gen
 
-    # site to site - token (old style) + formatted_dob + access code
-    # new workflow - patient email + formatted_dob + access code
     self.send_components = {:formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
 
     return Digest::SHA256.hexdigest(self.send_components.values.join("")) # hashes in ruby >= 1.9 are ordered in the order keys are added
