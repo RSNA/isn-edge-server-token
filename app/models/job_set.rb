@@ -83,7 +83,7 @@ class JobSet < ActiveRecord::Base
       hash = Digest::SHA256.hexdigest(SecureRandom.random_bytes(64)).to_i(16)
       gen_digits = []
       d = hash
-      for i in 0..ACCESS_CODE_LEN
+      for i in 1...ACCESS_CODE_LEN
         d,r = d.divmod(ALPHABET.length)
         gen_digits << r
       end
@@ -94,23 +94,6 @@ class JobSet < ActiveRecord::Base
       end
       code_str << check_char
       @access_code = code_str
-    end
-  end
-
-  # Generates the user token
-  def user_token_gen(given_salt=SecureRandom.random_bytes(64))
-    if @token
-      @token
-    else
-      self.salt ||= given_salt
-      hash = Digest::SHA256.hexdigest(JobSet.site_id.to_s + self.patient_id.to_s + self.id.to_s + self.salt).to_i(16)
-      d = hash
-      gen_token = ""
-      for i in 0...TOKEN_LENGTH
-        d,r = d.divmod(32)
-        gen_token << ZBASE32_ALPHABET[r]
-      end
-      @token = gen_token
     end
   end
 
@@ -147,7 +130,7 @@ class JobSet < ActiveRecord::Base
     # site to site - token (old style) + formatted_dob + access code
     # new workflow - patient email + formatted_dob + access code
     self.send_components = {:formatted_dob => formatted_dob, :access_code => self.user_access_code_gen}
-    #(self.email_address.blank? or self.force_token) ? token_or_email = self.user_token_gen : token_or_email = self.email_address.downcase
+
     return Digest::SHA256.hexdigest(self.send_components.values.join("")) # hashes in ruby >= 1.9 are ordered in the order keys are added
   end
 
