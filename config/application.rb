@@ -25,7 +25,7 @@ module TokenApp
                        elsif File.symlink?('/etc/localtime')
                          `readlink -f /etc/localtime |cut -d/ -f5-`.strip
                        else
-                         config.time_zone = "UTC"
+                         "UTC"
                        end
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
