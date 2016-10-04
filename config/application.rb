@@ -19,7 +19,7 @@ module TokenApp
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = `timedatectl status |grep zone |sed -e 's/[[:space:]]*Time zone:\(.*\) (.*)$/\1/g'`.strip
+    config.time_zone = `readlink -f /etc/localtime |cut -d/ -f5-`.strip
 
     if config.time_zone.blank?
       config.time_zone = "UTC"
