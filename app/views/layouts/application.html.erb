@@ -31,22 +31,22 @@
 	<%= global_navigation_link("Retrieve", controller: :patients, action: :xds_import) %>
 	<%= global_navigation_link("Research Send", controller: :patients, action: :xds_export) %>
 
-	<% admin? do %>
+	<% super? do %>
 	  <% ["admin","tail","devices","edge_configurations","users"].include?(params[:controller]) and params[:action] != "change_password" ? active = "active" : active = "" %>
 	  <li class="dropdown <%= active %>">
 	    <a href="#" id="global-button-goverance" role="button" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
 	    <ul class="dropdown-menu" role="menu" aria-labelledby="global-button-warehouse">
-	      <% super? do %>
-	        <%= global_navigation_link("Audit Trail", controller: :admin, action: :audit) %>
-              <% end %>
+	      <%= global_navigation_link("Audit Trail", controller: :admin, action: :audit) %>
 
-	      <%= global_navigation_link("Logs", controller: :tail) %>
-	      <%= global_navigation_link("Devices", controller: :devices) %>
-	      <%= global_navigation_link("Configuration", controller: :edge_configurations, action: :index) %>
-	      <%= global_navigation_link("Email Configuration", controller: :email_configurations, action: :edit_email_configuration) %>
-	      <%= global_navigation_link("Advanced Email Config", controller: :email_configurations, action: :index) %>
-	      <%= global_navigation_link("Test Configuration", controller: :edge_configurations, action: :test) %>
-	      <%= global_navigation_link("Test Email Config", controller: :email_configurations, action: :test) %>
+	      <% admin? do %>
+	        <%= global_navigation_link("Logs", controller: :tail) %>
+	        <%= global_navigation_link("Devices", controller: :devices) %>
+	        <%= global_navigation_link("Configuration", controller: :edge_configurations, action: :index) %>
+	        <%= global_navigation_link("Email Configuration", controller: :email_configurations, action: :edit_email_configuration) %>
+	        <%= global_navigation_link("Advanced Email Config", controller: :email_configurations, action: :index) %>
+	        <%= global_navigation_link("Test Configuration", controller: :edge_configurations, action: :test) %>
+	        <%= global_navigation_link("Test Email Config", controller: :email_configurations, action: :test) %>
+	      <% end %>
 	    </ul>
 	  </li>
 	<% end %>
