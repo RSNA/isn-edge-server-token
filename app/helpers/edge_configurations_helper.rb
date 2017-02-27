@@ -13,4 +13,8 @@ module EdgeConfigurationsHelper
     end
   end
 
+  def sms_value_for(key)
+    SMSConfiguration.value_for(key)
+  end
+
 end

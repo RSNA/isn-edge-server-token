@@ -1,0 +1,45 @@
+<%= content_for(:javascript_includes, javascript_include_tag('pages/sms_configuration.js')) %>
+<%= content_for(:title, "SMS Configuration") %>
+
+<%= form_tag({controller: :sms_configurations, action: :save_sms_configuration}, id: "sms-config-form", class: "form", role: "form") do %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="btn-group enabler" data="patient-sms-panel" data-toggle="buttons">
+      <label class="btn btn-primary <%= sms_value_for('enable_sms') == 'true' ? 'active' : '' %>">
+	<input type="radio" name="enable_sms" value="true"> Enabled
+      </label>
+      <label class="btn btn-primary  <%= sms_value_for('enable_sms') != 'true' ? 'active' : '' %>">
+	<input type="radio" name="enable_sms" value="false"> Disabled
+      </label>
+    </div>
+  </div>
+    <div class="panel-body">
+    <div class="form-group">
+      <label>Account ID</label>
+      <input class="form-control" type="text" value="<%= sms_value_for('account_id') %>" name="account_id" />
+    </div>
+
+    <div class="form-group">
+      <label>Token</label>
+      <input class="form-control" type="text" value="<%= sms_value_for('token') %>" name="token" />
+    </div>
+
+    <div class="form-group">
+      <label>Sending Phone Number</label>
+      <input class="form-control" type="text" value="<%= sms_value_for('sender') %>" name="sender" />
+    </div>
+
+    <div class="form-group">
+      <label>Message Body</label>
+      <textarea class="form-control" name="body" rows="2" /><%= sms_value_for('body') %></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="form-group">
+  <%= submit_tag("Save", class: "btn btn-primary") %>
+</div>
+
+<% end %>
