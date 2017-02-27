@@ -66,6 +66,20 @@ class JobSet < ActiveRecord::Base
     self.create({:patient_id => patient_id, :user_id => user.id})
   end
 
+  def logic_type
+    if self.send_to_site
+      :send_to_site
+    elsif self.use_rsna_id
+      if self.rsna_id_access_code
+        :rsna_id
+      else
+        :standard
+      end
+    else
+      :standard
+    end
+  end
+
   protected
   # Triggers and returns the next value in the primary key sequence
   def self.next_id
@@ -103,20 +117,6 @@ class JobSet < ActiveRecord::Base
       @matching_js.access_code
     else
       nil
-    end
-  end
-
-  def logic_type
-    if self.send_to_site
-      :send_to_site
-    elsif self.use_rsna_id
-      if self.rsna_id_access_code
-        :rsna_id
-      else
-        :standard
-      end
-    else
-      :standard
     end
   end
 
