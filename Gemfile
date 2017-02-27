@@ -16,4 +16,10 @@ gem "font-awesome-rails"
 gem 'therubyrhino'
 
 gem "rake", "10.1.1"
-gem "torquebox", "3.1.0"
+gem "torquebox", "4.0.0.beta3"
+gem "lock_jar"
+
+@@check ||= at_exit do
+  require 'lock_jar/bundler'
+  LockJar::Bundler.lock!
+end

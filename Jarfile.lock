@@ -1,0 +1,40 @@
+---
+version: 0.15.2
+groups:
+  default:
+    dependencies:
+    - antlr:antlr:jar:2.7.7
+    - c3p0:c3p0:jar:0.9.1.2
+    - com.sun.mail:javax.mail:jar:1.5.1
+    - commons-io:commons-io:jar:1.4
+    - commons-lang:commons-lang:jar:2.4
+    - javax.activation:activation:jar:1.1
+    - log4j:log4j:jar:1.2.16
+    - org.antlr:ST4:jar:4.0.7
+    - org.antlr:antlr-runtime:jar:3.5
+    - org.antlr:stringtemplate:jar:3.2.1
+    - org.jasypt:jasypt:jar:1.9.1
+    - org.jsoup:jsoup:jar:1.7.3
+    - org.rsna.isn:core:jar:3.2.0-t1
+    - org.rsna.isn:prep-content:jar:3.2.0-t1
+    - postgresql:postgresql:jar:8.4-702.jdbc4
+    artifacts:
+    - jar:org.rsna.isn:core:jar:3.2.0-t1:
+        transitive:
+          commons-io:commons-io:jar:1.4: {}
+          com.sun.mail:javax.mail:jar:1.5.1:
+            javax.activation:activation:jar:1.1: {}
+          org.jasypt:jasypt:jar:1.9.1: {}
+          postgresql:postgresql:jar:8.4-702.jdbc4: {}
+          c3p0:c3p0:jar:0.9.1.2: {}
+          org.antlr:ST4:jar:4.0.7:
+            org.antlr:antlr-runtime:jar:3.5:
+              org.antlr:stringtemplate:jar:3.2.1:
+                antlr:antlr:jar:2.7.7: {}
+          org.jsoup:jsoup:jar:1.7.3: {}
+          commons-lang:commons-lang:jar:2.4: {}
+          log4j:log4j:jar:1.2.16: {}
+    - jar:org.rsna.isn:prep-content:jar:3.2.0-t1:
+        transitive: {}
+remote_repositories:
+- http://repo1.maven.org/maven2/
