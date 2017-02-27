@@ -36,6 +36,16 @@
 		<input type="button" value="Send to Site" class="send-type-choice btn btn-primary" data="site-to-site" />
 	      </div>
 	    </div>
+	    <div class="row">
+	      <div class="col-xs-6 center">
+		<div class="checkbox">
+		  <label>
+		    <%= check_box_tag 'autosend', '1', @patient.autosend %>
+		    Send new exams automatically.
+		  </label>
+		</div>
+	      </div>
+	    </div>
 	    <input type="hidden" value="" name="send_type" />
 	  </div>
 

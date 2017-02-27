@@ -46,6 +46,15 @@ class ExamsController < ApplicationController
       delay_in_hrs = JobSet.delay_in_hrs;
     end
     send_on_complete ||= false
+
+    if params[:autosend] and !@patient.autosend
+      @patient.autosend = true
+      @patient.save
+    elsif params[:autosend].nil? and @patient.autosend
+      @patient.autosend = false
+      @patient.save
+    end
+
     @job_set = JobSet.new({
                             :patient_id => @patient.id,
                             :user_id => @user.id,
