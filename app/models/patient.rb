@@ -37,6 +37,11 @@ class Patient < ActiveRecord::Base
     @rsna_id_email_record.email_address if @rsna_id_email_record
   end
 
+  def phone_number
+    @phone_number_record = JobSet.where("patient_id = ? AND phone_number IS NOT NULL",self.id).order("job_set_id desc").first
+    @phone_number_record.phone_number if @phone_number_record
+  end
+
   def consented?
     if self.consent_timestamp and ((Time.now - self.consent_timestamp) / 86400) <= EdgeConfiguration.consent_duration
       true

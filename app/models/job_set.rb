@@ -20,8 +20,7 @@ class JobSet < ActiveRecord::Base
   belongs_to :user, :foreign_key => :user_id
 
   attr_accessor :use_rsna_id, :salt, :token, :send_components
-  attr_accessible :use_rsna_id, :send_to_site, :patient_password, :patient_password_confirmation, :patient_id, :user_id, :email_address, :modified_date, :delay_in_hrs, :send_on_complete, :access_code
-
+  attr_accessible :use_rsna_id, :send_to_site, :patient_password, :patient_password_confirmation, :patient_id, :user_id, :email_address, :modified_date, :delay_in_hrs, :send_on_complete, :access_code, :phone_number
 
   # Call back method used to set the single use patient id
   before_create do

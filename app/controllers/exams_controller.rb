@@ -59,6 +59,7 @@ class ExamsController < ApplicationController
                             :patient_id => @patient.id,
                             :user_id => @user.id,
                             :email_address => params[:email],
+                            :phone_number => params[:phone],
                             :modified_date => Time.now,
                             :delay_in_hrs => delay_in_hrs,
                             :send_on_complete => send_on_complete,
