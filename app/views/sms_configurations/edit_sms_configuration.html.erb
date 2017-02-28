@@ -1,4 +1,3 @@
-<%= content_for(:javascript_includes, javascript_include_tag('pages/sms_configuration.js')) %>
 <%= content_for(:title, "SMS Configuration") %>
 
 <%= form_tag({controller: :sms_configurations, action: :save_sms_configuration}, id: "sms-config-form", class: "form", role: "form") do %>
