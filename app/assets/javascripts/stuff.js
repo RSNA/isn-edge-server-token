@@ -83,7 +83,9 @@ function search_or_filter(url, params) {
 	data: params,
 	success: function(response) {
 	    $('#search_spinner').hide();
-	    $('#search_results').html(response);
+	    $('#search_results').html(response).ready(function() {
+		$('#patient_results').tablesorter();
+	    });
 	    $('#search_results').show();
 	},
 	beforeSend: function() {
