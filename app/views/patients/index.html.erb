@@ -1,10 +1,5 @@
 <% content_for(:title, "Search for Patients") %>
 
-<ul class="nav nav-pills">
-  <li class="active"><a href="#simple-search" data-toggle="tab">Simple Search</a></li>
-  <li><a href="#advanced-search" data-toggle="tab">Advanced Search</a></li>
-</ul>
-
 <div class="tab-content margin-top">
   <div class="tab-pane active" id="simple-search">
     <%= form_for :search, :html => {id: "search_form", method: :get, class: "form-inline", onsubmit: "search_by($('#search_form').serialize()); return false;"} do |f| %>
@@ -18,29 +13,6 @@
     <% end %>
   </div>
 
-  <div class="tab-pane" id="advanced-search">
-
-    <%= form_for :search, :html => {id: "advanced_search_form", method: :get, class: "form-inline", onsubmit: "search_by($('#advanced_search_form').serialize()); return false;"} do %>
-    <div class="form-group">
-      <label class="control-label">MRN
-	<input class="form-control" name="mrn" type="text" />
-      </label>
-    </div>
-
-    <div class="form-group">
-      <label class="control-label">Patient Name
-	<input class="form-control" name="patient_name" type="text" />
-      </label>
-    </div>
-
-    <input name="search_type" type="hidden" value="advanced" />
-
-    <div class="form-group">
-      <%= submit_tag("Search", class: "btn btn-primary") %>
-    </div>
-    <% end %>
-
-  </div>
 </div>
 
 <div id="search_spinner" class="progress progress-striped active margin-top" style="display: none; width: 560px;">

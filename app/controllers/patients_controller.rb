@@ -21,11 +21,7 @@ class PatientsController < ApplicationController
 
   # Handle search requests based on search type
   def search
-    if params[:search_type] == "advanced"
-      advanced_search
-    else
       simple_search
-    end
   end
 
   def record_consent
@@ -53,14 +49,4 @@ class PatientsController < ApplicationController
     end
   end
 
-  protected
-  # Runs the query for advanced searches and renders the results
-  def advanced_search
-    if params[:mrn].blank? and params[:patient_name].blank?
-      render :partial => "patients/blank_search_term"
-    else
-      @patients = Patient.search(:mrn => params[:mrn], :patient_name => params[:patient_name])
-      render :partial => "patients/results", :locals => {:patients => @patients}
-    end
-  end
 end
