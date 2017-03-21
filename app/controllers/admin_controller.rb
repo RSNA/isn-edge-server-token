@@ -18,7 +18,7 @@ class AdminController < ApplicationController
     @limit = (params[:limit].blank? ? 20 : params[:limit].to_i)
     @offset = (params[:offset].blank? ? 0 : params[:offset].to_i)
     @count = ViewJobStatus.count
-    @job_stati = ViewJobStatus.limit(@limit).offset(@offset).order("job_set_id DESC")
+    @job_stati = ViewJobStatus.limit(@limit).offset(@offset).order("last_transaction_timestamp DESC")
   end
 
   # Takes a job transaction id and returns a partial containing information from the job set to the job
