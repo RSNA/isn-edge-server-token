@@ -46,16 +46,9 @@ $(document).on("ready page:load", function() {
     });
 
     $("#cart-modal").on('click',"#validate-email-button",function(e) {
-	if (($("#cart-form input[name='email']").val().length > 0) || ($(".send-type-choice").attr('data') == "site-to-site")) {
-	    $("#errorExplanation").html("").hide();
-	    $("#cart-email-dialog").hide();
-	    $("#cart-send-dialog").show();
-	} else {
-	    $("#errorExplanation ul").html("");
-	    $("#errorExplanation").show();
-	    $('#errorExplanation ul').append("<li>" + "Email cannot be blank" + "</li>");
-	    $("#cart-form input[name='email']").addClass('inlineFieldWithErrors');
-	}
+	$("#errorExplanation").html("").hide();
+	$("#cart-email-dialog").hide();
+	$("#cart-send-dialog").show();
 	return false;
     });
 
