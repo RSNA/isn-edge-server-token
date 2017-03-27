@@ -1,0 +1,47 @@
+<a href="<%= url_for action: 'index' %>" class="btn btn-primary" role="button">Back</a>
+<h2>PDF Template Help</h2>
+
+<h3>Required Software</h3>
+<p class="c0"><span class="c1">PDF editor such as Adobe Acrobat Pro</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">The PDF template feature allows sites to customize patient reports being sent to the Clearinghouse. This feature merges an existing PDF with the organization&#39;s identity such as design and logos then overlays reporting text onto it. The report text can be placed anywhere on the PDF using placeholders. The following report placeholders are available for placement:</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c2">name</span><span class="c1">&nbsp;- Patient&rsquo;s full name</span></p>
+<p class="c0"><span class="c2">mrn</span><span class="c1">&nbsp;- Patient&rsquo;s MRN</span></p>
+<p class="c0"><span class="c2">accession</span><span class="c1">&nbsp;- Accession number associated with the report</span></p>
+<p class="c0"><span class="c2">exam-date</span><span class="c1">&nbsp;- Date of the exam</span></p>
+<p class="c0"><span class="c2">description</span><span class="c1">&nbsp;- Description of the exam</span></p>
+<p class="c0"><span class="c2">body</span><span class="c1">&nbsp;- Report text</span></p><p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">The body field is required. All other fields are optional and may be omitted. </span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">This is an optional feature and can be turn on/off by setting pdf-template to true/false under Admin-&gt;Configuration. If set to false, a plain report will be sent without any formatting. </span></p>
+
+<h3>Preparing the PDF template</h3>
+
+<p class="c0"><span class="c1">For this example, we will use Adobe Acrobat Pro as the editor. To add text placeholders, follow the instructions below.</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">Open an existing PDF file that contains your organization&rsquo;s logo. </span></p><p class="c0 c3"><span class="c1"></span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">Click on Tools -&gt; Expand the Forms section -&gt; Select Edit.</span></p>
+<%= image_tag("image03.png") %>
+</p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">&nbsp;</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">Next Click on Add New Field -&gt; Click on Text Field</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<%= image_tag("image02.png") %>
+<p class="c0"><span>Select any location on the PDF where you want the placement of text. Double click the text of the field to change the name. Rename the field to </span><span class="c2">name</span><span class="c1">. </span></p>
+<%= image_tag("image01.png") %>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span>Repeat the previous steps for </span><span class="c2">mrn</span><span>, </span><span class="c2">accession</span><span>,</span><span class="c2">&nbsp;exam-date</span><span>,</span><span class="c2">description</span><span>&nbsp;and </span><span class="c2">body</span><span class="c1">. </span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span>For the </span><span class="c2">body</span><span class="c1">&nbsp;placeholder, enlarge the field to the width of the PDF taking into account the desired margin width. The report will automatically span to multiple pages for long reports.</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<%= image_tag("image00.png") %>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<p class="c0"><span class="c1">Save the changes and upload to Admin-&gt;PDF Template.</span></p>
+<p class="c0 c3"><span class="c1"></span></p>
+<%= image_tag("template.png") %>
