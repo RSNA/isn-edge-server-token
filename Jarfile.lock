@@ -5,34 +5,114 @@ groups:
     dependencies:
     - antlr:antlr:jar:2.7.7
     - c3p0:c3p0:jar:0.9.1.2
+    - com.fasterxml.jackson.core:jackson-annotations:jar:2.4.0
+    - com.fasterxml.jackson.core:jackson-core:jar:2.4.2
+    - com.fasterxml.jackson.core:jackson-databind:jar:2.4.2
+    - com.googlecode.json-simple:json-simple:jar:1.1
+    - com.itextpdf.tool:xmlworker:jar:5.5.10
+    - com.itextpdf:itextpdf:jar:5.5.10
     - com.sun.mail:javax.mail:jar:1.5.1
+    - com.thedeanda:lorem:jar:2.1
+    - com.twilio.sdk:twilio-java-sdk:jar:6.3.0
+    - commons-codec:commons-codec:jar:1.6
     - commons-io:commons-io:jar:1.4
     - commons-lang:commons-lang:jar:2.4
+    - commons-logging:commons-logging:jar:1.0.4
+    - io.jsonwebtoken:jjwt:jar:0.4
     - javax.activation:activation:jar:1.1
     - log4j:log4j:jar:1.2.16
     - org.antlr:ST4:jar:4.0.7
     - org.antlr:antlr-runtime:jar:3.5
     - org.antlr:stringtemplate:jar:3.2.1
+    - org.apache.avalon.framework:avalon-framework-api:jar:4.3.1
+    - org.apache.avalon.framework:avalon-framework-impl:jar:4.3.1
+    - org.apache.commons:commons-lang3:jar:3.3.2
+    - org.apache.httpcomponents:httpclient:jar:4.2.6
+    - org.apache.httpcomponents:httpcore:jar:4.2.5
+    - org.apache.xmlgraphics:batik-anim:jar:1.7
+    - org.apache.xmlgraphics:batik-awt-util:jar:1.7
+    - org.apache.xmlgraphics:batik-bridge:jar:1.7
+    - org.apache.xmlgraphics:batik-css:jar:1.7
+    - org.apache.xmlgraphics:batik-dom:jar:1.7
+    - org.apache.xmlgraphics:batik-ext:jar:1.7
+    - org.apache.xmlgraphics:batik-extension:jar:1.7
+    - org.apache.xmlgraphics:batik-gvt:jar:1.7
+    - org.apache.xmlgraphics:batik-js:jar:1.7
+    - org.apache.xmlgraphics:batik-parser:jar:1.7
+    - org.apache.xmlgraphics:batik-script:jar:1.7
+    - org.apache.xmlgraphics:batik-svg-dom:jar:1.7
+    - org.apache.xmlgraphics:batik-svggen:jar:1.7
+    - org.apache.xmlgraphics:batik-transcoder:jar:1.7
+    - org.apache.xmlgraphics:batik-util:jar:1.7
+    - org.apache.xmlgraphics:batik-xml:jar:1.7
+    - org.apache.xmlgraphics:fop:jar:1.0
+    - org.apache.xmlgraphics:xmlgraphics-commons:jar:1.4
+    - org.codehaus.jackson:jackson-core-asl:jar:1.9.3
+    - org.codehaus.jackson:jackson-mapper-asl:jar:1.9.3
     - org.jasypt:jasypt:jar:1.9.1
     - org.jsoup:jsoup:jar:1.7.3
-    - org.rsna.isn:core:jar:3.2.0-t1
+    - org.rsna.isn:core:jar:5.0.0-SNAPSHOT
     - org.rsna.isn:prep-content:jar:3.2.0-t1
+    - org.slf4j:slf4j-api:jar:1.7.6
     - postgresql:postgresql:jar:8.4-702.jdbc4
+    - xalan:xalan:jar:2.6.0
+    - xml-apis:xml-apis-ext:jar:1.3.04
+    - xml-apis:xml-apis:jar:1.3.04
     artifacts:
-    - jar:org.rsna.isn:core:jar:3.2.0-t1:
+    - jar:org.rsna.isn:core:jar:5.0.0-SNAPSHOT:
         transitive:
           commons-io:commons-io:jar:1.4: {}
-          com.sun.mail:javax.mail:jar:1.5.1:
-            javax.activation:activation:jar:1.1: {}
           org.jasypt:jasypt:jar:1.9.1: {}
           postgresql:postgresql:jar:8.4-702.jdbc4: {}
+          com.twilio.sdk:twilio-java-sdk:jar:6.3.0:
+            com.googlecode.json-simple:json-simple:jar:1.1: {}
+            org.codehaus.jackson:jackson-core-asl:jar:1.9.3: {}
+            org.codehaus.jackson:jackson-mapper-asl:jar:1.9.3: {}
+            org.apache.httpcomponents:httpclient:jar:4.2.6:
+              commons-codec:commons-codec:jar:1.6: {}
+            org.apache.httpcomponents:httpcore:jar:4.2.5: {}
+            org.apache.commons:commons-lang3:jar:3.3.2: {}
+            io.jsonwebtoken:jjwt:jar:0.4:
+              com.fasterxml.jackson.core:jackson-databind:jar:2.4.2:
+                com.fasterxml.jackson.core:jackson-annotations:jar:2.4.0: {}
+                com.fasterxml.jackson.core:jackson-core:jar:2.4.2: {}
+              org.slf4j:slf4j-api:jar:1.7.6: {}
           c3p0:c3p0:jar:0.9.1.2: {}
+          org.apache.xmlgraphics:fop:jar:1.0:
+            org.apache.xmlgraphics:batik-ext:jar:1.7: {}
+            org.apache.avalon.framework:avalon-framework-api:jar:4.3.1: {}
+            org.apache.xmlgraphics:batik-awt-util:jar:1.7: {}
+            org.apache.xmlgraphics:xmlgraphics-commons:jar:1.4: {}
+            org.apache.xmlgraphics:batik-gvt:jar:1.7: {}
+            org.apache.xmlgraphics:batik-extension:jar:1.7: {}
+            org.apache.xmlgraphics:batik-svg-dom:jar:1.7:
+              org.apache.xmlgraphics:batik-anim:jar:1.7: {}
+              org.apache.xmlgraphics:batik-css:jar:1.7: {}
+              org.apache.xmlgraphics:batik-util:jar:1.7: {}
+              org.apache.xmlgraphics:batik-dom:jar:1.7: {}
+              org.apache.xmlgraphics:batik-parser:jar:1.7: {}
+              xml-apis:xml-apis-ext:jar:1.3.04: {}
+              xml-apis:xml-apis:jar:1.3.04: {}
+            org.apache.xmlgraphics:batik-transcoder:jar:1.7:
+              org.apache.xmlgraphics:batik-svggen:jar:1.7: {}
+            commons-logging:commons-logging:jar:1.0.4: {}
+            org.apache.avalon.framework:avalon-framework-impl:jar:4.3.1: {}
+            org.apache.xmlgraphics:batik-bridge:jar:1.7:
+              org.apache.xmlgraphics:batik-xml:jar:1.7: {}
+              org.apache.xmlgraphics:batik-script:jar:1.7:
+                org.apache.xmlgraphics:batik-js:jar:1.7: {}
+              xalan:xalan:jar:2.6.0: {}
+          org.jsoup:jsoup:jar:1.7.3: {}
+          commons-lang:commons-lang:jar:2.4: {}
+          com.thedeanda:lorem:jar:2.1: {}
+          com.sun.mail:javax.mail:jar:1.5.1:
+            javax.activation:activation:jar:1.1: {}
+          com.itextpdf.tool:xmlworker:jar:5.5.10: {}
           org.antlr:ST4:jar:4.0.7:
             org.antlr:antlr-runtime:jar:3.5:
               org.antlr:stringtemplate:jar:3.2.1:
                 antlr:antlr:jar:2.7.7: {}
-          org.jsoup:jsoup:jar:1.7.3: {}
-          commons-lang:commons-lang:jar:2.4: {}
+          com.itextpdf:itextpdf:jar:5.5.10: {}
           log4j:log4j:jar:1.2.16: {}
     - jar:org.rsna.isn:prep-content:jar:3.2.0-t1:
         transitive: {}
