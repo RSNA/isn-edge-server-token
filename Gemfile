@@ -16,7 +16,7 @@ gem "font-awesome-rails"
 gem 'therubyrhino'
 
 gem "rake", "10.1.1"
-gem "torquebox", "4.0.0.beta3"
+gem "torquebox", "3.1.2"
 gem "lock_jar"
 
 @@check ||= at_exit do
