@@ -169,6 +169,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
+  bundler (= 1.9.2)
   dynamic_form
   font-awesome-rails
   jbuilder (~> 2.0)
