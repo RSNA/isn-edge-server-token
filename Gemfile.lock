@@ -169,14 +169,13 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
-  bundler (= 1.9.2)
   dynamic_form
   font-awesome-rails
   jbuilder (~> 2.0)
   jquery-rails (= 2.1.2)
   protected_attributes (~> 1.0.1)
   rails (= 4.1.1)
-  rake (= 10.1.1)
+  rake (= 10.1.0)
   sdoc (~> 0.4.0)
   therubyrhino
   torquebox (= 3.1.0)
