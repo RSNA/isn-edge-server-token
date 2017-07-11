@@ -27,10 +27,11 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>ibiblio-mirror</id>
-      <name>Maven Plugin Repository</name>
-      <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
-      <layout>default</layout>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
     </pluginRepository>
   </pluginRepositories>
 
