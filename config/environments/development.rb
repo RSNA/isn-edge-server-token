@@ -1,3 +1,9 @@
+jars = File.expand_path('../../../vendor/jars', __FILE__)
+
+for jar in Dir["#{jars}/*.jar"] do
+  require jar
+end
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
