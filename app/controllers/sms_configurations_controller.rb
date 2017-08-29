@@ -12,7 +12,7 @@ class SmsConfigurationsController < ApplicationController
   end
 
   def save_sms_configuration
-    sms_config = params.clone.delete_if {|k,v| not (k =~/^(enable_sms|token|sender|body|account_id)/)}
+    sms_config = params.clone.delete_if {|k,v| not (k =~/^(enable_sms|token|sender|body|account_id|proxy_set|proxy_host|proxy_port)/)}
     sms_config.each do |k,v|
       SMSConfiguration.update_or_insert(k,v)
     end
