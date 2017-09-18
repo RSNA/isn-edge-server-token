@@ -15,6 +15,6 @@ gem 'uglifier', '>= 1.3.0'
 gem "font-awesome-rails"
 gem 'therubyrhino'
 
-gem "torquebox", "3.2.0"
 
-gem "rake", "10.4.2"
+gem "rake", "10.1.0"
+gem "torquebox", "3.1.2"
