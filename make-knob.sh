@@ -10,5 +10,6 @@ unset RUBYOPT
 
 echo "Making knob file"
 chmod +x "$JRUBY"
+"$JRUBY" -S gem install bundler -v 1.15.4
 "$JRUBY" -S bundle install --path vendor/bundle
 ISN_BUILD=1 RAILS_ENV=production "$JRUBY" -S torquebox archive --precompile-assets --package_gems "$BASE_DIR"
