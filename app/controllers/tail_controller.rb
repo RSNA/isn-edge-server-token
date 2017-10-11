@@ -16,7 +16,7 @@ class TailController < ApplicationController
     elsif params[:log] == "openam"
       file = File.join([`echo $RSNA_ROOT`.strip,"openam-cfg","openam","log","*"])
     else
-      file = File.join([`echo $RSNA_ROOT`.strip,"torquebox-3.1.2","jboss","standalone","log","server.log"])
+      file = File.join([`echo $RSNA_ROOT`.strip,"torquebox-3.2.0","jboss","standalone","log","server.log"])
       params[:log] = "token-app"
     end
 
