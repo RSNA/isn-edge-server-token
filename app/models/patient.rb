@@ -17,10 +17,8 @@ class Patient < ActiveRecord::Base
   #
   #   Patient.search("John Doe")
   #   Patient.search(:mrn => "0982734", :rsna_id => "9823", :patient_name => "Doe, John")
-  def self.search(search_string)
-    r = /\b0*([1-9][0-9]*|0)\b/
-    clean_zeros = search_string.gsub(r, '\1') # add a config var maybe?
-    self.unscoped.where("to_tsvector('simple', trim(leading '0' from mrn) || ' ' || coalesce(patient_name,' ') || ' ' || coalesce(extract(year from dob)::text,'') || ' ' || coalesce(email_address, '')) @@ plainto_tsquery('simple', ?)", clean_zeros)
+  def self.search(*terms_for_search)
+    self.unscoped.where(Search::Query.new(*terms_for_search).conditions)
   end
 
   # Accessor for getting the exact value of patient_name in the database.  This usually contains
